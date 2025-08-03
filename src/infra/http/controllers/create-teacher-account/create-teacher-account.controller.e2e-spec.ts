@@ -1,0 +1,44 @@
+import { TEACHER_ROLE } from '@/domain/entities/teacher-course';
+import { AppModule } from '@/infra/app.module';
+import { PrismaService } from '@/infra/database/prisma/prisma.service';
+import { INestApplication } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
+import request from 'supertest';
+
+describe('Create Teacher Account (E2E)', () => {
+  let app: INestApplication;
+  let prisma: PrismaService;
+
+  beforeAll(async () => {
+    const moduleRef = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = moduleRef.createNestApplication();
+
+    prisma = moduleRef.get(PrismaService);
+
+    await app.init();
+  });
+
+  test('[POST] /teachers/account', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/teachers/account')
+      .send({
+        name: 'teacher',
+        email: 'teacher@example.com',
+        password: '123456',
+        teacherRole: TEACHER_ROLE.extensionsActivitiesManagerTeacher,
+      });
+
+    expect(response.statusCode).toBe(201);
+
+    const userOnDatabase = await prisma.user.findUnique({
+      where: {
+        email: 'teacher@example.com',
+      },
+    });
+
+    expect(userOnDatabase).toBeTruthy();
+  });
+});

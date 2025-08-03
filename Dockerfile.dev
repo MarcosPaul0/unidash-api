@@ -1,0 +1,13 @@
+FROM node:21.5.0
+
+WORKDIR /usr/app
+ 
+COPY package.json .
+
+RUN npm install --quiet
+
+COPY . .
+
+RUN npx prisma generate
+
+CMD ["sh", "-c", "npx prisma migrate dev && npm run start:dev"]

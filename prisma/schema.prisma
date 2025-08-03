@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+enum UserRole {
+  admin
+  teacher
+  student
+}
+
+model User {
+  id                 String    @id @default(uuid()) @db.Uuid
+  name               String
+  email              String    @unique @db.VarChar(255)
+  password           String
+  role               UserRole
+  accountActivatedAt DateTime? @map("account_activated_at")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+
+  userActionToken UserActionToken[]
+  teacher         Teacher?
+  student         Student?
+
+  @@map("users")
+}
+
+enum TeacherRole {
+  internshipManagerTeacher
+  courseManagerTeacher
+  workCompletionManagerTeacher
+  complementaryActivitiesManagerTeacher
+  extensionsActivitiesManagerTeacher
+  normalTeacher
+}
+
+model Teacher {
+  id       String  @id @default(uuid()) @db.Uuid
+  isActive Boolean @default(true)
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @map("user_id") @db.Uuid
+
+  teacherCourse TeacherCourse[]
+
+  @@map("teachers")
+}
+
+enum StudentType {
+  incomingStudent
+  outgoingStudent
+}
+
+model Student {
+  id            String      @id @default(uuid()) @db.Uuid
+  matriculation String      @unique @db.VarChar(10)
+  type          StudentType @default(incomingStudent)
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @unique @map("course_id") @db.Uuid
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @map("user_id") @db.Uuid
+
+  @@map("students")
+}
+
+model Course {
+  id        String    @id @default(uuid()) @db.Uuid
+  name      String    @unique @db.VarChar(50)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  student       Student?
+  teacherCourse TeacherCourse[]
+
+  @@map("courses")
+}
+
+model TeacherCourse {
+  id          String      @id @default(uuid()) @db.Uuid
+  teacherRole TeacherRole @default(normalTeacher)
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime?   @updatedAt @map("updated_at")
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @map("course_id") @db.Uuid
+
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId String  @map("teacher_id") @db.Uuid
+
+  @@unique([courseId, teacherId])
+  @@map("teacher_course")
+}
+
+enum UserActionTokenType {
+  accountConfirmation
+  passwordReset
+}
+
+model UserActionToken {
+  id         String              @id @default(uuid()) @db.Uuid
+  token      String              @unique
+  actionType UserActionTokenType @map("action_type")
+  expiresAt  DateTime            @map("expires_at")
+  createdAt  DateTime            @default(now()) @map("created_at")
+
+  userId String @map("user_id") @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_action_tokens")
+}
+
+model State {
+  id   String @id @default(uuid()) @db.Uuid
+  name String
+  city City[]
+
+  @@map("states")
+}
+
+model City {
+  id   String @id @default(uuid()) @db.Uuid
+  name String
+
+  state   State  @relation(fields: [stateId], references: [id], onDelete: Cascade)
+  stateId String @map("state_id") @db.Uuid
+
+  @@map("cities")
+}
