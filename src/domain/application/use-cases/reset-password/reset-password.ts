@@ -35,6 +35,8 @@ export class ResetPasswordUseCase {
     const resetPasswordToken =
       await this.passwordResetTokensRepository.findByToken(passwordResetToken);
 
+    console.log({ resetPasswordToken });
+
     if (!resetPasswordToken) {
       return left(new InvalidTokenError());
     }

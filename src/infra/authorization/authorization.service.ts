@@ -1,25 +1,26 @@
-import { Either, left, right } from '@/core/either';
+import { left, right } from '@/core/either';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
+import {
+  Authorization,
+  EnsureUserRoleResponse,
+  EnsureTeacherHasCoursePermissionResponse,
+} from '@/domain/application/authorization/authorization';
 import { TeacherCoursesRepository } from '@/domain/application/repositories/teacher-courses-repository';
-import { TeacherCourse, TeacherRole } from '@/domain/entities/teacher-course';
-import { User } from '@/domain/entities/user';
+import { TeacherRole } from '@/domain/entities/teacher-course';
+import { User, UserRole } from '@/domain/entities/user';
 import { Injectable } from '@nestjs/common';
 
-type EnsureAdminResponse = Either<NotAllowedError, User>;
-
-type EnsureTeacherHasCoursePermissionResponse = Either<
-  NotAllowedError,
-  TeacherCourse
->;
-
 @Injectable()
-export class AuthorizationService {
+export class AuthorizationService implements Authorization {
   constructor(
     private readonly teacherCoursesRepository: TeacherCoursesRepository,
   ) {}
 
-  async ensureAdmin(sessionUser: User): Promise<EnsureAdminResponse> {
-    if (sessionUser.role !== 'admin') {
+  async ensureUserRole(
+    sessionUser: User,
+    allowedRoles: UserRole[],
+  ): Promise<EnsureUserRoleResponse> {
+    if (!allowedRoles.includes(sessionUser.role)) {
       return left(new NotAllowedError());
     }
 

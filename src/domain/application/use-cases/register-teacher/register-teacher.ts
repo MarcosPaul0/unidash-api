@@ -46,7 +46,7 @@ export class RegisterTeacherUseCase {
     sessionUser,
   }: RegisterTeacherUseCaseRequest): Promise<RegisterTeacherUseCaseResponse> {
     const authorizationResponse =
-      await this.authorizationService.ensureAdmin(sessionUser);
+      await this.authorizationService.ensureUserRole(sessionUser, ['admin']);
 
     if (authorizationResponse.isLeft()) {
       return left(authorizationResponse.value);

@@ -4,11 +4,12 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { TeachersRepository } from '../../repositories/teacher-repository';
 import { Teacher } from '@/domain/entities/teacher';
-import { UserRole } from '@/domain/entities/user';
+import { User } from '@/domain/entities/user';
+import { AuthorizationService } from '@/infra/authorization/authorization.service';
 
 interface FindTeacherByIdUseCaseRequest {
   id: string;
-  userRole: UserRole;
+  sessionUser: User;
 }
 
 type FindTeacherByIdUseCaseResponse = Either<
@@ -20,14 +21,22 @@ type FindTeacherByIdUseCaseResponse = Either<
 
 @Injectable()
 export class FindTeacherByIdUseCase {
-  constructor(private teachersRepository: TeachersRepository) {}
+  constructor(
+    private teachersRepository: TeachersRepository,
+    private authorizationService: AuthorizationService,
+  ) {}
 
   async execute({
     id,
-    userRole,
+    sessionUser,
   }: FindTeacherByIdUseCaseRequest): Promise<FindTeacherByIdUseCaseResponse> {
-    if (userRole !== 'teacher') {
-      return left(new NotAllowedError());
+    const authorization = await this.authorizationService.ensureUserRole(
+      sessionUser,
+      ['teacher'],
+    );
+
+    if (authorization.isLeft()) {
+      return left(authorization.value);
     }
 
     const teacher = await this.teachersRepository.findById(id);

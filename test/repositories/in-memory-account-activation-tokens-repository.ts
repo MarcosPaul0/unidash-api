@@ -1,5 +1,5 @@
 import { AccountActivationTokensRepository } from '@/domain/application/repositories/account-activation-tokens-repository';
-import { AccountActivationToken } from '@/domain/marketplace/enterprise/entities/account-activation-token';
+import { AccountActivationToken } from '@/domain/entities/account-activation-token';
 
 export class InMemoryAccountActivationTokensRepository
   implements AccountActivationTokensRepository
@@ -9,7 +9,7 @@ export class InMemoryAccountActivationTokensRepository
   async findByToken(token: string): Promise<AccountActivationToken | null> {
     const accountActivationToken = this.items.find(
       (item) =>
-        item.token === token && item.actionType === 'ACCOUNT_CONFIRMATION',
+        item.token === token && item.actionType === 'accountConfirmation',
     );
 
     if (!accountActivationToken) {
@@ -27,7 +27,7 @@ export class InMemoryAccountActivationTokensRepository
     this.items = this.items.filter(
       (token) =>
         token.userId.toString() !== userId &&
-        token.actionType === 'ACCOUNT_CONFIRMATION',
+        token.actionType === 'accountConfirmation',
     );
   }
 }

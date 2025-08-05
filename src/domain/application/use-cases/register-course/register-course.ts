@@ -31,8 +31,10 @@ export class RegisterCourseUseCase {
     course: { name },
     sessionUser,
   }: RegisterCourseUseCaseRequest): Promise<RegisterCourseUseCaseResponse> {
-    const authorization =
-      await this.authorizationService.ensureAdmin(sessionUser);
+    const authorization = await this.authorizationService.ensureUserRole(
+      sessionUser,
+      ['admin'],
+    );
 
     if (authorization.isLeft()) {
       return left(authorization.value);

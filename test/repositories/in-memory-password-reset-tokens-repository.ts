@@ -1,5 +1,5 @@
 import { PasswordResetTokensRepository } from '@/domain/application/repositories/password-reset-tokens-repository';
-import { PasswordResetToken } from '@/domain/marketplace/enterprise/entities/password-reset-token';
+import { PasswordResetToken } from '@/domain/entities/password-reset-token';
 
 export class InMemoryPasswordResetTokensRepository
   implements PasswordResetTokensRepository
@@ -8,7 +8,7 @@ export class InMemoryPasswordResetTokensRepository
 
   async findByToken(token: string): Promise<PasswordResetToken | null> {
     const passwordResetToken = this.items.find(
-      (item) => item.token === token && item.actionType === 'PASSWORD_RESET',
+      (item) => item.token === token && item.actionType === 'passwordReset',
     );
 
     if (!passwordResetToken) {
@@ -26,7 +26,7 @@ export class InMemoryPasswordResetTokensRepository
     this.items = this.items.filter(
       (token) =>
         token.userId.toString() !== userId &&
-        token.actionType === 'PASSWORD_RESET',
+        token.actionType === 'passwordReset',
     );
   }
 }
