@@ -4,23 +4,26 @@ import {
   Delete,
   HttpCode,
   NotFoundException,
+  Param,
 } from '@nestjs/common';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
-import { UserPayload } from '@/infra/auth/jwt.strategy';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { DeleteStudentUseCase } from '@/domain/application/use-cases/delete-student/delete-student';
+import { User } from '@/domain/entities/user';
 
-@Controller('/students')
+@Controller('/students/:studentId')
 export class DeleteStudentController {
   constructor(private deleteStudent: DeleteStudentUseCase) {}
 
   @Delete()
   @HttpCode(204)
-  async handle(@CurrentUser() user: UserPayload) {
-    const userId = user.sub;
-
+  async handle(
+    @CurrentUser() user: User,
+    @Param('studentId') studentId: string,
+  ) {
     const result = await this.deleteStudent.execute({
-      studentId: userId,
+      studentId,
+      sessionUser: user,
     });
 
     if (result.isLeft()) {

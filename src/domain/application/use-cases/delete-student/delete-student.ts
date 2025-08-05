@@ -1,32 +1,48 @@
-import { Either, left, right } from '@/core/either'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
-import { Injectable } from '@nestjs/common'
-import { StudentsRepository } from '../../repositories/students-repository'
+import { Either, left, right } from '@/core/either';
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
+import { Injectable } from '@nestjs/common';
+import { StudentsRepository } from '../../repositories/students-repository';
+import { AuthorizationService } from '@/infra/authorization/authorization.service';
+import { User } from '@/domain/entities/user';
 
 interface DeleteStudentUseCaseRequest {
-  studentId: string
+  studentId: string;
+  sessionUser: User;
 }
 
 type DeleteStudentUseCaseResponse = Either<
   ResourceNotFoundError,
   Record<string, never>
->
+>;
 
 @Injectable()
 export class DeleteStudentUseCase {
-  constructor(private studentsRepository: StudentsRepository) {}
+  constructor(
+    private studentsRepository: StudentsRepository,
+    private authorizationService: AuthorizationService,
+  ) {}
 
   async execute({
     studentId,
+    sessionUser,
   }: DeleteStudentUseCaseRequest): Promise<DeleteStudentUseCaseResponse> {
-    const student = await this.studentsRepository.findById(studentId)
+    const authorization = await this.authorizationService.ensureUserRole(
+      sessionUser,
+      ['admin'],
+    );
 
-    if (!student) {
-      return left(new ResourceNotFoundError())
+    if (authorization.isLeft()) {
+      return left(authorization.value);
     }
 
-    await this.studentsRepository.delete(student)
+    const student = await this.studentsRepository.findById(studentId);
 
-    return right({})
+    if (!student) {
+      return left(new ResourceNotFoundError());
+    }
+
+    await this.studentsRepository.delete(student);
+
+    return right({});
   }
 }

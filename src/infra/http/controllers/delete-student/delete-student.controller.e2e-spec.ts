@@ -6,42 +6,46 @@ import { INestApplication } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
+import { AdminFactory } from 'test/factories/make-admin';
 import { StudentFactory } from 'test/factories/make-student';
 
 describe('Delete Student (E2E)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
   let studentFactory: StudentFactory;
+  let adminFactory: AdminFactory;
   let jwt: JwtService;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory],
+      providers: [StudentFactory, AdminFactory],
     }).compile();
 
     app = moduleRef.createNestApplication();
 
     prisma = moduleRef.get(PrismaService);
     studentFactory = moduleRef.get(StudentFactory);
+    adminFactory = moduleRef.get(AdminFactory);
     jwt = moduleRef.get(JwtService);
 
     await app.init();
   });
 
   test('[DELETE] /students', async () => {
+    const admin = await adminFactory.makePrismaAdmin();
     const student = await studentFactory.makePrismaStudent();
 
     const accessToken = jwt.sign({
-      sub: student.id.toString(),
-      userRole: USER_ROLE.student,
+      sub: admin.id.toString(),
+      userRole: USER_ROLE.admin,
       accountActivatedAt: new Date(),
     });
 
     const studentId = student.id.toString();
 
     const response = await request(app.getHttpServer())
-      .delete('/students')
+      .delete(`/students/${studentId}`)
       .set('Authorization', `Bearer ${accessToken}`);
 
     expect(response.statusCode).toBe(204);
