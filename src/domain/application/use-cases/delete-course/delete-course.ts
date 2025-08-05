@@ -27,8 +27,10 @@ export class DeleteCourseUseCase {
     courseId,
     sessionUser,
   }: DeleteCourseUseCaseRequest): Promise<DeleteCourseUseCaseResponse> {
-    const authorization =
-      await this.authorizationService.ensureUserRole(sessionUser);
+    const authorization = await this.authorizationService.ensureUserRole(
+      sessionUser,
+      ['admin'],
+    );
 
     if (authorization.isLeft()) {
       return left(authorization.value);
