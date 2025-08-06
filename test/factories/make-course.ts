@@ -21,7 +21,7 @@ export function makeCourse(
 }
 
 @Injectable()
-export class UserFactory {
+export class CourseFactory {
   constructor(private prisma: PrismaService) {}
 
   async makePrismaCourse(data: Partial<CourseProps> = {}): Promise<Course> {

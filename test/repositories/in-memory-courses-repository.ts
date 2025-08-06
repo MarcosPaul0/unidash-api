@@ -46,6 +46,10 @@ export class InMemoryCoursesRepository implements CoursesRepository {
     };
   }
 
+  async findAll(): Promise<Course[]> {
+    return this.courses;
+  }
+
   async save(course: Course): Promise<void> {
     const itemIndex = this.courses.findIndex((item) => item.id === course.id);
 
