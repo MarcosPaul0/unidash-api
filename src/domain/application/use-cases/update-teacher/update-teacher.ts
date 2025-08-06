@@ -5,13 +5,13 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { Teacher } from '@/domain/entities/teacher';
 import { TeachersRepository } from '../../repositories/teacher-repository';
 
-export interface UpdateTeacherCompanyData {
+export interface UpdateTeacherData {
   name?: string;
 }
 
 interface UpdateTeacherUseCaseRequest {
   teacherId: string;
-  data: UpdateTeacherCompanyData;
+  data: UpdateTeacherData;
 }
 
 type UpdateTeacherUseCaseResponse = Either<

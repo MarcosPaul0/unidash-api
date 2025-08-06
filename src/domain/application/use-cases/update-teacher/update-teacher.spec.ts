@@ -1,9 +1,6 @@
 import { InMemoryTeachersRepository } from 'test/repositories/in-memory-teachers-repository';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
-import {
-  UpdateTeacherCompanyData,
-  UpdateTeacherUseCase,
-} from './update-teacher';
+import { UpdateTeacherData, UpdateTeacherUseCase } from './update-teacher';
 import { makeTeacher } from 'test/factories/make-teacher';
 
 let inMemoryTeacherRepository: InMemoryTeachersRepository;
@@ -22,14 +19,12 @@ describe('Update Teacher', () => {
       name: 'John Doe',
       email: 'johnDoe@example.com',
       password: '123456',
-      teacherRole: 'normalTeacher',
     });
 
     inMemoryTeacherRepository.teachers.push(teacher);
 
-    const data: UpdateTeacherCompanyData = {
+    const data: UpdateTeacherData = {
       name: 'John Doe Doe',
-      teacherRole: 'internshipManagerTeacher',
     };
 
     const result = await sut.execute({
@@ -39,15 +34,11 @@ describe('Update Teacher', () => {
 
     expect(result.isRight()).toBe(true);
     expect(inMemoryTeacherRepository.teachers[0].name).toEqual('John Doe Doe');
-    expect(inMemoryTeacherRepository.teachers[0].teacherRole).toEqual(
-      'internshipManagerTeacher',
-    );
   });
 
   it('should not be able to update teacher if the teacher was not found', async () => {
-    const data: UpdateTeacherCompanyData = {
+    const data: UpdateTeacherData = {
       name: 'John Doe',
-      teacherRole: 'internshipManagerTeacher',
     };
 
     const result = await sut.execute({
