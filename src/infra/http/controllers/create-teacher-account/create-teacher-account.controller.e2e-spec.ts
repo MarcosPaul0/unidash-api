@@ -28,7 +28,6 @@ describe('Create Teacher Account (E2E)', () => {
         name: 'teacher',
         email: 'teacher@example.com',
         password: '123456',
-        teacherRole: TEACHER_ROLE.extensionsActivitiesManagerTeacher,
       });
 
     expect(response.statusCode).toBe(201);
