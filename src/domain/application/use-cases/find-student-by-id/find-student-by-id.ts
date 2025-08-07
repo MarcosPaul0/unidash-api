@@ -3,12 +3,13 @@ import { Injectable } from '@nestjs/common';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { StudentsRepository } from '../../repositories/students-repository';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
-import { UserRole } from '@/domain/entities/user';
+import { User } from '@/domain/entities/user';
 import { Student } from '@/domain/entities/student';
+import { AuthorizationService } from '@/infra/authorization/authorization.service';
 
 interface FindStudentByIdUseCaseRequest {
-  id: string;
-  userRole: UserRole;
+  studentId: string;
+  sessionUser: User;
 }
 
 type FindStudentByIdUseCaseResponse = Either<
@@ -20,17 +21,25 @@ type FindStudentByIdUseCaseResponse = Either<
 
 @Injectable()
 export class FindStudentByIdUseCase {
-  constructor(private studentsRepository: StudentsRepository) {}
+  constructor(
+    private studentsRepository: StudentsRepository,
+    private authorizationService: AuthorizationService,
+  ) {}
 
   async execute({
-    id,
-    userRole,
+    studentId,
+    sessionUser,
   }: FindStudentByIdUseCaseRequest): Promise<FindStudentByIdUseCaseResponse> {
-    if (userRole !== 'student') {
-      return left(new NotAllowedError());
+    const authorization = await this.authorizationService.ensureUserRole(
+      sessionUser,
+      ['admin', 'teacher'],
+    );
+
+    if (authorization.isLeft()) {
+      return left(authorization.value);
     }
 
-    const student = await this.studentsRepository.findById(id);
+    const student = await this.studentsRepository.findById(studentId);
 
     if (!student) {
       return left(new ResourceNotFoundError());
