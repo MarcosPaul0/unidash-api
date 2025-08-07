@@ -37,7 +37,7 @@ export function makeTeacherCourse(
 export class TeacherCourseFactory {
   constructor(private prisma: PrismaService) {}
 
-  async makePrismaTeacher(
+  async makeTeacherCourse(
     data: Partial<TeacherCourseProps> = {},
   ): Promise<TeacherCourse> {
     const teacherCourse = makeTeacherCourse(data);
