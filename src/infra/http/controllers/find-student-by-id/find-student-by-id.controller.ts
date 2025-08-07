@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   NotFoundException,
+  Param,
 } from '@nestjs/common';
 import { FindStudentByIdUseCase } from '@/domain/application/use-cases/find-student-by-id/find-student-by-id';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
@@ -12,17 +13,21 @@ import { CurrentUser } from '../../../auth/current-user-decorator';
 import { UserPayload } from '../../../auth/jwt.strategy';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { StudentPresenter } from '../../presenters/student-presenter';
+import { User } from '@/domain/entities/user';
 
-@Controller('/students/me')
+@Controller('/students/:studentId')
 export class FindStudentByIdController {
   constructor(private findStudentByIdUseCase: FindStudentByIdUseCase) {}
 
   @Get()
   @HttpCode(200)
-  async handle(@CurrentUser() { sub, userRole }: UserPayload) {
+  async handle(
+    @CurrentUser() sessionUser: User,
+    @Param('studentId') studentId: string,
+  ) {
     const result = await this.findStudentByIdUseCase.execute({
-      id: sub,
-      userRole,
+      studentId,
+      sessionUser,
     });
 
     if (result.isLeft()) {
