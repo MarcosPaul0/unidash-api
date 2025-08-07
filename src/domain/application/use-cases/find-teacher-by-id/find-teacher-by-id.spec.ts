@@ -7,6 +7,7 @@ import { InMemoryTeacherCoursesRepository } from 'test/repositories/in-memory-te
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 import { makeStudent } from 'test/factories/make-student';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
+import { makeAdmin } from 'test/factories/make-admin';
 
 let inMemoryTeachersRepository: InMemoryTeachersRepository;
 let inMemoryTeacherCoursesRepository: InMemoryTeacherCoursesRepository;
@@ -30,13 +31,14 @@ describe('Find Teacher By Id', () => {
   });
 
   it('should be able to find a teacher by id', async () => {
+    const admin = makeAdmin({}, new UniqueEntityId('admin-1'));
     const teacher = makeTeacher({}, new UniqueEntityId('teacher-1'));
 
     inMemoryTeachersRepository.create(teacher);
 
     const result = await sut.execute({
-      id: 'teacher-1',
-      sessionUser: teacher,
+      teacherId: 'teacher-1',
+      sessionUser: admin,
     });
 
     expect(result.isRight()).toBe(true);
@@ -46,35 +48,36 @@ describe('Find Teacher By Id', () => {
   });
 
   it('should throw if the teacher was not found', async () => {
+    const admin = makeAdmin({}, new UniqueEntityId('admin-1'));
     const teacher = makeTeacher({}, new UniqueEntityId('teacher-1'));
 
     const result = await sut.execute({
-      id: 'teacher-2',
-      sessionUser: teacher,
+      teacherId: 'teacher-2',
+      sessionUser: admin,
     });
 
     expect(result.isLeft()).toBe(true);
     expect(result.value).instanceOf(ResourceNotFoundError);
   });
 
-  it('should throw if the user is not an teacher', async () => {
-    const teacher = makeTeacher({}, new UniqueEntityId('teacher-1'));
-
-    const result = await sut.execute({
-      id: 'teacher-1',
-      sessionUser: teacher,
-    });
-
-    expect(result.isLeft()).toBe(true);
-    expect(result.value).instanceOf(ResourceNotFoundError);
-  });
-
-  it('should throw if the session user is not an teacher', async () => {
+  it('should throw if the session user is an student', async () => {
     const student = makeStudent({}, new UniqueEntityId('student-1'));
 
     const result = await sut.execute({
-      id: 'teacher-1',
+      teacherId: 'teacher-1',
       sessionUser: student,
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).instanceOf(NotAllowedError);
+  });
+
+  it('should throw if the session user is an teacher', async () => {
+    const teacher = makeTeacher({}, new UniqueEntityId('teacher-1'));
+
+    const result = await sut.execute({
+      teacherId: 'teacher-1',
+      sessionUser: teacher,
     });
 
     expect(result.isLeft()).toBe(true);

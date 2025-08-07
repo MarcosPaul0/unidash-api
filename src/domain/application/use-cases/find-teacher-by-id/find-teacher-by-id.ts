@@ -8,7 +8,7 @@ import { User } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 
 interface FindTeacherByIdUseCaseRequest {
-  id: string;
+  teacherId: string;
   sessionUser: User;
 }
 
@@ -27,19 +27,19 @@ export class FindTeacherByIdUseCase {
   ) {}
 
   async execute({
-    id,
+    teacherId,
     sessionUser,
   }: FindTeacherByIdUseCaseRequest): Promise<FindTeacherByIdUseCaseResponse> {
     const authorization = await this.authorizationService.ensureUserRole(
       sessionUser,
-      ['teacher'],
+      ['admin'],
     );
 
     if (authorization.isLeft()) {
       return left(authorization.value);
     }
 
-    const teacher = await this.teachersRepository.findById(id);
+    const teacher = await this.teachersRepository.findById(teacherId);
 
     if (!teacher) {
       return left(new ResourceNotFoundError());
