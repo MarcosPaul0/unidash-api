@@ -21,7 +21,7 @@ import { ResetPasswordUseCase } from '@/domain/application/use-cases/reset-passw
 import { UpdatePasswordUseCase } from '@/domain/application/use-cases/update-password/update-password';
 import { UpdatePasswordController } from './controllers/update-password/update-password.controller';
 import { UpdateStudentController } from './controllers/update-student/update-student.controller';
-import { RegisterTeacherController } from './controllers/register-teacher/regsiter-teacher.controller';
+import { RegisterTeacherController } from './controllers/register-teacher/register-teacher.controller';
 import { DeleteTeacherUseCase } from '@/domain/application/use-cases/delete-teacher/delete-teacher';
 import { DeleteTeacherController } from './controllers/delete-teacher/delete-teacher.controller';
 import { UpdateTeacherController } from './controllers/update-teacher/update-teacher.controller';
