@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { DatabaseModule } from '../database/database.module';
-import { CreateStudentAccountController } from './controllers/create-student-account/create-student-account.controller';
+import { RegisterStudentController } from './controllers/register-student/register-student.controller';
 import { AuthenticateController } from './controllers/authenticate/authenticate.controller';
 import { RegisterStudentUseCase } from '@/domain/application/use-cases/register-student/register-student';
 import { AuthenticateUserUseCase } from '@/domain/application/use-cases/authenticate-user/authenticate-user';
@@ -21,7 +21,7 @@ import { ResetPasswordUseCase } from '@/domain/application/use-cases/reset-passw
 import { UpdatePasswordUseCase } from '@/domain/application/use-cases/update-password/update-password';
 import { UpdatePasswordController } from './controllers/update-password/update-password.controller';
 import { UpdateStudentController } from './controllers/update-student/update-student.controller';
-import { CreateTeacherAccountController } from './controllers/create-teacher-account/create-teacher-account.controller';
+import { RegisterTeacherController } from './controllers/register-teacher/regsiter-teacher.controller';
 import { DeleteTeacherUseCase } from '@/domain/application/use-cases/delete-teacher/delete-teacher';
 import { DeleteTeacherController } from './controllers/delete-teacher/delete-teacher.controller';
 import { UpdateTeacherController } from './controllers/update-teacher/update-teacher.controller';
@@ -45,6 +45,11 @@ import { DeleteStudentUseCase } from '@/domain/application/use-cases/delete-stud
 import { UpdateStudentUseCase } from '@/domain/application/use-cases/update-student/update-student';
 import { RegisterTeacherUseCase } from '@/domain/application/use-cases/register-teacher/register-teacher';
 import { AuthorizationModule } from '../authorization/authorization.module';
+import { FindTeacherController } from './controllers/find-teacher/find-teacher.controller';
+import { FindStudentController } from './controllers/find-student/find-student.controller';
+import { RegisterCourseController } from './controllers/register-course/register-course.controller';
+import { UpdateCourseController } from './controllers/update-course/update-course.controller';
+import { DeleteCourseController } from './controllers/delete-course/delete-course.controller';
 
 @Module({
   imports: [
@@ -55,26 +60,31 @@ import { AuthorizationModule } from '../authorization/authorization.module';
     AuthorizationModule,
   ],
   controllers: [
-    CreateStudentAccountController,
+    RegisterStudentController,
     AuthenticateController,
     RefreshTokenController,
     AccountActivationController,
     ResendAccountConfirmationEmailController,
     FindStudentByIdController,
+    FindStudentController,
     DeleteStudentController,
     ForgotPasswordController,
     ResetPasswordController,
     UpdatePasswordController,
     UpdateStudentController,
-    CreateTeacherAccountController,
+    RegisterTeacherController,
     DeleteTeacherController,
     UpdateTeacherController,
     FindTeacherByIdController,
+    FindTeacherController,
     FindAllStatesController,
     FindCitiesByStateController,
     FindAdminByIdController,
     ValidateTokenController,
     FindAllStudentsForAdminController,
+    RegisterCourseController,
+    UpdateCourseController,
+    DeleteCourseController,
   ],
   providers: [
     RegisterStudentUseCase,
@@ -83,6 +93,7 @@ import { AuthorizationModule } from '../authorization/authorization.module';
     AccountActivationUseCase,
     ResendAccountConfirmationEmailUseCase,
     FindStudentByIdUseCase,
+    FindStudentController,
     DeleteStudentUseCase,
     SendPasswordResetEmailUseCase,
     ResetPasswordUseCase,
@@ -92,11 +103,15 @@ import { AuthorizationModule } from '../authorization/authorization.module';
     DeleteTeacherUseCase,
     UpdateTeacherUseCase,
     FindTeacherByIdUseCase,
+    FindTeacherController,
     FindAllStatesUseCase,
     FindCitiesByStateUseCase,
     FindAdminByIdUseCase,
     ValidateTokenUseCase,
     FindAllStudentsForAdminUseCase,
+    RegisterCourseController,
+    UpdateCourseController,
+    DeleteCourseController,
   ],
 })
 export class HttpModule {}
