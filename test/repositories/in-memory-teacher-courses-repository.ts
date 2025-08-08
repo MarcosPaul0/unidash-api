@@ -1,16 +1,20 @@
-import { TeacherCoursesRepository } from '@/domain/application/repositories/teacher-courses-repository';
+import { Pagination } from '@/core/pagination/pagination';
+import {
+  FindAllByCourseId,
+  TeacherCoursesRepository,
+} from '@/domain/application/repositories/teacher-courses-repository';
 import { TeacherCourse } from '@/domain/entities/teacher-course';
 
 export class InMemoryTeacherCoursesRepository
   implements TeacherCoursesRepository
 {
-  public items: TeacherCourse[] = [];
+  public teacherCourses: TeacherCourse[] = [];
 
   async findByTeacherAndCourseId(
     teacherId: string,
     courseId: string,
   ): Promise<TeacherCourse | null> {
-    const teacherCourse = this.items.find(
+    const teacherCourse = this.teacherCourses.find(
       (item) => item.courseId === courseId && item.teacherId === teacherId,
     );
 
@@ -25,7 +29,7 @@ export class InMemoryTeacherCoursesRepository
     userId: string,
     courseId: string,
   ): Promise<TeacherCourse | null> {
-    const teacherCourse = this.items.find(
+    const teacherCourse = this.teacherCourses.find(
       (item) =>
         item.courseId === courseId && item.teacher.id.toString() === userId,
     );
@@ -37,23 +41,48 @@ export class InMemoryTeacherCoursesRepository
     return teacherCourse;
   }
 
+  async findAllByCourseId(
+    courseId: string,
+    { itemsPerPage, page }: Pagination,
+  ): Promise<FindAllByCourseId> {
+    const currentPage = (page - 1) * itemsPerPage;
+    const totalItemsToTake = page * itemsPerPage;
+
+    const teacherCoursesByCourse = this.teacherCourses.filter(
+      (teacherCourse) => teacherCourse.courseId === courseId,
+    );
+
+    const teacherCourses = teacherCoursesByCourse.slice(
+      currentPage,
+      totalItemsToTake,
+    );
+    const totalItems = teacherCoursesByCourse.length;
+    const totalPages = Math.ceil(teacherCoursesByCourse.length / itemsPerPage);
+
+    return {
+      teacherCourses,
+      totalItems,
+      totalPages,
+    };
+  }
+
   async save(teacherCourse: TeacherCourse): Promise<void> {
-    const itemIndex = this.items.findIndex(
+    const itemIndex = this.teacherCourses.findIndex(
       (item) => item.id === teacherCourse.id,
     );
 
-    this.items[itemIndex] = teacherCourse;
+    this.teacherCourses[itemIndex] = teacherCourse;
   }
 
   async create(teacherCourse: TeacherCourse) {
-    this.items.push(teacherCourse);
+    this.teacherCourses.push(teacherCourse);
   }
 
   async delete(teacherCourse: TeacherCourse): Promise<void> {
-    const itemIndex = this.items.findIndex(
+    const itemIndex = this.teacherCourses.findIndex(
       (item) => item.id === teacherCourse.id,
     );
 
-    this.items.splice(itemIndex, 1);
+    this.teacherCourses.splice(itemIndex, 1);
   }
 }
