@@ -36,8 +36,8 @@ import { FindAdminByIdController } from './controllers/find-admin-by-id/find-adm
 import { FindAdminByIdUseCase } from '@/domain/application/use-cases/find-admin-by-id/find-admin-by-id';
 import { ValidateTokenController } from './controllers/validate-token/validate-token.controller';
 import { ValidateTokenUseCase } from '@/domain/application/use-cases/validate-token/validate-token';
-import { FindAllStudentsForAdminController } from './controllers/find-all-students-for-admin/find-all-students-for-admin.controller';
-import { FindAllStudentsForAdminUseCase } from '@/domain/application/use-cases/find-all-students-for-admin/find-all-students-for-admin';
+import { FindAllStudentsController } from './controllers/find-all-students/find-all-students.controller';
+import { FindAllStudentsUseCase } from '@/domain/application/use-cases/find-all-students/find-all-students';
 import { NotificationSenderModule } from '../notification/notification.module';
 import { HttpModule as AxiosHttpModule } from '@nestjs/axios';
 import { DeleteStudentController } from './controllers/delete-student/delete-student.controller';
@@ -81,7 +81,7 @@ import { DeleteCourseController } from './controllers/delete-course/delete-cours
     FindCitiesByStateController,
     FindAdminByIdController,
     ValidateTokenController,
-    FindAllStudentsForAdminController,
+    FindAllStudentsController,
     RegisterCourseController,
     UpdateCourseController,
     DeleteCourseController,
@@ -108,7 +108,7 @@ import { DeleteCourseController } from './controllers/delete-course/delete-cours
     FindCitiesByStateUseCase,
     FindAdminByIdUseCase,
     ValidateTokenUseCase,
-    FindAllStudentsForAdminUseCase,
+    FindAllStudentsUseCase,
     RegisterCourseController,
     UpdateCourseController,
     DeleteCourseController,

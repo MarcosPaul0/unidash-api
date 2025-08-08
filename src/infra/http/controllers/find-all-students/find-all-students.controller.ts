@@ -8,40 +8,36 @@ import {
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
 import { z } from 'zod';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
-import { UserPayload } from '@/infra/auth/jwt.strategy';
-import { FindAllStudentsForAdminUseCase } from '@/domain/application/use-cases/find-all-students-for-admin/find-all-students-for-admin';
+import { FindAllStudentsUseCase } from '@/domain/application/use-cases/find-all-students/find-all-students';
 import { StudentPresenter } from '../../presenters/student-presenter';
+import { User } from '@/domain/entities/user';
 
-const findAllStudentsForAdminQuerySchema = z
+const findAllStudentsQuerySchema = z
   .object({
     page: z.coerce.number().optional(),
     itemsPerPage: z.coerce.number().optional(),
   })
   .optional();
 
-type FindAllStudentsForAdminQuerySchema = z.infer<
-  typeof findAllStudentsForAdminQuerySchema
->;
+type FindAllStudentsQuerySchema = z.infer<typeof findAllStudentsQuerySchema>;
 
-@Controller('/students/for-admin')
-export class FindAllStudentsForAdminController {
-  constructor(
-    private findAllStudentsForAdminUseCase: FindAllStudentsForAdminUseCase,
-  ) {}
+@Controller('/students')
+export class FindAllStudentsController {
+  constructor(private findAllStudentsUseCase: FindAllStudentsUseCase) {}
 
   @Get()
   @HttpCode(200)
   async handle(
-    @CurrentUser() { userRole }: UserPayload,
-    @Query(new ZodValidationPipe(findAllStudentsForAdminQuerySchema))
-    query?: FindAllStudentsForAdminQuerySchema,
+    @CurrentUser() sessionUser: User,
+    @Query(new ZodValidationPipe(findAllStudentsQuerySchema))
+    query?: FindAllStudentsQuerySchema,
   ) {
-    const result = await this.findAllStudentsForAdminUseCase.execute({
+    const result = await this.findAllStudentsUseCase.execute({
       pagination: {
         page: query?.page ?? 1,
         itemsPerPage: query?.itemsPerPage ?? 15,
       },
-      userRole,
+      sessionUser,
     });
 
     if (result.isLeft()) {
