@@ -13,15 +13,20 @@ export function makeTeacherCourse(
   override: Partial<TeacherCourseProps> = {},
   id?: UniqueEntityId,
 ) {
-  const course = makeCourse();
+  const course = makeCourse(
+    {},
+    override?.courseId ? new UniqueEntityId(override?.courseId) : undefined,
+  );
 
-  const teacher = makeTeacher();
+  const teacher = makeTeacher(
+    {},
+    override?.teacherId ? new UniqueEntityId(override?.teacherId) : undefined,
+  );
 
   const teacherCourse = TeacherCourse.create(
     {
       teacherRole: 'courseManagerTeacher',
       ...override,
-
       courseId: override.course?.id.toString() ?? course.id.toString(),
       teacherId: override.teacher?.id.toString() ?? teacher.id.toString(),
       course: override.course ?? course,
