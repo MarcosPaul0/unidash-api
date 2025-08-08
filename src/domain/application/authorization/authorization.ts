@@ -3,11 +3,11 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { TeacherCourse, TeacherRole } from '@/domain/entities/teacher-course';
 import { User, UserRole } from '@/domain/entities/user';
 
-export type EnsureUserRoleResponse = Either<NotAllowedError, User>;
+export type EnsureUserRoleResponse = Either<NotAllowedError, void>;
 
 export type EnsureTeacherHasCoursePermissionResponse = Either<
   NotAllowedError,
-  TeacherCourse
+  void
 >;
 
 export abstract class Authorization {
@@ -15,7 +15,7 @@ export abstract class Authorization {
     sessionUser: User,
     allowedRoles: UserRole[],
   ): Promise<EnsureUserRoleResponse>;
-  abstract ensureTeacherHasCoursePermission(
+  abstract ensureIsAdminOrTeacherWithRole(
     sessionUser: User,
     courseId: string,
     allowedRoles: TeacherRole[],

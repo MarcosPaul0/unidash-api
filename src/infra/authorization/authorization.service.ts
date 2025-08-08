@@ -24,14 +24,18 @@ export class AuthorizationService implements Authorization {
       return left(new NotAllowedError());
     }
 
-    return right(sessionUser);
+    return right(undefined);
   }
 
-  async ensureTeacherHasCoursePermission(
+  async ensureIsAdminOrTeacherWithRole(
     sessionUser: User,
     courseId: string,
     allowedRoles: TeacherRole[],
   ): Promise<EnsureTeacherHasCoursePermissionResponse> {
+    if (sessionUser.role === 'admin') {
+      return right(undefined);
+    }
+
     if (sessionUser.role != 'teacher') {
       return left(new NotAllowedError());
     }
@@ -56,6 +60,6 @@ export class AuthorizationService implements Authorization {
       return left(new NotAllowedError());
     }
 
-    return right(teacherCourse);
+    return right(undefined);
   }
 }
