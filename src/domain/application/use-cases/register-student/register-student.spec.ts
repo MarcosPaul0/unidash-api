@@ -69,7 +69,7 @@ describe('Register Student', () => {
       teacherCourse.teacher.id,
     );
 
-    inMemoryTeacherCoursesRepository.items.push(teacherCourse);
+    inMemoryTeacherCoursesRepository.teacherCourses.push(teacherCourse);
 
     const result = await sut.execute({
       student: {
@@ -103,7 +103,7 @@ describe('Register Student', () => {
       teacherCourse.teacher.id,
     );
 
-    inMemoryTeacherCoursesRepository.items.push(teacherCourse);
+    inMemoryTeacherCoursesRepository.teacherCourses.push(teacherCourse);
 
     const result = await sut.execute({
       student: {
@@ -139,7 +139,7 @@ describe('Register Student', () => {
       teacherCourse.teacher.id,
     );
 
-    inMemoryTeacherCoursesRepository.items.push(teacherCourse);
+    inMemoryTeacherCoursesRepository.teacherCourses.push(teacherCourse);
 
     const studentUser = makeUser(
       {
@@ -182,7 +182,7 @@ describe('Register Student', () => {
       teacherCourse.teacher.id,
     );
 
-    inMemoryTeacherCoursesRepository.items.push(teacherCourse);
+    inMemoryTeacherCoursesRepository.teacherCourses.push(teacherCourse);
 
     await sut.execute({
       student: {
@@ -228,7 +228,7 @@ describe('Register Student', () => {
       teacherCourse.teacher.id,
     );
 
-    inMemoryTeacherCoursesRepository.items.push(teacherCourse);
+    inMemoryTeacherCoursesRepository.teacherCourses.push(teacherCourse);
 
     const result = await sut.execute({
       student: {
@@ -260,7 +260,7 @@ describe('Register Student', () => {
       teacherCourse.teacher.id,
     );
 
-    inMemoryTeacherCoursesRepository.items.push(teacherCourse);
+    inMemoryTeacherCoursesRepository.teacherCourses.push(teacherCourse);
 
     const result = await sut.execute({
       student: {

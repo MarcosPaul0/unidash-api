@@ -48,7 +48,7 @@ export class RegisterStudentUseCase {
     sessionUser,
   }: RegisterStudentUseCaseRequest): Promise<RegisterStudentUseCaseResponse> {
     const authorization =
-      await this.authorizationService.ensureTeacherHasCoursePermission(
+      await this.authorizationService.ensureIsAdminOrTeacherWithRole(
         sessionUser,
         courseId,
         ['courseManagerTeacher'],
