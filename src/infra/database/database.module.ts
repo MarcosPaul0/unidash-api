@@ -18,6 +18,8 @@ import { AdminsRepository } from '@/domain/application/repositories/admins-repos
 import { PrismaAdminsRepository } from './prisma/repositories/prisma-admins-repository';
 import { CoursesRepository } from '@/domain/application/repositories/courses-repository';
 import { PrismaCoursesRepository } from './prisma/repositories/prisma-courses-repository';
+import { CourseDepartureDataRepository } from '@/domain/application/repositories/course-departure-data-repository';
+import { PrismaCourseDepartureDataRepository } from './prisma/repositories/prisma-course-departure-data-repository';
 
 @Module({
   providers: [
@@ -58,6 +60,10 @@ import { PrismaCoursesRepository } from './prisma/repositories/prisma-courses-re
       provide: CoursesRepository,
       useClass: PrismaCoursesRepository,
     },
+    {
+      provide: CourseDepartureDataRepository,
+      useClass: PrismaCourseDepartureDataRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -70,6 +76,7 @@ import { PrismaCoursesRepository } from './prisma/repositories/prisma-courses-re
     CitiesRepository,
     AdminsRepository,
     CoursesRepository,
+    CourseDepartureDataRepository,
   ],
 })
 export class DatabaseModule {}
