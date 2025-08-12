@@ -1,4 +1,3 @@
-import { Pagination } from '@/core/pagination/pagination';
 import { Course } from '../../entities/course';
 import { TeacherCourse } from '../../entities/teacher-course';
 
