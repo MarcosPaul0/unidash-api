@@ -4,16 +4,8 @@ import {
   FindAllCourseDepartureData,
   FindAllCourseDepartureDataFilter,
 } from '@/domain/application/repositories/course-departure-data-repository';
-import {
-  CoursesRepository,
-  FindWithTeachers,
-} from '@/domain/application/repositories/courses-repository';
-import { Course } from '@/domain/entities/course';
-import {
-  CourseDepartureData,
-  Semester,
-} from '@/domain/entities/course-departure-data';
-import { TeacherCourse } from '@/domain/entities/teacher-course';
+import { Semester } from '@/domain/entities/course-data';
+import { CourseDepartureData } from '@/domain/entities/course-departure-data';
 
 export class InMemoryCourseDepartureDataRepository
   implements CourseDepartureDataRepository

@@ -1,11 +1,9 @@
 import {
   BadRequestException,
   Controller,
-  Delete,
   HttpCode,
   NotFoundException,
   ForbiddenException,
-  Param,
   Post,
   UsePipes,
   Body,
@@ -13,7 +11,6 @@ import {
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { User } from '@/domain/entities/user';
-import { DeleteCourseUseCase } from '@/domain/application/use-cases/delete-course/delete-course';
 import { RegisterCourseUseCase } from '@/domain/application/use-cases/register-course/register-course';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import z from 'zod';

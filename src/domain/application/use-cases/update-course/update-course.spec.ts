@@ -3,7 +3,6 @@ import { InMemoryCoursesRepository } from 'test/repositories/in-memory-courses-r
 import { InMemoryTeacherCoursesRepository } from 'test/repositories/in-memory-teacher-courses-repository';
 import { makeUser } from 'test/factories/make-user';
 import { makeCourse } from 'test/factories/make-course';
-import { CourseAlreadyExistsError } from '../errors/course-already-exists-error';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { UpdateCourseUseCase } from './update-course';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';

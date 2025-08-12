@@ -3,9 +3,8 @@ import { InMemoryCoursesRepository } from 'test/repositories/in-memory-courses-r
 import { InMemoryTeacherCoursesRepository } from 'test/repositories/in-memory-teacher-courses-repository';
 import { makeUser } from 'test/factories/make-user';
 import { makeCourse } from 'test/factories/make-course';
-import { CourseAlreadyExistsError } from '../errors/course-already-exists-error';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
-import { RegisterTeacherCourseUseCase } from './set-teacher-course';
+import { SetTeacherCourseUseCase } from './set-teacher-course';
 import { InMemoryTeachersRepository } from 'test/repositories/in-memory-teachers-repository';
 import { makeTeacher } from 'test/factories/make-teacher';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
@@ -17,7 +16,7 @@ let inMemoryCoursesRepository: InMemoryCoursesRepository;
 let inMemoryTeacherCoursesRepository: InMemoryTeacherCoursesRepository;
 let authorizationService: AuthorizationService;
 
-let sut: RegisterTeacherCourseUseCase;
+let sut: SetTeacherCourseUseCase;
 
 describe('Register Teacher Course', () => {
   beforeEach(() => {
@@ -28,7 +27,7 @@ describe('Register Teacher Course', () => {
       inMemoryTeacherCoursesRepository,
     );
 
-    sut = new RegisterTeacherCourseUseCase(
+    sut = new SetTeacherCourseUseCase(
       inMemoryCoursesRepository,
       inMemoryTeachersRepository,
       inMemoryTeacherCoursesRepository,

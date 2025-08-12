@@ -6,7 +6,7 @@ import {
   CourseDepartureData,
   CourseDepartureDataProps,
 } from '@/domain/entities/course-departure-data';
-import { PrismaCourseDepartureDataMapper } from '@/infra/database/prisma/mappers/prisma-departure-course-data-mapper';
+import { PrismaCourseDepartureDataMapper } from '@/infra/database/prisma/mappers/prisma-course-departure-data-mapper';
 
 export function makeCourseDepartureData(
   override: Partial<CourseDepartureDataProps> = {},

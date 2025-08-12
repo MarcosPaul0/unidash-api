@@ -28,7 +28,7 @@ type SetTeacherCourseUseCaseResponse = Either<
 >;
 
 @Injectable()
-export class RegisterTeacherCourseUseCase {
+export class SetTeacherCourseUseCase {
   constructor(
     private coursesRepository: CoursesRepository,
     private teachersRepository: TeachersRepository,
@@ -40,7 +40,7 @@ export class RegisterTeacherCourseUseCase {
     data,
     sessionUser,
   }: SetTeacherCourseUseCaseRequest): Promise<SetTeacherCourseUseCaseResponse> {
-    const { courseId, teacherId, teacherRole } = data;
+    const { courseId, teacherId } = data;
 
     const authorization =
       await this.authorizationService.ensureIsAdminOrTeacherWithRole(

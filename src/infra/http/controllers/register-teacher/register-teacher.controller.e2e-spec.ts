@@ -1,4 +1,3 @@
-import { TEACHER_ROLE } from '@/domain/entities/teacher-course';
 import { USER_ROLE } from '@/domain/entities/user';
 import { AppModule } from '@/infra/app.module';
 import { PrismaService } from '@/infra/database/prisma/prisma.service';
@@ -7,7 +6,6 @@ import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { AdminFactory } from 'test/factories/make-admin';
-import { TeacherCourseFactory } from 'test/factories/make-teacher-course';
 
 describe('Register Teacher Account (E2E)', () => {
   let app: INestApplication;

@@ -7,7 +7,6 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { makeStudent } from 'test/factories/make-student';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { makeTeacherCourse } from 'test/factories/make-teacher-course';
-import { makeCourse } from 'test/factories/make-course';
 import { UpdateCourseDepartureDataUseCase } from './update-course-departure-data';
 import { makeCourseDepartureData } from 'test/factories/make-course-departure-data';
 

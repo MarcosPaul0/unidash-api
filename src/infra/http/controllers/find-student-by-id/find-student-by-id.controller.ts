@@ -10,7 +10,6 @@ import {
 import { FindStudentByIdUseCase } from '@/domain/application/use-cases/find-student-by-id/find-student-by-id';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { CurrentUser } from '../../../auth/current-user-decorator';
-import { UserPayload } from '../../../auth/jwt.strategy';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { StudentPresenter } from '../../presenters/student-presenter';
 import { User } from '@/domain/entities/user';

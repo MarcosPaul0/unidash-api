@@ -49,7 +49,6 @@ describe('Find Teacher By Id', () => {
 
   it('should throw if the teacher was not found', async () => {
     const admin = makeAdmin({}, new UniqueEntityId('admin-1'));
-    const teacher = makeTeacher({}, new UniqueEntityId('teacher-1'));
 
     const result = await sut.execute({
       teacherId: 'teacher-2',

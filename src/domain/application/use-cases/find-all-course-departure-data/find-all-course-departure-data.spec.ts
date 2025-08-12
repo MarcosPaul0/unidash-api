@@ -1,5 +1,3 @@
-import { InMemoryCoursesRepository } from 'test/repositories/in-memory-courses-repository';
-import { makeCourse } from 'test/factories/make-course';
 import { FindAllCourseDepartureDataUseCase } from './find-all-course-departure-data';
 import { InMemoryCourseDepartureDataRepository } from 'test/repositories/in-memory-course-departure-data-repository';
 import { makeCourseDepartureData } from 'test/factories/make-course-departure-data';

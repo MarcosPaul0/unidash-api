@@ -1,9 +1,7 @@
-import { makeStudent } from 'test/factories/make-student';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { InMemoryCoursesRepository } from 'test/repositories/in-memory-courses-repository';
 import { DeleteCourseUseCase } from './delete-course';
-import { DeleteStudentUseCase } from '../delete-student/delete-student';
 import { InMemoryTeacherCoursesRepository } from 'test/repositories/in-memory-teacher-courses-repository';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 import { makeAdmin } from 'test/factories/make-admin';
