@@ -1,18 +1,8 @@
-import { Entity } from '@/core/entities/entity';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { Optional } from '@/core/types/optional';
+import { CourseData, CourseDataProps } from './course-data';
 
-export const SEMESTER = {
-  first: 'first',
-  second: 'second',
-} as const;
-
-export type Semester = (typeof SEMESTER)[keyof typeof SEMESTER];
-
-export interface CourseDepartureDataProps {
-  courseId: string;
-  year: number;
-  semester: Semester;
+export interface CourseDepartureDataProps extends CourseDataProps {
   completed: number;
   maximumDuration: number;
   dropouts: number;
@@ -21,47 +11,9 @@ export interface CourseDepartureDataProps {
   removals: number;
   newExams: number;
   deaths: number;
-  createdAt: Date;
-  updatedAt?: Date | null;
 }
 
-export class CourseDepartureData extends Entity<CourseDepartureDataProps> {
-  get courseId() {
-    return this.props.courseId;
-  }
-
-  set courseId(courseId: string) {
-    if (!courseId) {
-      return;
-    }
-
-    this.props.courseId = courseId;
-  }
-
-  get year() {
-    return this.props.year;
-  }
-
-  set year(year: number) {
-    if (!year) {
-      return;
-    }
-
-    this.props.year = year;
-  }
-
-  get semester() {
-    return this.props.semester;
-  }
-
-  set semester(semester: Semester) {
-    if (!semester) {
-      return;
-    }
-
-    this.props.semester = semester;
-  }
-
+export class CourseDepartureData extends CourseData<CourseDepartureDataProps> {
   get completed() {
     return this.props.completed;
   }
@@ -156,14 +108,6 @@ export class CourseDepartureData extends Entity<CourseDepartureDataProps> {
     }
 
     this.props.deaths = deaths;
-  }
-
-  get createdAt() {
-    return this.props.createdAt;
-  }
-
-  get updatedAt() {
-    return this.props.updatedAt;
   }
 
   static create(
