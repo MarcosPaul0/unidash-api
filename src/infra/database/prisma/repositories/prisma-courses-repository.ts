@@ -6,7 +6,6 @@ import {
 } from '@/domain/application/repositories/courses-repository';
 import { PrismaCourseMapper } from '../mappers/prisma-course-mapper';
 import { Course } from '@/domain/entities/course';
-import { Pagination } from '@/core/pagination/pagination';
 
 @Injectable()
 export class PrismaCoursesRepository implements CoursesRepository {

@@ -6,11 +6,9 @@ import {
   FindAllCourseDepartureDataFilter,
 } from '@/domain/application/repositories/course-departure-data-repository';
 import { Pagination } from '@/core/pagination/pagination';
-import {
-  CourseDepartureData,
-  Semester,
-} from '@/domain/entities/course-departure-data';
-import { PrismaCourseDepartureDataMapper } from '../mappers/prisma-departure-course-data-mapper';
+import { CourseDepartureData } from '@/domain/entities/course-departure-data';
+import { PrismaCourseDepartureDataMapper } from '../mappers/prisma-course-departure-data-mapper';
+import { Semester } from '@/domain/entities/course-data';
 
 @Injectable()
 export class PrismaCourseDepartureDataRepository
@@ -110,7 +108,7 @@ export class PrismaCourseDepartureDataRepository
     const data =
       PrismaCourseDepartureDataMapper.toPrismaUpdate(courseDepartureData);
 
-    await this.prisma.user.update({
+    await this.prisma.courseDepartureData.update({
       where: {
         id: courseDepartureData.id.toString(),
       },
