@@ -1,8 +1,6 @@
 import { Pagination } from '@/core/pagination/pagination';
-import {
-  CourseDepartureData,
-  Semester,
-} from '@/domain/entities/course-departure-data';
+import { Semester } from '@/domain/entities/course-data';
+import { CourseDepartureData } from '@/domain/entities/course-departure-data';
 
 export type FindAllCourseDepartureDataFilter = {
   semester?: Semester;

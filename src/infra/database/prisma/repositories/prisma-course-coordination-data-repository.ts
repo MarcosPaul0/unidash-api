@@ -56,17 +56,21 @@ export class PrismaCourseCoordinationDataRepository
     { itemsPerPage, page }: Pagination,
     filters?: FindAllCourseCoordinationDataFilter,
   ): Promise<FindAllCourseCoordinationData> {
+    const paginationParams =
+      itemsPerPage === null
+        ? undefined
+        : { take: itemsPerPage, skip: (page - 1) * itemsPerPage };
+
     const courseDeparturesData =
       await this.prisma.courseCoordinationData.findMany({
         where: {
           semester: filters?.semester,
           year: filters?.year,
         },
-        take: itemsPerPage,
-        skip: (page - 1) * itemsPerPage,
         orderBy: {
           createdAt: 'desc',
         },
+        ...paginationParams,
       });
 
     const totalCourseCoordinationData =
@@ -90,7 +94,10 @@ export class PrismaCourseCoordinationDataRepository
         PrismaCourseCoordinationDataMapper.toDomain(departureData),
       ),
       totalItems: totalCourseCoordinationData,
-      totalPages: Math.ceil(totalCourseCoordinationData / itemsPerPage),
+      totalPages:
+        itemsPerPage === null
+          ? totalCourseCoordinationData
+          : Math.ceil(totalCourseCoordinationData / itemsPerPage),
     };
   }
 

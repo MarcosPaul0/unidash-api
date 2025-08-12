@@ -10,8 +10,8 @@ import { Public } from '@/infra/auth/public';
 import { FindAllCourseDepartureDataUseCase } from '@/domain/application/use-cases/find-all-course-departure-data/find-all-course-departure-data';
 import z from 'zod';
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
-import { SEMESTER } from '@/domain/entities/course-departure-data';
 import { CourseDepartureDataPresenter } from '../../presenters/course-departure-data-presenter';
+import { SEMESTER } from '@/domain/entities/course-data';
 
 const findAllCourseDepartureDataQuerySchema = z
   .object({
@@ -53,6 +53,7 @@ export class FindAllCourseDepartureDataController {
     const result = await this.findAllCourseDepartureData.execute({
       pagination: {
         page: query?.page ?? 1,
+        itemsPerPage: null,
       },
       filters: body,
     });

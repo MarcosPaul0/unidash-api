@@ -60,17 +60,21 @@ export class PrismaCourseRegistrationLockDataRepository
     { itemsPerPage, page }: Pagination,
     filters?: FindAllCourseRegistrationLockDataFilter,
   ): Promise<FindAllCourseRegistrationLockData> {
+    const paginationParams =
+      itemsPerPage === null
+        ? undefined
+        : { take: itemsPerPage, skip: (page - 1) * itemsPerPage };
+
     const courseDeparturesData =
       await this.prisma.courseRegistrationLockData.findMany({
         where: {
           semester: filters?.semester,
           year: filters?.year,
         },
-        take: itemsPerPage,
-        skip: (page - 1) * itemsPerPage,
         orderBy: {
           createdAt: 'desc',
         },
+        ...paginationParams,
       });
 
     const totalCourseRegistrationLockData =
@@ -94,7 +98,10 @@ export class PrismaCourseRegistrationLockDataRepository
         PrismaCourseRegistrationLockDataMapper.toDomain(departureData),
       ),
       totalItems: totalCourseRegistrationLockData,
-      totalPages: Math.ceil(totalCourseRegistrationLockData / itemsPerPage),
+      totalPages:
+        itemsPerPage === null
+          ? totalCourseRegistrationLockData
+          : Math.ceil(totalCourseRegistrationLockData / itemsPerPage),
     };
   }
 

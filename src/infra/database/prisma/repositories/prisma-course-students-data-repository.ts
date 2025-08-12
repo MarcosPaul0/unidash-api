@@ -57,16 +57,20 @@ export class PrismaCourseStudentsDataRepository
     { itemsPerPage, page }: Pagination,
     filters?: FindAllCourseStudentsDataFilter,
   ): Promise<FindAllCourseStudentsData> {
+    const paginationParams =
+      itemsPerPage === null
+        ? undefined
+        : { take: itemsPerPage, skip: (page - 1) * itemsPerPage };
+
     const courseDeparturesData = await this.prisma.courseStudentsData.findMany({
       where: {
         semester: filters?.semester,
         year: filters?.year,
       },
-      take: itemsPerPage,
-      skip: (page - 1) * itemsPerPage,
       orderBy: {
         createdAt: 'desc',
       },
+      ...paginationParams,
     });
 
     const totalCourseStudentsData = await this.prisma.courseStudentsData.count({
@@ -89,7 +93,10 @@ export class PrismaCourseStudentsDataRepository
         PrismaCourseStudentsDataMapper.toDomain(departureData),
       ),
       totalItems: totalCourseStudentsData,
-      totalPages: Math.ceil(totalCourseStudentsData / itemsPerPage),
+      totalPages:
+        itemsPerPage === null
+          ? totalCourseStudentsData
+          : Math.ceil(totalCourseStudentsData / itemsPerPage),
     };
   }
 

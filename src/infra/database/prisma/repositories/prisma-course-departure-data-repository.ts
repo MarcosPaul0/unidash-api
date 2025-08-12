@@ -56,17 +56,21 @@ export class PrismaCourseDepartureDataRepository
     { itemsPerPage, page }: Pagination,
     filters?: FindAllCourseDepartureDataFilter,
   ): Promise<FindAllCourseDepartureData> {
+    const paginationParams =
+      itemsPerPage === null
+        ? undefined
+        : { take: itemsPerPage, skip: (page - 1) * itemsPerPage };
+
     const courseDeparturesData = await this.prisma.courseDepartureData.findMany(
       {
         where: {
           semester: filters?.semester,
           year: filters?.year,
         },
-        take: itemsPerPage,
-        skip: (page - 1) * itemsPerPage,
         orderBy: {
           createdAt: 'desc',
         },
+        ...paginationParams,
       },
     );
 
@@ -91,7 +95,10 @@ export class PrismaCourseDepartureDataRepository
         PrismaCourseDepartureDataMapper.toDomain(departureData),
       ),
       totalItems: totalCourseDepartureData,
-      totalPages: Math.ceil(totalCourseDepartureData / itemsPerPage),
+      totalPages:
+        itemsPerPage === null
+          ? totalCourseDepartureData
+          : Math.ceil(totalCourseDepartureData / itemsPerPage),
     };
   }
 
