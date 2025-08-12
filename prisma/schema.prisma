@@ -76,9 +76,12 @@ model Course {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  student             Student?
-  teacherCourse       TeacherCourse[]
-  courseDepartureData CourseDepartureData[]
+  student                    Student?
+  teacherCourse              TeacherCourse[]
+  courseDepartureData        CourseDepartureData[]
+  courseRegistrationLockData CourseRegistrationLockData[]
+  courseCoordinationData     CourseCoordinationData[]
+  courseStudentsData         CourseStudentsData[]
 
   @@map("courses")
 }
@@ -144,14 +147,14 @@ model CourseDepartureData {
   id              String    @id @default(uuid()) @db.Uuid
   year            Int       @db.SmallInt
   semester        Semester  @default(first)
-  completed       Int // Estudantes graduados
-  maximumDuration Int // Tempo máximo
-  dropouts        Int // Abandonos
-  transfers       Int // Transferências
-  withdrawals     Int // Desistências
-  removals        Int // Remoção administrativas
-  newExams        Int // Novo vestibular
-  deaths          Int // Falecimento de alunos
+  completed       Int       @default(0) @db.SmallInt // Estudantes graduados
+  maximumDuration Int       @default(0) @db.SmallInt // Tempo máximo
+  dropouts        Int       @default(0) @db.SmallInt // Abandonos
+  transfers       Int       @default(0) @db.SmallInt // Transferências
+  withdrawals     Int       @default(0) @db.SmallInt // Desistências
+  removals        Int       @default(0) @db.SmallInt // Remoção administrativas
+  newExams        Int       @default(0) @db.SmallInt // Novo vestibular
+  deaths          Int       @default(0) @db.SmallInt // Falecimento de alunos
   createdAt       DateTime  @default(now())
   updatedAt       DateTime? @updatedAt
 
@@ -160,4 +163,63 @@ model CourseDepartureData {
 
   @@unique([year, semester, courseId])
   @@map("courseDepartureData")
+}
+
+model CourseRegistrationLockData {
+  id                      String    @id @default(uuid()) @db.Uuid
+  year                    Int       @db.SmallInt
+  semester                Semester  @default(first)
+  difficultyInDiscipline  Int       @default(0) @db.SmallInt // Dificuldade com a disciplina
+  workload                Int       @default(0) @db.SmallInt // Carga horária
+  teacherMethodology      Int       @default(0) @db.SmallInt // Metodologia do professor
+  incompatibilityWithWork Int       @default(0) @db.SmallInt // Incompatibilidade com trabalho
+  lossOfInterest          Int       @default(0) @db.SmallInt // Perda de interesse
+  other                   Int       @default(0) @db.SmallInt // Outro
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime? @updatedAt
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @db.Uuid
+
+  @@unique([year, semester, courseId])
+  @@map("courseRegistrationLockData")
+}
+
+model CourseStudentsData {
+  id        String    @id @default(uuid()) @db.Uuid
+  year      Int       @db.SmallInt
+  semester  Semester  @default(first)
+  entrants  Int       @default(0) @db.SmallInt
+  actives   Int       @default(0) @db.SmallInt
+  locks     Int       @default(0) @db.SmallInt
+  canceled  Int       @default(0) @db.SmallInt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @db.Uuid
+
+  @@unique([year, semester, courseId])
+  @@map("courseStudentsData")
+}
+
+model CourseCoordinationData {
+  id                             String    @id @default(uuid()) @db.Uuid
+  year                           Int       @db.SmallInt
+  semester                       Semester  @default(first)
+  servicesRequestsBySystem       Int       @default(0) @db.SmallInt
+  servicesRequestsByEmail        Int       @default(0) @db.SmallInt
+  resolutionActions              Int       @default(0) @db.SmallInt
+  administrativeDecisionActions  Int       @default(0) @db.SmallInt
+  meetingsByBoardOfDirectors     Int       @default(0) @db.SmallInt
+  meetingsByUndergraduateChamber Int       @default(0) @db.SmallInt
+  meetingsByCourseCouncil        Int       @default(0) @db.SmallInt
+  createdAt                      DateTime  @default(now())
+  updatedAt                      DateTime? @updatedAt
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @db.Uuid
+
+  @@unique([year, semester, courseId])
+  @@map("courseCoordinationData")
 }
