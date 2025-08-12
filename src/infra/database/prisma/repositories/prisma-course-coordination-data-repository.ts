@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { Pagination } from '@/core/pagination/pagination';
 import {
   CourseCoordinationDataRepository,
   FindAllCourseCoordinationData,
@@ -9,6 +8,7 @@ import {
 import { CourseCoordinationData } from '@/domain/entities/course-coordination-data';
 import { Semester } from '@/domain/entities/course-data';
 import { PrismaCourseCoordinationDataMapper } from '../mappers/prisma-course-coordination-data-mapper';
+import { Pagination } from '@/core/pagination/pagination';
 
 @Injectable()
 export class PrismaCourseCoordinationDataRepository
@@ -53,13 +53,15 @@ export class PrismaCourseCoordinationDataRepository
   }
 
   async findAll(
-    { itemsPerPage, page }: Pagination,
+    pagination?: Pagination,
     filters?: FindAllCourseCoordinationDataFilter,
   ): Promise<FindAllCourseCoordinationData> {
-    const paginationParams =
-      itemsPerPage === null
-        ? undefined
-        : { take: itemsPerPage, skip: (page - 1) * itemsPerPage };
+    const paginationParams = pagination
+      ? {
+          take: pagination.itemsPerPage,
+          skip: (pagination.page - 1) * pagination.itemsPerPage,
+        }
+      : undefined;
 
     const courseDeparturesData =
       await this.prisma.courseCoordinationData.findMany({
@@ -94,10 +96,9 @@ export class PrismaCourseCoordinationDataRepository
         PrismaCourseCoordinationDataMapper.toDomain(departureData),
       ),
       totalItems: totalCourseCoordinationData,
-      totalPages:
-        itemsPerPage === null
-          ? totalCourseCoordinationData
-          : Math.ceil(totalCourseCoordinationData / itemsPerPage),
+      totalPages: pagination
+        ? Math.ceil(totalCourseCoordinationData / pagination.itemsPerPage)
+        : 1,
     };
   }
 

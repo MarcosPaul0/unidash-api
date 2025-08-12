@@ -1,12 +1,12 @@
 import { Either, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
-import { Pagination } from '@/core/pagination/pagination';
 import {
   CourseDepartureDataRepository,
   FindAllCourseDepartureDataFilter,
 } from '../../repositories/course-departure-data-repository';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { CourseDepartureData } from '@/domain/entities/course-departure-data';
+import { Pagination } from '@/core/pagination/pagination';
 
 interface FindAllCourseDepartureDataUseCaseRequest {
   pagination?: Pagination;

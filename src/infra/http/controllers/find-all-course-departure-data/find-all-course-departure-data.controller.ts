@@ -51,10 +51,10 @@ export class FindAllCourseDepartureDataController {
     @Body() body?: FindAllCourseDepartureDataFiltersSchema,
   ) {
     const result = await this.findAllCourseDepartureData.execute({
-      pagination: {
-        page: query?.page ?? 1,
-        itemsPerPage: null,
-      },
+      pagination:
+        query?.itemsPerPage && query?.page
+          ? { itemsPerPage: query.itemsPerPage, page: query.page }
+          : undefined,
       filters: body,
     });
 

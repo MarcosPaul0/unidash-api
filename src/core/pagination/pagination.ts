@@ -1,4 +1,4 @@
 export interface Pagination {
   page: number;
-  itemsPerPage: number | null;
+  itemsPerPage: number;
 }

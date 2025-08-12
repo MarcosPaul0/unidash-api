@@ -5,10 +5,10 @@ import {
   FindAllCourseDepartureData,
   FindAllCourseDepartureDataFilter,
 } from '@/domain/application/repositories/course-departure-data-repository';
-import { Pagination } from '@/core/pagination/pagination';
 import { CourseDepartureData } from '@/domain/entities/course-departure-data';
 import { PrismaCourseDepartureDataMapper } from '../mappers/prisma-course-departure-data-mapper';
 import { Semester } from '@/domain/entities/course-data';
+import { Pagination } from '@/core/pagination/pagination';
 
 @Injectable()
 export class PrismaCourseDepartureDataRepository
@@ -53,13 +53,15 @@ export class PrismaCourseDepartureDataRepository
   }
 
   async findAll(
-    { itemsPerPage, page }: Pagination,
+    pagination?: Pagination,
     filters?: FindAllCourseDepartureDataFilter,
   ): Promise<FindAllCourseDepartureData> {
-    const paginationParams =
-      itemsPerPage === null
-        ? undefined
-        : { take: itemsPerPage, skip: (page - 1) * itemsPerPage };
+    const paginationParams = pagination
+      ? {
+          take: pagination.itemsPerPage,
+          skip: (pagination.page - 1) * pagination.itemsPerPage,
+        }
+      : undefined;
 
     const courseDeparturesData = await this.prisma.courseDepartureData.findMany(
       {
@@ -95,10 +97,9 @@ export class PrismaCourseDepartureDataRepository
         PrismaCourseDepartureDataMapper.toDomain(departureData),
       ),
       totalItems: totalCourseDepartureData,
-      totalPages:
-        itemsPerPage === null
-          ? totalCourseDepartureData
-          : Math.ceil(totalCourseDepartureData / itemsPerPage),
+      totalPages: pagination
+        ? Math.ceil(totalCourseDepartureData / pagination.itemsPerPage)
+        : 1,
     };
   }
 
