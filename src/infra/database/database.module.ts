@@ -20,6 +20,12 @@ import { CoursesRepository } from '@/domain/application/repositories/courses-rep
 import { PrismaCoursesRepository } from './prisma/repositories/prisma-courses-repository';
 import { CourseDepartureDataRepository } from '@/domain/application/repositories/course-departure-data-repository';
 import { PrismaCourseDepartureDataRepository } from './prisma/repositories/prisma-course-departure-data-repository';
+import { CourseStudentsDataRepository } from '@/domain/application/repositories/course-students-data-repository';
+import { PrismaCourseStudentsDataRepository } from './prisma/repositories/prisma-course-students-data-repository';
+import { PrismaCourseRegistrationLockDataRepository } from './prisma/repositories/prisma-course-registration-lock-data-repository';
+import { CourseRegistrationLockDataRepository } from '@/domain/application/repositories/course-registration-lock-data-repository';
+import { PrismaCourseCoordinationDataRepository } from './prisma/repositories/prisma-course-coordination-data-repository';
+import { CourseCoordinationDataRepository } from '@/domain/application/repositories/course-coordination-data-repository';
 
 @Module({
   providers: [
@@ -64,6 +70,18 @@ import { PrismaCourseDepartureDataRepository } from './prisma/repositories/prism
       provide: CourseDepartureDataRepository,
       useClass: PrismaCourseDepartureDataRepository,
     },
+    {
+      provide: CourseCoordinationDataRepository,
+      useClass: PrismaCourseCoordinationDataRepository,
+    },
+    {
+      provide: CourseRegistrationLockDataRepository,
+      useClass: PrismaCourseRegistrationLockDataRepository,
+    },
+    {
+      provide: CourseStudentsDataRepository,
+      useClass: PrismaCourseStudentsDataRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -77,6 +95,9 @@ import { PrismaCourseDepartureDataRepository } from './prisma/repositories/prism
     AdminsRepository,
     CoursesRepository,
     CourseDepartureDataRepository,
+    CourseCoordinationDataRepository,
+    CourseRegistrationLockDataRepository,
+    CourseStudentsDataRepository,
   ],
 })
 export class DatabaseModule {}
