@@ -3,13 +3,11 @@ import { Injectable } from '@nestjs/common';
 import { User } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 import { CourseDepartureDataRepository } from '../../repositories/course-departure-data-repository';
-import {
-  CourseDepartureData,
-  Semester,
-} from '@/domain/entities/course-departure-data';
+import { CourseDepartureData } from '@/domain/entities/course-departure-data';
 import { CourseDepartureDataAlreadyExistsError } from '../errors/course-departure-data-already-exists-error';
 import { CoursesRepository } from '../../repositories/courses-repository';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
+import { Semester } from '@/domain/entities/course-data';
 
 interface RegisterCourseDepartureDataUseCaseRequest {
   courseDepartureData: {
