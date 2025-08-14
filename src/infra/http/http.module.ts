@@ -50,6 +50,44 @@ import { FindStudentController } from './controllers/find-student/find-student.c
 import { RegisterCourseController } from './controllers/register-course/register-course.controller';
 import { UpdateCourseController } from './controllers/update-course/update-course.controller';
 import { DeleteCourseController } from './controllers/delete-course/delete-course.controller';
+import { FindAllCoursesUseCase } from '@/domain/application/use-cases/find-all-courses/find-all-courses';
+import { FindStudentUseCase } from '@/domain/application/use-cases/find-student/find-student';
+import { FindTeacherUseCase } from '@/domain/application/use-cases/find-teacher/find-teacher';
+import { RegisterCourseUseCase } from '@/domain/application/use-cases/register-course/register-course';
+import { UpdateCourseUseCase } from '@/domain/application/use-cases/update-course/update-course';
+import { DeleteCourseUseCase } from '@/domain/application/use-cases/delete-course/delete-course';
+import { RegisterCourseDepartureDataUseCase } from '@/domain/application/use-cases/register-course-departure-data/register-course-departure-data';
+import { UpdateCourseDepartureDataUseCase } from '@/domain/application/use-cases/update-course-departure-data/update-course-departure-data';
+import { FindAllCourseDepartureDataUseCase } from '@/domain/application/use-cases/find-all-course-departure-data/find-all-course-departure-data';
+import { DeleteCourseDepartureDataUseCase } from '@/domain/application/use-cases/delete-course-departure-data/delete-course-departure-data';
+import { RegisterCourseRegistrationLockDataUseCase } from '@/domain/application/use-cases/register-course-registration-lock-data/register-course-registration-lock-data';
+import { UpdateCourseRegistrationLockDataUseCase } from '@/domain/application/use-cases/update-course-registration-lock-data/update-course-registration-lock-data';
+import { FindAllCourseRegistrationLockDataUseCase } from '@/domain/application/use-cases/find-all-course-registration-lock-data/find-all-course-registration-lock-data';
+import { DeleteCourseRegistrationLockDataUseCase } from '@/domain/application/use-cases/delete-course-registration-lock-data/delete-course-registration-lock-data';
+import { RegisterCourseCoordinationDataUseCase } from '@/domain/application/use-cases/register-course-coordination-data/register-course-coordination-data';
+import { UpdateCourseCoordinationDataUseCase } from '@/domain/application/use-cases/update-course-coordination-data/update-course-coordination-data';
+import { FindAllCourseCoordinationDataUseCase } from '@/domain/application/use-cases/find-all-course-coordination-data/find-all-course-coordination-data';
+import { DeleteCourseCoordinationDataUseCase } from '@/domain/application/use-cases/delete-course-coordination-data/delete-course-coordination-data';
+import { RegisterCourseStudentsDataUseCase } from '@/domain/application/use-cases/register-course-students-data/register-course-students-data';
+import { UpdateCourseStudentsDataUseCase } from '@/domain/application/use-cases/update-course-students-data/update-course-students-data';
+import { FindAllCourseStudentsDataUseCase } from '@/domain/application/use-cases/find-all-course-students-data/find-all-course-students-data';
+import { DeleteCourseStudentsDataUseCase } from '@/domain/application/use-cases/delete-course-students-data/delete-course-students-data';
+import { RegisterCourseDepartureDataController } from './controllers/register-course-departure-data/register-course-departure-data.controller';
+import { UpdateCourseDepartureDataController } from './controllers/update-course-departure-data/update-course-departure-data.controller';
+import { FindAllCourseDepartureDataController } from './controllers/find-all-course-departure-data/find-all-course-departure-data.controller';
+import { DeleteCourseDepartureDataController } from './controllers/delete-course-departure-data/delete-course-departure-data.controller';
+import { RegisterCourseRegistrationLockDataController } from './controllers/register-course-registration-lock-data/register-course-registration-lock-data.controller';
+import { UpdateCourseRegistrationLockDataController } from './controllers/update-course-registration-lock-data/update-course-registration-lock-data.controller';
+import { FindAllCourseRegistrationLockDataController } from './controllers/find-all-course-registration-lock-data/find-all-course-registration-lock-data.controller';
+import { DeleteCourseRegistrationLockDataController } from './controllers/delete-course-registration-lock-data/delete-course-registration-lock-data.controller';
+import { RegisterCourseCoordinationDataController } from './controllers/register-course-coordination-data/register-course-coordination-data.controller';
+import { UpdateCourseCoordinationDataController } from './controllers/update-course-coordination-data/update-course-coordination-data.controller';
+import { FindAllCourseCoordinationDataController } from './controllers/find-all-course-coordination-data/find-all-course-coordination-data.controller';
+import { DeleteCourseCoordinationDataController } from './controllers/delete-course-coordination-data/delete-course-coordination-data.controller';
+import { RegisterCourseStudentsDataController } from './controllers/register-course-students-data/register-course-students-data.controller';
+import { UpdateCourseStudentsDataController } from './controllers/update-course-students-data/update-course-students-data.controller';
+import { FindAllCourseStudentsDataController } from './controllers/find-all-course-students-data/find-all-course-students-data.controller';
+import { DeleteCourseStudentsDataController } from './controllers/delete-course-students-data/delete-course-students-data.controller';
 
 @Module({
   imports: [
@@ -85,6 +123,22 @@ import { DeleteCourseController } from './controllers/delete-course/delete-cours
     RegisterCourseController,
     UpdateCourseController,
     DeleteCourseController,
+    RegisterCourseDepartureDataController,
+    UpdateCourseDepartureDataController,
+    FindAllCourseDepartureDataController,
+    DeleteCourseDepartureDataController,
+    RegisterCourseRegistrationLockDataController,
+    UpdateCourseRegistrationLockDataController,
+    FindAllCourseRegistrationLockDataController,
+    DeleteCourseRegistrationLockDataController,
+    RegisterCourseCoordinationDataController,
+    UpdateCourseCoordinationDataController,
+    FindAllCourseCoordinationDataController,
+    DeleteCourseCoordinationDataController,
+    RegisterCourseStudentsDataController,
+    UpdateCourseStudentsDataController,
+    FindAllCourseStudentsDataController,
+    DeleteCourseStudentsDataController,
   ],
   providers: [
     RegisterStudentUseCase,
@@ -93,7 +147,7 @@ import { DeleteCourseController } from './controllers/delete-course/delete-cours
     AccountActivationUseCase,
     ResendAccountConfirmationEmailUseCase,
     FindStudentByIdUseCase,
-    FindStudentController,
+    FindStudentUseCase,
     DeleteStudentUseCase,
     SendPasswordResetEmailUseCase,
     ResetPasswordUseCase,
@@ -103,15 +157,32 @@ import { DeleteCourseController } from './controllers/delete-course/delete-cours
     DeleteTeacherUseCase,
     UpdateTeacherUseCase,
     FindTeacherByIdUseCase,
-    FindTeacherController,
+    FindTeacherUseCase,
     FindAllStatesUseCase,
     FindCitiesByStateUseCase,
     FindAdminByIdUseCase,
     ValidateTokenUseCase,
     FindAllStudentsUseCase,
-    RegisterCourseController,
-    UpdateCourseController,
-    DeleteCourseController,
+    RegisterCourseUseCase,
+    UpdateCourseUseCase,
+    DeleteCourseUseCase,
+    FindAllCoursesUseCase,
+    RegisterCourseDepartureDataUseCase,
+    UpdateCourseDepartureDataUseCase,
+    FindAllCourseDepartureDataUseCase,
+    DeleteCourseDepartureDataUseCase,
+    RegisterCourseRegistrationLockDataUseCase,
+    UpdateCourseRegistrationLockDataUseCase,
+    FindAllCourseRegistrationLockDataUseCase,
+    DeleteCourseRegistrationLockDataUseCase,
+    RegisterCourseCoordinationDataUseCase,
+    UpdateCourseCoordinationDataUseCase,
+    FindAllCourseCoordinationDataUseCase,
+    DeleteCourseCoordinationDataUseCase,
+    RegisterCourseStudentsDataUseCase,
+    UpdateCourseStudentsDataUseCase,
+    FindAllCourseStudentsDataUseCase,
+    DeleteCourseStudentsDataUseCase,
   ],
 })
 export class HttpModule {}
