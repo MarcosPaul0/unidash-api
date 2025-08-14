@@ -14,42 +14,41 @@ import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/us
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { User } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
-import { RegisterCourseDepartureDataUseCase } from '@/domain/application/use-cases/register-course-departure-data/register-course-departure-data';
 import { SEMESTER } from '@/domain/entities/course-data';
+import { RegisterCourseCoordinationDataUseCase } from '@/domain/application/use-cases/register-course-coordination-data/register-course-coordination-data';
 
-const registerCourseDepartureDataBodySchema = z.object({
+const registerCourseCoordinationDataBodySchema = z.object({
   courseId: z.uuid(),
   year: z.int().max(new Date().getFullYear()).min(0),
   semester: z.enum(SEMESTER),
-  completed: z.int().min(0).max(200),
-  maximumDuration: z.int().min(0).max(200),
-  dropouts: z.int().min(0).max(200),
-  transfers: z.int().min(0).max(200),
-  withdrawals: z.int().min(0).max(200),
-  removals: z.int().min(0).max(200),
-  newExams: z.int().min(0).max(200),
-  deaths: z.int().min(0).max(200),
+  servicesRequestsBySystem: z.int().min(0).max(200),
+  servicesRequestsByEmail: z.int().min(0).max(200),
+  resolutionActions: z.int().min(0).max(200),
+  administrativeDecisionActions: z.int().min(0).max(200),
+  meetingsByBoardOfDirectors: z.int().min(0).max(200),
+  meetingsByUndergraduateChamber: z.int().min(0).max(200),
+  meetingsByCourseCouncil: z.int().min(0).max(200),
 });
 
-type RegisterCourseDepartureDataBodySchema = z.infer<
-  typeof registerCourseDepartureDataBodySchema
+type RegisterCourseCoordinationDataBodySchema = z.infer<
+  typeof registerCourseCoordinationDataBodySchema
 >;
 
-@Controller('/course-departure-data')
-export class RegisterCourseDepartureDataController {
+@Controller('/course-coordination-data')
+export class RegisterCourseCoordinationDataController {
   constructor(
-    private registerCourseDepartureData: RegisterCourseDepartureDataUseCase,
+    private registerCourseCoordinationData: RegisterCourseCoordinationDataUseCase,
   ) {}
 
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(registerCourseDepartureDataBodySchema))
+  @UsePipes(new ZodValidationPipe(registerCourseCoordinationDataBodySchema))
   async handle(
     @CurrentUser() sessionUser: User,
-    @Body() body: RegisterCourseDepartureDataBodySchema,
+    @Body() body: RegisterCourseCoordinationDataBodySchema,
   ) {
-    const result = await this.registerCourseDepartureData.execute({
-      courseDepartureData: body,
+    const result = await this.registerCourseCoordinationData.execute({
+      courseCoordinationData: body,
       sessionUser,
     });
 

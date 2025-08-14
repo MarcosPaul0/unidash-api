@@ -1,0 +1,67 @@
+import { z } from 'zod';
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe';
+import {
+  BadRequestException,
+  Body,
+  ConflictException,
+  Controller,
+  ForbiddenException,
+  HttpCode,
+  Param,
+  Post,
+  UsePipes,
+} from '@nestjs/common';
+import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
+import { CurrentUser } from '@/infra/auth/current-user-decorator';
+import { User } from '@/domain/entities/user';
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
+import { UpdateCourseCoordinationDataUseCase } from '@/domain/application/use-cases/update-course-coordination-data/update-course-coordination-data';
+
+const updateCourseCoordinationDataBodySchema = z.object({
+  servicesRequestsBySystem: z.int().min(0).max(200).optional(),
+  servicesRequestsByEmail: z.int().min(0).max(200).optional(),
+  resolutionActions: z.int().min(0).max(200).optional(),
+  administrativeDecisionActions: z.int().min(0).max(200).optional(),
+  meetingsByBoardOfDirectors: z.int().min(0).max(200).optional(),
+  meetingsByUndergraduateChamber: z.int().min(0).max(200).optional(),
+  meetingsByCourseCouncil: z.int().min(0).max(200).optional(),
+});
+
+type UpdateCourseCoordinationDataBodySchema = z.infer<
+  typeof updateCourseCoordinationDataBodySchema
+>;
+
+@Controller('/course-coordination-data/:courseCoordinationDataId')
+export class UpdateCourseCoordinationDataController {
+  constructor(
+    private updateCourseCoordinationDataUseCase: UpdateCourseCoordinationDataUseCase,
+  ) {}
+
+  @Post()
+  @HttpCode(200)
+  @UsePipes(new ZodValidationPipe(updateCourseCoordinationDataBodySchema))
+  async handle(
+    @CurrentUser() sessionUser: User,
+    @Body() body: UpdateCourseCoordinationDataBodySchema,
+    @Param('courseCoordinationDataId') courseCoordinationDataId: string,
+  ) {
+    const result = await this.updateCourseCoordinationDataUseCase.execute({
+      courseCoordinationDataId,
+      data: body,
+      sessionUser,
+    });
+
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case UserAlreadyExistsError:
+          throw new ConflictException(error.message);
+        case NotAllowedError:
+          throw new ForbiddenException(error.message);
+        default:
+          throw new BadRequestException(error.message);
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { FindAllCoursesUseCase } from '@/domain/application/use-cases/find-all-c
 import { CoursesPresenter } from '../../presenters/courses-presenter';
 
 @Controller('/courses')
-export class FindAllStatesController {
+export class FindAllCoursesController {
   constructor(private findAllCoursesUseCase: FindAllCoursesUseCase) {}
 
   @Get()

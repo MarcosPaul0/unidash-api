@@ -14,42 +14,38 @@ import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/us
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { User } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
-import { RegisterCourseDepartureDataUseCase } from '@/domain/application/use-cases/register-course-departure-data/register-course-departure-data';
 import { SEMESTER } from '@/domain/entities/course-data';
+import { RegisterCourseStudentsDataUseCase } from '@/domain/application/use-cases/register-course-students-data/register-course-students-data';
 
-const registerCourseDepartureDataBodySchema = z.object({
+const registerCourseStudentsDataBodySchema = z.object({
   courseId: z.uuid(),
   year: z.int().max(new Date().getFullYear()).min(0),
   semester: z.enum(SEMESTER),
-  completed: z.int().min(0).max(200),
-  maximumDuration: z.int().min(0).max(200),
-  dropouts: z.int().min(0).max(200),
-  transfers: z.int().min(0).max(200),
-  withdrawals: z.int().min(0).max(200),
-  removals: z.int().min(0).max(200),
-  newExams: z.int().min(0).max(200),
-  deaths: z.int().min(0).max(200),
+  entrants: z.int().min(0).max(200),
+  actives: z.int().min(0).max(200),
+  locks: z.int().min(0).max(200),
+  canceled: z.int().min(0).max(200),
 });
 
-type RegisterCourseDepartureDataBodySchema = z.infer<
-  typeof registerCourseDepartureDataBodySchema
+type RegisterCourseStudentsDataBodySchema = z.infer<
+  typeof registerCourseStudentsDataBodySchema
 >;
 
-@Controller('/course-departure-data')
-export class RegisterCourseDepartureDataController {
+@Controller('/course-students-data')
+export class RegisterCourseStudentsDataController {
   constructor(
-    private registerCourseDepartureData: RegisterCourseDepartureDataUseCase,
+    private registerCourseStudentsData: RegisterCourseStudentsDataUseCase,
   ) {}
 
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(registerCourseDepartureDataBodySchema))
+  @UsePipes(new ZodValidationPipe(registerCourseStudentsDataBodySchema))
   async handle(
     @CurrentUser() sessionUser: User,
-    @Body() body: RegisterCourseDepartureDataBodySchema,
+    @Body() body: RegisterCourseStudentsDataBodySchema,
   ) {
-    const result = await this.registerCourseDepartureData.execute({
-      courseDepartureData: body,
+    const result = await this.registerCourseStudentsData.execute({
+      courseStudentsData: body,
       sessionUser,
     });
 

@@ -14,42 +14,40 @@ import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/us
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { User } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
-import { RegisterCourseDepartureDataUseCase } from '@/domain/application/use-cases/register-course-departure-data/register-course-departure-data';
 import { SEMESTER } from '@/domain/entities/course-data';
+import { RegisterCourseRegistrationLockDataUseCase } from '@/domain/application/use-cases/register-course-registration-lock-data/register-course-registration-lock-data';
 
-const registerCourseDepartureDataBodySchema = z.object({
+const registerCourseRegistrationLockDataBodySchema = z.object({
   courseId: z.uuid(),
   year: z.int().max(new Date().getFullYear()).min(0),
   semester: z.enum(SEMESTER),
-  completed: z.int().min(0).max(200),
-  maximumDuration: z.int().min(0).max(200),
-  dropouts: z.int().min(0).max(200),
-  transfers: z.int().min(0).max(200),
-  withdrawals: z.int().min(0).max(200),
-  removals: z.int().min(0).max(200),
-  newExams: z.int().min(0).max(200),
-  deaths: z.int().min(0).max(200),
+  difficultyInDiscipline: z.int().min(0).max(200),
+  workload: z.int().min(0).max(200),
+  teacherMethodology: z.int().min(0).max(200),
+  incompatibilityWithWork: z.int().min(0).max(200),
+  lossOfInterest: z.int().min(0).max(200),
+  other: z.int().min(0).max(200),
 });
 
-type RegisterCourseDepartureDataBodySchema = z.infer<
-  typeof registerCourseDepartureDataBodySchema
+type RegisterCourseRegistrationLockDataBodySchema = z.infer<
+  typeof registerCourseRegistrationLockDataBodySchema
 >;
 
-@Controller('/course-departure-data')
-export class RegisterCourseDepartureDataController {
+@Controller('/course-registration-lock-data')
+export class RegisterCourseRegistrationLockDataController {
   constructor(
-    private registerCourseDepartureData: RegisterCourseDepartureDataUseCase,
+    private registerCourseRegistrationLockData: RegisterCourseRegistrationLockDataUseCase,
   ) {}
 
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(registerCourseDepartureDataBodySchema))
+  @UsePipes(new ZodValidationPipe(registerCourseRegistrationLockDataBodySchema))
   async handle(
     @CurrentUser() sessionUser: User,
-    @Body() body: RegisterCourseDepartureDataBodySchema,
+    @Body() body: RegisterCourseRegistrationLockDataBodySchema,
   ) {
-    const result = await this.registerCourseDepartureData.execute({
-      courseDepartureData: body,
+    const result = await this.registerCourseRegistrationLockData.execute({
+      courseRegistrationLockData: body,
       sessionUser,
     });
 
