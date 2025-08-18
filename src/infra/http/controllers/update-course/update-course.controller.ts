@@ -11,7 +11,7 @@ import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
 import { z } from 'zod';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { UpdateCourseUseCase } from '@/domain/application/use-cases/update-course/update-course';
-import { User } from '@/domain/entities/user';
+import { SessionUser, User } from '@/domain/entities/user';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 
@@ -27,7 +27,7 @@ export class UpdateCourseController {
 
   @Patch()
   async handle(
-    @CurrentUser() user: User,
+    @CurrentUser() sessionUser: SessionUser,
     @Param('courseId') courseId: string,
     @Body(new ZodValidationPipe(updateCourseBodySchema))
     body: UpdateCourseBodySchema,
@@ -37,7 +37,7 @@ export class UpdateCourseController {
     const result = await this.updateCourseUseCase.execute({
       courseId,
       data: { name },
-      sessionUser: user,
+      sessionUser,
     });
 
     if (result.isLeft()) {

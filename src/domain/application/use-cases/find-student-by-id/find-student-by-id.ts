@@ -3,13 +3,13 @@ import { Injectable } from '@nestjs/common';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { StudentsRepository } from '../../repositories/students-repository';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { Student } from '@/domain/entities/student';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 
 interface FindStudentByIdUseCaseRequest {
   studentId: string;
-  sessionUser: User;
+  sessionUser: SessionUser;
 }
 
 type FindStudentByIdUseCaseResponse = Either<

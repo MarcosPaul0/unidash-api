@@ -9,10 +9,14 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Public } from '@/infra/auth/public';
+import { EnvService } from '@/infra/env/env.service';
 
 @Controller('/token/refresh')
 export class RefreshTokenController {
-  constructor(private refreshToken: RefreshTokenUseCase) {}
+  constructor(
+    private refreshToken: RefreshTokenUseCase,
+    private envService: EnvService,
+  ) {}
 
   @Patch()
   @HttpCode(200)
@@ -21,7 +25,8 @@ export class RefreshTokenController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const refreshToken = request.cookies.gdMarketRefreshToken;
+    const refreshTokenCookie = this.envService.get('REFRESH_TOKEN_COOKIE');
+    const refreshToken = request.cookies[refreshTokenCookie];
 
     const result = await this.refreshToken.execute({
       refreshToken,
@@ -34,7 +39,7 @@ export class RefreshTokenController {
 
     const { accessToken, newRefreshToken } = result.value;
 
-    response.cookie('gdMarketRefreshToken', newRefreshToken, {
+    response.cookie(refreshTokenCookie, newRefreshToken, {
       path: '/',
       secure: true,
       sameSite: true,

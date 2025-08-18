@@ -14,7 +14,7 @@ import {
 import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { Public } from '@/infra/auth/public';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { STUDENT_TYPE } from '@/domain/entities/student';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 
@@ -38,7 +38,7 @@ export class RegisterStudentController {
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(registerStudentBodySchema))
   async handle(
-    @CurrentUser() sessionUser: User,
+    @CurrentUser() sessionUser: SessionUser,
     @Body() body: RegisterStudentBodySchema,
   ) {
     const { name, email, password, matriculation, courseId, type } = body;

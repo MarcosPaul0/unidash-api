@@ -7,7 +7,7 @@ import {
 } from '@/domain/application/authorization/authorization';
 import { TeacherCoursesRepository } from '@/domain/application/repositories/teacher-courses-repository';
 import { TeacherRole } from '@/domain/entities/teacher-course';
-import { User, UserRole } from '@/domain/entities/user';
+import { SessionUser, UserRole } from '@/domain/entities/user';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class AuthorizationService implements Authorization {
   ) {}
 
   async ensureUserRole(
-    sessionUser: User,
+    sessionUser: SessionUser,
     allowedRoles: UserRole[],
   ): Promise<EnsureUserRoleResponse> {
     if (!allowedRoles.includes(sessionUser.role)) {
@@ -28,7 +28,7 @@ export class AuthorizationService implements Authorization {
   }
 
   async ensureIsAdminOrTeacherWithRole(
-    sessionUser: User,
+    sessionUser: SessionUser,
     courseId: string,
     allowedRoles: TeacherRole[],
   ): Promise<EnsureTeacherHasCoursePermissionResponse> {

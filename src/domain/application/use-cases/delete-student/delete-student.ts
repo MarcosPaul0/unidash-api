@@ -3,11 +3,11 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { Injectable } from '@nestjs/common';
 import { StudentsRepository } from '../../repositories/students-repository';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 
 interface DeleteStudentUseCaseRequest {
   studentId: string;
-  sessionUser: User;
+  sessionUser: SessionUser;
 }
 
 type DeleteStudentUseCaseResponse = Either<

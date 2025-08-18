@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { RegisterCourseUseCase } from '@/domain/application/use-cases/register-course/register-course';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import z from 'zod';
@@ -30,14 +30,14 @@ export class RegisterCourseController {
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(createCourseBodySchema))
   async handle(
-    @CurrentUser() user: User,
+    @CurrentUser() sessionUser: SessionUser,
     @Body() body: CreateCourseBodySchema,
   ) {
     const { name } = body;
 
     const result = await this.registerCourse.execute({
       course: { name },
-      sessionUser: user,
+      sessionUser,
     });
 
     if (result.isLeft()) {

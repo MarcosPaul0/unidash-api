@@ -20,6 +20,10 @@ export interface UserProps {
   updatedAt?: Date | null;
 }
 
+export interface SessionUser extends Omit<UserProps, 'password'> {
+  id: string;
+}
+
 export class User<Props = unknown> extends Entity<Props & UserProps> {
   get name() {
     return this.props.name;
@@ -51,6 +55,14 @@ export class User<Props = unknown> extends Entity<Props & UserProps> {
 
   get role() {
     return this.props.role;
+  }
+
+  set role(role: UserRole) {
+    if (!role) {
+      return;
+    }
+
+    this.props.role = role;
   }
 
   get accountActivatedAt() {

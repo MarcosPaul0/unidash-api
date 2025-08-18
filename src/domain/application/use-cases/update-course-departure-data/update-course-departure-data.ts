@@ -1,6 +1,6 @@
 import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
@@ -21,7 +21,7 @@ interface UpdateCourseDepartureData {
 interface UpdateCourseDepartureDataUseCaseRequest {
   courseDepartureDataId: string;
   data: UpdateCourseDepartureData;
-  sessionUser: User;
+  sessionUser: SessionUser;
 }
 
 type UpdateCourseDepartureDataUseCaseResponse = Either<

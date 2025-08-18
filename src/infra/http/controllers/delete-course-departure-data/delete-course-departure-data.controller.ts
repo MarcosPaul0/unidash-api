@@ -9,9 +9,9 @@ import {
 } from '@nestjs/common';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
-import { User } from '@/domain/entities/user';
 import { DeleteCourseDepartureDataUseCase } from '@/domain/application/use-cases/delete-course-departure-data/delete-course-departure-data';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
+import { SessionUser } from '@/domain/entities/user';
 
 @Controller('/course-departure-data/:courseDepartureDataId')
 export class DeleteCourseDepartureDataController {
@@ -22,12 +22,12 @@ export class DeleteCourseDepartureDataController {
   @Delete()
   @HttpCode(204)
   async handle(
-    @CurrentUser() user: User,
+    @CurrentUser() sessionUser: SessionUser,
     @Param('courseDepartureDataId') courseDepartureDataId: string,
   ) {
     const result = await this.deleteCourseDepartureData.execute({
       courseDepartureDataId,
-      sessionUser: user,
+      sessionUser,
     });
 
     if (result.isLeft()) {

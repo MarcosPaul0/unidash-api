@@ -10,7 +10,7 @@ import { randomUUID } from 'crypto';
 import { UsersRepository } from '../../repositories/users-repository';
 import { Student, StudentType } from '@/domain/entities/student';
 import { AccountActivationToken } from '@/domain/entities/account-activation-token';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 
 interface RegisterStudentUseCaseRequest {
@@ -22,7 +22,7 @@ interface RegisterStudentUseCaseRequest {
     courseId: string;
     type: StudentType;
   };
-  sessionUser: User;
+  sessionUser: SessionUser;
 }
 
 type RegisterStudentUseCaseResponse = Either<

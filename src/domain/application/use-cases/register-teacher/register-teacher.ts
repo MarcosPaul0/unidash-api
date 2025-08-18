@@ -11,7 +11,7 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { UsersRepository } from '../../repositories/users-repository';
 import { Teacher } from '@/domain/entities/teacher';
 import { AccountActivationToken } from '@/domain/entities/account-activation-token';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 
 interface RegisterTeacherUseCaseRequest {
@@ -20,7 +20,7 @@ interface RegisterTeacherUseCaseRequest {
     email: string;
     password: string;
   };
-  sessionUser: User;
+  sessionUser: SessionUser;
 }
 
 type RegisterTeacherUseCaseResponse = Either<

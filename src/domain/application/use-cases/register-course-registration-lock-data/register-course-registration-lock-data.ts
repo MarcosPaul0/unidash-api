@@ -1,6 +1,6 @@
 import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 import { CoursesRepository } from '../../repositories/courses-repository';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
@@ -21,7 +21,7 @@ interface RegisterCourseRegistrationLockDataUseCaseRequest {
     lossOfInterest: number;
     other: number;
   };
-  sessionUser: User;
+  sessionUser: SessionUser;
 }
 
 type RegisterCourseRegistrationLockDataUseCaseResponse = Either<

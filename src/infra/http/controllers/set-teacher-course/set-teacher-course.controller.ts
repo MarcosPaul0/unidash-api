@@ -9,7 +9,7 @@ import {
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
 import { z } from 'zod';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
-import { User } from '@/domain/entities/user';
+import { SessionUser, User } from '@/domain/entities/user';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { SetTeacherCourseUseCase } from '@/domain/application/use-cases/set-teacher-course/set-teacher-course';
@@ -31,7 +31,7 @@ export class SetTeacherCourseController {
 
   @Patch()
   async handle(
-    @CurrentUser() sessionUser: User,
+    @CurrentUser() sessionUser: SessionUser,
     @Body(new ZodValidationPipe(setTeacherCourseBodySchema))
     body: SetTeacherCourseBodySchema,
   ) {

@@ -1,6 +1,6 @@
 import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 import { CourseDepartureDataRepository } from '../../repositories/course-departure-data-repository';
 import { CourseDepartureData } from '@/domain/entities/course-departure-data';
@@ -23,7 +23,7 @@ interface RegisterCourseDepartureDataUseCaseRequest {
     newExams: number;
     deaths: number;
   };
-  sessionUser: User;
+  sessionUser: SessionUser;
 }
 
 type RegisterCourseDepartureDataUseCaseResponse = Either<

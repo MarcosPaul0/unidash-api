@@ -1,6 +1,6 @@
 import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { CoursesRepository } from '../../repositories/courses-repository';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 import { Course } from '@/domain/entities/course';
@@ -10,7 +10,7 @@ interface RegisterCourseUseCaseRequest {
   course: {
     name: string;
   };
-  sessionUser: User;
+  sessionUser: SessionUser;
 }
 
 type RegisterCourseUseCaseResponse = Either<

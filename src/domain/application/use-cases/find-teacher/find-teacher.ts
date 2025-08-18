@@ -4,11 +4,11 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { TeachersRepository } from '../../repositories/teacher-repository';
 import { Teacher } from '@/domain/entities/teacher';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 
 interface FindTeacherUseCaseRequest {
-  sessionUser: User;
+  sessionUser: SessionUser;
 }
 
 type FindTeacherUseCaseResponse = Either<

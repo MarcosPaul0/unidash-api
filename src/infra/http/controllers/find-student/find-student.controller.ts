@@ -10,7 +10,7 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { CurrentUser } from '../../../auth/current-user-decorator';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { StudentPresenter } from '../../presenters/student-presenter';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { FindStudentUseCase } from '@/domain/application/use-cases/find-student/find-student';
 
 @Controller('/students/me')
@@ -19,7 +19,7 @@ export class FindStudentController {
 
   @Get()
   @HttpCode(200)
-  async handle(@CurrentUser() sessionUser: User) {
+  async handle(@CurrentUser() sessionUser: SessionUser) {
     const result = await this.findStudentUseCase.execute({
       sessionUser,
     });

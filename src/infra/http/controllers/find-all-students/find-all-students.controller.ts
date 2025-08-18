@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { FindAllStudentsUseCase } from '@/domain/application/use-cases/find-all-students/find-all-students';
 import { StudentPresenter } from '../../presenters/student-presenter';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 
 const findAllStudentsQuerySchema = z
   .object({
@@ -28,7 +28,7 @@ export class FindAllStudentsController {
   @Get()
   @HttpCode(200)
   async handle(
-    @CurrentUser() sessionUser: User,
+    @CurrentUser() sessionUser: SessionUser,
     @Query(new ZodValidationPipe(findAllStudentsQuerySchema))
     query?: FindAllStudentsQuerySchema,
   ) {

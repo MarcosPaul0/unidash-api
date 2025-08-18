@@ -11,15 +11,15 @@ import { CurrentUser } from '../../../auth/current-user-decorator';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { TeacherPresenter } from '../../presenters/teacher-presenter';
 import { FindTeacherUseCase } from '@/domain/application/use-cases/find-teacher/find-teacher';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 
-@Controller('/teacher/me')
+@Controller('/teachers/me')
 export class FindTeacherController {
   constructor(private findTeacherUseCase: FindTeacherUseCase) {}
 
   @Get()
   @HttpCode(200)
-  async handle(@CurrentUser() sessionUser: User) {
+  async handle(@CurrentUser() sessionUser: SessionUser) {
     const result = await this.findTeacherUseCase.execute({
       sessionUser,
     });

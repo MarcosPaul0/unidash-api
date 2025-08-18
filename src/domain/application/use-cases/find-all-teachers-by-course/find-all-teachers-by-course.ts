@@ -2,7 +2,7 @@ import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { Pagination } from '@/core/pagination/pagination';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 import { TeacherCourse } from '@/domain/entities/teacher-course';
 import { TeacherCoursesRepository } from '../../repositories/teacher-courses-repository';
@@ -10,7 +10,7 @@ import { TeacherCoursesRepository } from '../../repositories/teacher-courses-rep
 interface FindAllTeachersByCourseUseCaseRequest {
   courseId: string;
   pagination?: Pagination;
-  sessionUser: User;
+  sessionUser: SessionUser;
 }
 
 type FindAllTeachersByCourseUseCaseResponse = Either<

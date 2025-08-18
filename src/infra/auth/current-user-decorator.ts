@@ -1,10 +1,32 @@
 import { ExecutionContext, createParamDecorator } from '@nestjs/common';
-import { User } from '@/domain/entities/user';
+import { SessionUser, User } from '@/domain/entities/user';
 
 export const CurrentUser = createParamDecorator(
   (_: never, context: ExecutionContext) => {
     const request = context.switchToHttp().getRequest();
 
-    return request.user as User;
+    const user = request.user as User;
+
+    console.log({
+      currentUser: {
+        id: user.id.toString(),
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        accountActivatedAt: user.accountActivatedAt,
+        updatedAt: user.updatedAt,
+        createdAt: user.createdAt,
+      },
+    });
+
+    return {
+      id: user.id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      accountActivatedAt: user.accountActivatedAt,
+      updatedAt: user.updatedAt,
+      createdAt: user.createdAt,
+    } as SessionUser;
   },
 );

@@ -12,16 +12,16 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { CurrentUser } from '../../../auth/current-user-decorator';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { TeacherPresenter } from '../../presenters/teacher-presenter';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 
-@Controller('/teacher/:teacherId')
+@Controller('/teachers/:teacherId')
 export class FindTeacherByIdController {
   constructor(private findTeacherByIdUseCase: FindTeacherByIdUseCase) {}
 
   @Get()
   @HttpCode(200)
   async handle(
-    @CurrentUser() sessionUser: User,
+    @CurrentUser() sessionUser: SessionUser,
     @Param('teacherId') teacherId: string,
   ) {
     const result = await this.findTeacherByIdUseCase.execute({

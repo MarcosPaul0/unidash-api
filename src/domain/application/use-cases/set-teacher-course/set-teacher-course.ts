@@ -1,6 +1,6 @@
 import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { CoursesRepository } from '../../repositories/courses-repository';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 import { TeacherCourse, TeacherRole } from '@/domain/entities/teacher-course';
@@ -17,7 +17,7 @@ interface SetTeacherCourseData {
 
 interface SetTeacherCourseUseCaseRequest {
   data: SetTeacherCourseData;
-  sessionUser: User;
+  sessionUser: SessionUser;
 }
 
 type SetTeacherCourseUseCaseResponse = Either<

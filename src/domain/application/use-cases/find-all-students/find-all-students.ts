@@ -4,11 +4,11 @@ import { StudentsRepository } from '../../repositories/students-repository';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { Pagination } from '@/core/pagination/pagination';
 import { Student } from '@/domain/entities/student';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
 
 interface FindAllStudentsUseCaseRequest {
-  sessionUser: User;
+  sessionUser: SessionUser;
   pagination?: Pagination;
 }
 

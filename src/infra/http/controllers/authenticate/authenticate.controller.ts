@@ -16,7 +16,7 @@ import { Response } from 'express';
 import { EnvService } from '@/infra/env/env.service';
 
 const authenticateBodySchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string(),
 });
 

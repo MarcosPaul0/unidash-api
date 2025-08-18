@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { UpdateCourseDepartureDataUseCase } from '@/domain/application/use-cases/update-course-departure-data/update-course-departure-data';
 
@@ -42,7 +42,7 @@ export class UpdateCourseDepartureDataController {
   @HttpCode(200)
   @UsePipes(new ZodValidationPipe(updateCourseDepartureDataBodySchema))
   async handle(
-    @CurrentUser() sessionUser: User,
+    @CurrentUser() sessionUser: SessionUser,
     @Body() body: UpdateCourseDepartureDataBodySchema,
     @Param('courseDepartureDataId') courseDepartureDataId: string,
   ) {

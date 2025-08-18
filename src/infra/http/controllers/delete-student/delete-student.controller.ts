@@ -9,7 +9,7 @@ import {
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { DeleteStudentUseCase } from '@/domain/application/use-cases/delete-student/delete-student';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 
 @Controller('/students/:studentId')
 export class DeleteStudentController {
@@ -18,12 +18,12 @@ export class DeleteStudentController {
   @Delete()
   @HttpCode(204)
   async handle(
-    @CurrentUser() user: User,
+    @CurrentUser() sessionUser: SessionUser,
     @Param('studentId') studentId: string,
   ) {
     const result = await this.deleteStudent.execute({
       studentId,
-      sessionUser: user,
+      sessionUser,
     });
 
     if (result.isLeft()) {
