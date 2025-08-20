@@ -1,6 +1,7 @@
 import { Pagination } from '@/core/pagination/pagination';
 import {
   FindAllTeachers,
+  FindAllTeachersFilter,
   FindWithCourses,
   TeachersRepository,
 } from '@/domain/application/repositories/teacher-repository';
@@ -58,16 +59,34 @@ export class InMemoryTeachersRepository implements TeachersRepository {
     return this.teachers;
   }
 
-  async findAllWithPagination({
-    page,
-    itemsPerPage,
-  }: Pagination): Promise<FindAllTeachers> {
+  async findAllWithPagination(
+    {
+      page,
+
+      itemsPerPage,
+    }: Pagination,
+    filters?: FindAllTeachersFilter,
+  ): Promise<FindAllTeachers> {
     const currentPage = (page - 1) * itemsPerPage;
     const totalItemsToTake = page * itemsPerPage;
 
-    const teachers = this.teachers.slice(currentPage, totalItemsToTake);
-    const totalItems = this.teachers.length;
-    const totalPages = Math.ceil(this.teachers.length / itemsPerPage);
+    var teachersWithFilters = this.teachers;
+
+    if (filters?.isActive !== undefined) {
+      teachersWithFilters = teachersWithFilters.filter(
+        (teacher) => teacher.isActive === filters.isActive,
+      );
+    }
+
+    if (filters?.name !== undefined) {
+      teachersWithFilters = teachersWithFilters.filter(
+        (teacher) => teacher.name === filters.name,
+      );
+    }
+
+    const teachers = teachersWithFilters.slice(currentPage, totalItemsToTake);
+    const totalItems = teachersWithFilters.length;
+    const totalPages = Math.ceil(teachersWithFilters.length / itemsPerPage);
 
     return {
       teachers,

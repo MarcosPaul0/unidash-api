@@ -9,8 +9,8 @@ export type FindAllTeachers = {
 };
 
 export type FindAllTeachersFilter = {
-  teacherRole?: TeacherRole;
   name?: string;
+  isActive?: boolean;
 };
 
 export type FindWithCourses = {

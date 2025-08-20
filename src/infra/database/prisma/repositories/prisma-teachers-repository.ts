@@ -43,8 +43,12 @@ export class PrismaTeachersRepository implements TeachersRepository {
   ): Promise<FindAllTeachers> {
     const teachers = await this.prisma.user.findMany({
       where: {
+        role: 'teacher',
         name: {
           contains: filters?.name ?? undefined,
+        },
+        teacher: {
+          isActive: filters?.isActive ?? undefined,
         },
       },
       include: {
@@ -59,8 +63,12 @@ export class PrismaTeachersRepository implements TeachersRepository {
 
     const totalTeachers = await this.prisma.user.count({
       where: {
+        role: 'teacher',
         name: {
           contains: filters?.name ?? undefined,
+        },
+        teacher: {
+          isActive: filters?.isActive ?? undefined,
         },
       },
     });
