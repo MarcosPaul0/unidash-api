@@ -88,6 +88,11 @@ import { RegisterCourseStudentsDataController } from './controllers/register-cou
 import { UpdateCourseStudentsDataController } from './controllers/update-course-students-data/update-course-students-data.controller';
 import { FindAllCourseStudentsDataController } from './controllers/find-all-course-students-data/find-all-course-students-data.controller';
 import { DeleteCourseStudentsDataController } from './controllers/delete-course-students-data/delete-course-students-data.controller';
+import { FindAllTeachersUseCase } from '@/domain/application/use-cases/find-all-teachers/find-all-teachers';
+import { FindAllTeachersController } from './controllers/find-all-teachers/find-all-teachers.controller';
+import { FindAllCoursesController } from './controllers/find-all-courses/find-all-courses.controller';
+import { FindCourseByIdController } from './controllers/find-course-by-id/find-course-by-id.controller';
+import { FindCourseByIdUseCase } from '@/domain/application/use-cases/find-course-by-id/find-course-by-id';
 
 @Module({
   imports: [
@@ -114,6 +119,8 @@ import { DeleteCourseStudentsDataController } from './controllers/delete-course-
     DeleteTeacherController,
     UpdateTeacherController,
     FindTeacherByIdController,
+    FindAllTeachersController,
+    FindCourseByIdController,
     FindTeacherController,
     FindAllStatesController,
     FindCitiesByStateController,
@@ -122,6 +129,7 @@ import { DeleteCourseStudentsDataController } from './controllers/delete-course-
     FindAllStudentsController,
     RegisterCourseController,
     UpdateCourseController,
+    FindAllCoursesController,
     DeleteCourseController,
     RegisterCourseDepartureDataController,
     UpdateCourseDepartureDataController,
@@ -154,6 +162,7 @@ import { DeleteCourseStudentsDataController } from './controllers/delete-course-
     UpdatePasswordUseCase,
     UpdateStudentUseCase,
     RegisterTeacherUseCase,
+    FindAllTeachersUseCase,
     DeleteTeacherUseCase,
     UpdateTeacherUseCase,
     FindTeacherByIdUseCase,
@@ -164,6 +173,7 @@ import { DeleteCourseStudentsDataController } from './controllers/delete-course-
     ValidateTokenUseCase,
     FindAllStudentsUseCase,
     RegisterCourseUseCase,
+    FindCourseByIdUseCase,
     UpdateCourseUseCase,
     DeleteCourseUseCase,
     FindAllCoursesUseCase,
