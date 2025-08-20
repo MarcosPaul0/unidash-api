@@ -7,18 +7,6 @@ export const CurrentUser = createParamDecorator(
 
     const user = request.user as User;
 
-    console.log({
-      currentUser: {
-        id: user.id.toString(),
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        accountActivatedAt: user.accountActivatedAt,
-        updatedAt: user.updatedAt,
-        createdAt: user.createdAt,
-      },
-    });
-
     return {
       id: user.id.toString(),
       name: user.name,
