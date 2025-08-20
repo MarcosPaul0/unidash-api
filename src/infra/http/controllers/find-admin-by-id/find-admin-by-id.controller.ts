@@ -20,8 +20,6 @@ export class FindAdminByIdController {
   @Get()
   @HttpCode(200)
   async handle(@CurrentUser() sessionUser: User) {
-    console.log({ sessionUser });
-
     const result = await this.findAdminByIdUseCase.execute({
       id: sessionUser.id.toString(),
       userRole: sessionUser.role,
