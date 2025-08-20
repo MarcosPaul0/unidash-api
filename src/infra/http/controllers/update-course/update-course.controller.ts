@@ -21,7 +21,7 @@ const updateCourseBodySchema = z.object({
 
 export type UpdateCourseBodySchema = z.infer<typeof updateCourseBodySchema>;
 
-@Controller('/courses')
+@Controller('/courses/:courseId')
 export class UpdateCourseController {
   constructor(private updateCourseUseCase: UpdateCourseUseCase) {}
 

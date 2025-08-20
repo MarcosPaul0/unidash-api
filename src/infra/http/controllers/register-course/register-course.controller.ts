@@ -7,6 +7,7 @@ import {
   Post,
   UsePipes,
   Body,
+  ConflictException,
 } from '@nestjs/common';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
@@ -15,9 +16,10 @@ import { RegisterCourseUseCase } from '@/domain/application/use-cases/register-c
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import z from 'zod';
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
+import { CourseAlreadyExistsError } from '@/domain/application/use-cases/errors/course-already-exists-error';
 
 const createCourseBodySchema = z.object({
-  name: z.string(),
+  name: z.string().min(2).max(200),
 });
 
 type CreateCourseBodySchema = z.infer<typeof createCourseBodySchema>;
@@ -28,10 +30,10 @@ export class RegisterCourseController {
 
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(createCourseBodySchema))
   async handle(
     @CurrentUser() sessionUser: SessionUser,
-    @Body() body: CreateCourseBodySchema,
+    @Body(new ZodValidationPipe(createCourseBodySchema))
+    body: CreateCourseBodySchema,
   ) {
     const { name } = body;
 
@@ -48,6 +50,8 @@ export class RegisterCourseController {
           throw new NotFoundException(error.message);
         case NotAllowedError:
           throw new ForbiddenException(error.message);
+        case CourseAlreadyExistsError:
+          throw new ConflictException(error.message);
         default:
           throw new BadRequestException(error.message);
       }
