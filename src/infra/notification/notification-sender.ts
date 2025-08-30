@@ -29,10 +29,4 @@ export class NotificationSenderImpl implements NotificationSender {
       passwordResetToken,
     });
   }
-
-  async sendEmailConfirmationReminderNotification(
-    params: SendAccountActivationNotificationParams,
-  ): Promise<void> {
-    this.emailSender.sendEmailConfirmationReminderEmail(params);
-  }
 }
