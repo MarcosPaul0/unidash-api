@@ -45,11 +45,13 @@ services:
 
   mailhog:
     image: mailhog/mailhog
-    container_name: unidash-mailhog
+    container_name: mailhog
     restart: 'no'
     ports:
       - 1025:1025 # SMTP
       - 8025:8025 # Web UI
+    networks:
+      - backend-unidash
 
 networks:
   backend-unidash:
