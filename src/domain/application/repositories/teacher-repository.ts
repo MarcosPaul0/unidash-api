@@ -10,6 +10,7 @@ export type FindAllTeachers = {
 
 export type FindAllTeachersFilter = {
   name?: string;
+  email?: string;
   isActive?: boolean;
 };
 
@@ -26,6 +27,11 @@ export abstract class TeachersRepository {
   abstract delete(teacher: Teacher): Promise<void>;
   abstract findAll(): Promise<Teacher[]>;
   abstract findAllWithPagination(
+    pagination?: Pagination,
+    filters?: FindAllTeachersFilter,
+  ): Promise<FindAllTeachers>;
+  abstract findAllOutsideOfCourse(
+    courseId: string,
     pagination?: Pagination,
     filters?: FindAllTeachersFilter,
   ): Promise<FindAllTeachers>;

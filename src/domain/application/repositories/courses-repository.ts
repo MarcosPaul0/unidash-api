@@ -11,6 +11,7 @@ export abstract class CoursesRepository {
   abstract findById(id: string): Promise<Course | null>;
   abstract findByIdWithTeachers(id: string): Promise<FindWithTeachers | null>;
   abstract findAll(): Promise<Course[]>;
+  abstract findAllByTeacher(teacherId: string): Promise<Course[]>;
   abstract create(course: Course): Promise<void>;
   abstract save(course: Course): Promise<void>;
   abstract delete(course: Course): Promise<void>;

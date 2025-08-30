@@ -8,6 +8,7 @@ export type FindAllByCourseId = {
 };
 
 export abstract class TeacherCoursesRepository {
+  abstract findById(id: string): Promise<TeacherCourse | null>;
   abstract findByTeacherAndCourseId(
     teacherId: string,
     courseId: string,

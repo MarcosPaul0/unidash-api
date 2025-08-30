@@ -7,9 +7,16 @@ export type FindAllStudents = {
   totalPages: number;
 };
 
+export type FindAllStudentsFilters = {
+  courseId?: string;
+};
+
 export abstract class StudentsRepository {
   abstract findById(id: string): Promise<Student | null>;
-  abstract findAll(pagination?: Pagination): Promise<FindAllStudents>;
+  abstract findAll(
+    pagination?: Pagination,
+    filters?: FindAllStudentsFilters,
+  ): Promise<FindAllStudents>;
   abstract create(student: Student): Promise<void>;
   abstract save(student: Student): Promise<void>;
   abstract delete(student: Student): Promise<void>;
