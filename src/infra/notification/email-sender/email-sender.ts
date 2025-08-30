@@ -11,8 +11,4 @@ export abstract class EmailSender {
   abstract sendPasswordResetEmail(
     params: SendPasswordResetNotificationParams,
   ): Promise<void>;
-
-  abstract sendEmailConfirmationReminderEmail(
-    params: SendAccountActivationNotificationParams,
-  ): Promise<void>;
 }
