@@ -50,6 +50,16 @@ export class InMemoryCoursesRepository implements CoursesRepository {
     return this.courses;
   }
 
+  async findAllByTeacher(teacherId: string): Promise<Course[]> {
+    return this.courses.filter((course) =>
+      this.teacherCourses.find(
+        (teacherCourse) =>
+          teacherCourse.courseId === course.id.toString() &&
+          teacherCourse.teacherId === teacherId,
+      ),
+    );
+  }
+
   async save(course: Course): Promise<void> {
     const itemIndex = this.courses.findIndex((item) => item.id === course.id);
 

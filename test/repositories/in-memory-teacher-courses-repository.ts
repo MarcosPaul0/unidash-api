@@ -10,6 +10,18 @@ export class InMemoryTeacherCoursesRepository
 {
   public teacherCourses: TeacherCourse[] = [];
 
+  async findById(id: string): Promise<TeacherCourse | null> {
+    const teacherCourse = this.teacherCourses.find(
+      (item) => item.id.toString() === id,
+    );
+
+    if (!teacherCourse) {
+      return null;
+    }
+
+    return teacherCourse;
+  }
+
   async findByTeacherAndCourseId(
     teacherId: string,
     courseId: string,
@@ -30,8 +42,7 @@ export class InMemoryTeacherCoursesRepository
     courseId: string,
   ): Promise<TeacherCourse | null> {
     const teacherCourse = this.teacherCourses.find(
-      (item) =>
-        item.courseId === courseId && item.teacher.id.toString() === userId,
+      (item) => item.courseId === courseId && item.teacherId === userId,
     );
 
     if (!teacherCourse) {

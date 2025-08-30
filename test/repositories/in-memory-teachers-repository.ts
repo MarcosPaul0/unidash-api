@@ -94,4 +94,50 @@ export class InMemoryTeachersRepository implements TeachersRepository {
       totalPages,
     };
   }
+
+  async findAllOutsideOfCourse(
+    courseId: string,
+    pagination?: Pagination,
+    filters?: FindAllTeachersFilter,
+  ): Promise<FindAllTeachers> {
+    const itemsPerPage = pagination
+      ? pagination.itemsPerPage
+      : this.teachers.length;
+    const page = pagination ? pagination.page : 1;
+
+    const currentPage = (page - 1) * itemsPerPage;
+    const totalItemsToTake = page * itemsPerPage;
+
+    var teachersWithFilters = this.teachers;
+
+    teachersWithFilters = teachersWithFilters.filter((teacher) =>
+      this.teacherCourses
+        .filter(
+          (teacherCourse) => teacherCourse.teacherId === teacher.id.toString(),
+        )
+        .every((teacherCourse) => teacherCourse.courseId !== courseId),
+    );
+
+    if (filters?.isActive !== undefined) {
+      teachersWithFilters = teachersWithFilters.filter(
+        (teacher) => teacher.isActive === filters.isActive,
+      );
+    }
+
+    if (filters?.name !== undefined) {
+      teachersWithFilters = teachersWithFilters.filter(
+        (teacher) => teacher.name === filters.name,
+      );
+    }
+
+    const teachers = teachersWithFilters.slice(currentPage, totalItemsToTake);
+    const totalItems = teachersWithFilters.length;
+    const totalPages = Math.ceil(teachersWithFilters.length / itemsPerPage);
+
+    return {
+      teachers,
+      totalItems,
+      totalPages,
+    };
+  }
 }
