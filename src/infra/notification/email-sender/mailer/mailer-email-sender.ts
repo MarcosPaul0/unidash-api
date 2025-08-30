@@ -61,23 +61,6 @@ export class MailerEmailSender implements EmailSender {
     });
   }
 
-  async sendEmailConfirmationReminderEmail({
-    activationToken,
-    user,
-  }: SendAccountActivationNotificationParams): Promise<void> {
-    const url = `${this.envService.get('ACCOUNT_ACTIVATION_URL')}/${activationToken}`;
-
-    this.sendMail({
-      to: user.email,
-      subject: 'Ativação de conta',
-      template: './confirmation-email-reminder',
-      context: {
-        name: user.name,
-        url,
-      },
-    });
-  }
-
   private async sendMail({ to, subject, template, context }: SendMailParams) {
     const templatePath = join(
       __dirname,
