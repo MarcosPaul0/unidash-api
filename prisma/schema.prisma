@@ -46,7 +46,8 @@ model Teacher {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @db.Uuid
 
-  teacherCourse TeacherCourse[]
+  teacherCourse                       TeacherCourse[]
+  teacherSupervisedCompletionWorkData TeacherSupervisedCompletionWorkData[]
 
   @@map("teachers")
 }
@@ -62,7 +63,7 @@ model Student {
   type          StudentType @default(incomingStudent)
 
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String @unique @db.Uuid
+  courseId String @db.Uuid
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @db.Uuid
@@ -76,12 +77,15 @@ model Course {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  student                    Student?
+  student                    Student[]
   teacherCourse              TeacherCourse[]
   courseDepartureData        CourseDepartureData[]
   courseRegistrationLockData CourseRegistrationLockData[]
   courseCoordinationData     CourseCoordinationData[]
   courseStudentsData         CourseStudentsData[]
+  courseCompletionWorkData   CourseCompletionWorkData[]
+
+  teacherSupervisedCompletionWorkData TeacherSupervisedCompletionWorkData[]
 
   @@map("courses")
 }
@@ -186,15 +190,17 @@ model CourseRegistrationLockData {
 }
 
 model CourseStudentsData {
-  id        String    @id @default(uuid()) @db.Uuid
-  year      Int       @db.SmallInt
-  semester  Semester  @default(first)
-  entrants  Int       @default(0) @db.SmallInt
-  actives   Int       @default(0) @db.SmallInt
-  locks     Int       @default(0) @db.SmallInt
-  canceled  Int       @default(0) @db.SmallInt
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  id          String    @id @default(uuid()) @db.Uuid
+  year        Int       @db.SmallInt
+  semester    Semester  @default(first)
+  entrants    Int       @default(0) @db.SmallInt
+  actives     Int       @default(0) @db.SmallInt
+  locks       Int       @default(0) @db.SmallInt
+  canceled    Int       @default(0) @db.SmallInt
+  vacancies   Int       @default(0) @db.SmallInt
+  subscribers Int       @default(0) @db.SmallInt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
 
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId String @db.Uuid
@@ -222,4 +228,33 @@ model CourseCoordinationData {
 
   @@unique([year, semester, courseId])
   @@map("courseCoordinationData")
+}
+
+model CourseCompletionWorkData {
+  id           String   @id @default(uuid()) @db.Uuid
+  year         Int      @db.SmallInt
+  semester     Semester @default(first)
+  enrollments  Int      @default(0) @db.SmallInt
+  defenses     Int      @default(0) @db.SmallInt
+  abandonments Int      @default(0) @db.SmallInt
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @db.Uuid
+
+  @@map("courseCompletionWorkData")
+}
+
+model TeacherSupervisedCompletionWorkData {
+  id       String   @id @default(uuid()) @db.Uuid
+  year     Int      @db.SmallInt
+  semester Semester @default(first)
+  approved Int      @default(0) @db.SmallInt
+  failed   Int      @default(0) @db.SmallInt
+
+  course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId  String  @db.Uuid
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId String  @db.Uuid
+
+  @@map("teacherSupervisedCompletionWorkData")
 }
