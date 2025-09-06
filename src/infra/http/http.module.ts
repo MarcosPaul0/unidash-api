@@ -36,8 +36,8 @@ import { FindAdminByIdController } from './controllers/find-admin-by-id/find-adm
 import { FindAdminByIdUseCase } from '@/domain/application/use-cases/find-admin-by-id/find-admin-by-id';
 import { ValidateTokenController } from './controllers/validate-token/validate-token.controller';
 import { ValidateTokenUseCase } from '@/domain/application/use-cases/validate-token/validate-token';
-import { FindAllStudentsController } from './controllers/find-all-students/find-all-students.controller';
-import { FindAllStudentsUseCase } from '@/domain/application/use-cases/find-all-students/find-all-students';
+import { FindAllStudentsByCourseController } from './controllers/find-all-students-by-course/find-all-students-by-course.controller';
+import { FindAllStudentsByCourseUseCase } from '@/domain/application/use-cases/find-all-students/find-all-students-by-course';
 import { NotificationSenderModule } from '../notification/notification.module';
 import { HttpModule as AxiosHttpModule } from '@nestjs/axios';
 import { DeleteStudentController } from './controllers/delete-student/delete-student.controller';
@@ -93,6 +93,20 @@ import { FindAllTeachersController } from './controllers/find-all-teachers/find-
 import { FindAllCoursesController } from './controllers/find-all-courses/find-all-courses.controller';
 import { FindCourseByIdController } from './controllers/find-course-by-id/find-course-by-id.controller';
 import { FindCourseByIdUseCase } from '@/domain/application/use-cases/find-course-by-id/find-course-by-id';
+import { FindAllTeachersByCourseController } from './controllers/find-all-teachers-by-course/find-all-teachers-by-course.controller';
+import { FindAllTeachersByCourseUseCase } from '@/domain/application/use-cases/find-all-teachers-by-course/find-all-teachers-by-course';
+import { FindAllTeachersOutsideOfCourseUseCase } from '@/domain/application/use-cases/find-all-teachers-outside-of-course/find-all-teachers-outside-of-course';
+import { FindAllTeachersOutsideOfCourseController } from './controllers/find-all-teachers-outside-of-course/find-all-teachers-outside-of-course.controller';
+import { SetTeacherCourseController } from './controllers/set-teacher-course/set-teacher-course.controller';
+import { SetTeacherCourseUseCase } from '@/domain/application/use-cases/set-teacher-course/set-teacher-course';
+import { DeleteTeacherCourseController } from './controllers/delete-teacher-course/delete-teacher-course.controller';
+import { DeleteTeacherCourseUseCase } from '@/domain/application/use-cases/delete-teacher-course/delete-teacher-course';
+import { UpdateTeacherByAdminController } from './controllers/update-teacher-by-admin/update-teacher-by-admin.controller';
+import { UpdateTeacherByAdminUseCase } from '@/domain/application/use-cases/update-teacher-by-admin/update-teacher-by-admin';
+import { GetCourseCoordinationIndicatorsController } from './controllers/get-course-coordination-indicators/get-course-coordination-indicators.controller';
+import { GetCourseCoordinationIndicatorsUseCase } from '@/domain/application/use-cases/get-course-coordination-indicators/get-course-coordination-indicators';
+import { GetCourseIndicatorsController } from './controllers/get-course-indicators/get-course-indicators.controller';
+import { GetCourseIndicatorsUseCase } from '@/domain/application/use-cases/get-course-indicators/get-course-indicators';
 
 @Module({
   imports: [
@@ -126,7 +140,7 @@ import { FindCourseByIdUseCase } from '@/domain/application/use-cases/find-cours
     FindCitiesByStateController,
     FindAdminByIdController,
     ValidateTokenController,
-    FindAllStudentsController,
+    FindAllStudentsByCourseController,
     RegisterCourseController,
     UpdateCourseController,
     FindAllCoursesController,
@@ -147,6 +161,13 @@ import { FindCourseByIdUseCase } from '@/domain/application/use-cases/find-cours
     UpdateCourseStudentsDataController,
     FindAllCourseStudentsDataController,
     DeleteCourseStudentsDataController,
+    FindAllTeachersByCourseController,
+    FindAllTeachersOutsideOfCourseController,
+    SetTeacherCourseController,
+    DeleteTeacherCourseController,
+    UpdateTeacherByAdminController,
+    GetCourseCoordinationIndicatorsController,
+    GetCourseIndicatorsController,
   ],
   providers: [
     RegisterStudentUseCase,
@@ -171,7 +192,7 @@ import { FindCourseByIdUseCase } from '@/domain/application/use-cases/find-cours
     FindCitiesByStateUseCase,
     FindAdminByIdUseCase,
     ValidateTokenUseCase,
-    FindAllStudentsUseCase,
+    FindAllStudentsByCourseUseCase,
     RegisterCourseUseCase,
     FindCourseByIdUseCase,
     UpdateCourseUseCase,
@@ -193,6 +214,13 @@ import { FindCourseByIdUseCase } from '@/domain/application/use-cases/find-cours
     UpdateCourseStudentsDataUseCase,
     FindAllCourseStudentsDataUseCase,
     DeleteCourseStudentsDataUseCase,
+    FindAllTeachersByCourseUseCase,
+    FindAllTeachersOutsideOfCourseUseCase,
+    SetTeacherCourseUseCase,
+    DeleteTeacherCourseUseCase,
+    UpdateTeacherByAdminUseCase,
+    GetCourseCoordinationIndicatorsUseCase,
+    GetCourseIndicatorsUseCase,
   ],
 })
 export class HttpModule {}
