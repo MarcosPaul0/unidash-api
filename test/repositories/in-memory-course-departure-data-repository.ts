@@ -1,4 +1,5 @@
 import { Pagination } from '@/core/pagination/pagination';
+import { FindForIndicatorsFilter } from '@/domain/application/repositories/course-coordination-data-repository';
 import {
   CourseDepartureDataRepository,
   FindAllCourseDepartureData,
@@ -44,13 +45,15 @@ export class InMemoryCourseDepartureDataRepository
   }
 
   async findAll(
+    courseId: string,
     { page, itemsPerPage }: Pagination,
     { semester, year }: FindAllCourseDepartureDataFilter,
   ): Promise<FindAllCourseDepartureData> {
     const filteredCourseDepartureData = this.courseDepartureData.filter(
       (departureData) =>
         (semester ? departureData.semester === semester : true) &&
-        (year ? departureData.year === year : true),
+        (year ? departureData.year === year : true) &&
+        departureData.courseId === courseId,
     );
 
     const currentPage = (page - 1) * itemsPerPage;
@@ -71,6 +74,24 @@ export class InMemoryCourseDepartureDataRepository
       totalItems,
       totalPages,
     };
+  }
+
+  async findForIndicators(
+    courseId: string,
+    filters?: FindForIndicatorsFilter,
+  ): Promise<CourseDepartureData[]> {
+    const filteredCourseDepartureData = this.courseDepartureData.filter(
+      (coordinationData) =>
+        (filters?.semester
+          ? coordinationData.semester === filters.semester
+          : true) &&
+        (filters?.year ? coordinationData.year === filters.year : true) &&
+        (filters?.yearFrom ? coordinationData.year > filters.yearFrom : true) &&
+        (filters?.yearTo ? coordinationData.year < filters.yearTo : true) &&
+        coordinationData.courseId === courseId,
+    );
+
+    return filteredCourseDepartureData;
   }
 
   async save(courseDepartureData: CourseDepartureData): Promise<void> {

@@ -9,6 +9,7 @@ import { CourseStudentsData } from '@/domain/entities/course-students-data';
 import { PrismaCourseStudentsDataMapper } from '../mappers/prisma-course-students-data-mapper';
 import { Semester } from '@/domain/entities/course-data';
 import { Pagination } from '@/core/pagination/pagination';
+import { FindForIndicatorsFilter } from '@/domain/application/repositories/course-coordination-data-repository';
 
 @Injectable()
 export class PrismaCourseStudentsDataRepository
@@ -54,6 +55,7 @@ export class PrismaCourseStudentsDataRepository
   }
 
   async findAll(
+    courseId: string,
     pagination?: Pagination,
     filters?: FindAllCourseStudentsDataFilter,
   ): Promise<FindAllCourseStudentsData> {
@@ -68,6 +70,7 @@ export class PrismaCourseStudentsDataRepository
       where: {
         semester: filters?.semester,
         year: filters?.year,
+        courseId,
       },
       orderBy: {
         createdAt: 'desc',
@@ -79,6 +82,7 @@ export class PrismaCourseStudentsDataRepository
       where: {
         semester: filters?.semester,
         year: filters?.year,
+        courseId,
       },
     });
 
@@ -86,7 +90,7 @@ export class PrismaCourseStudentsDataRepository
       return {
         courseStudentsData: [],
         totalItems: 0,
-        totalPages: 1,
+        totalPages: 0,
       };
     }
 
@@ -99,6 +103,33 @@ export class PrismaCourseStudentsDataRepository
         ? Math.ceil(totalCourseStudentsData / pagination.itemsPerPage)
         : 1,
     };
+  }
+
+  async findForIndicators(
+    courseId: string,
+    filters?: FindForIndicatorsFilter,
+  ): Promise<CourseStudentsData[]> {
+    const courseStudentsData = await this.prisma.courseStudentsData.findMany({
+      where: {
+        courseId,
+        semester: filters?.semester,
+        ...(filters?.year
+          ? { year: filters.year }
+          : {
+              year: {
+                gte: filters?.yearFrom,
+                lte: filters?.yearTo,
+              },
+            }),
+      },
+      orderBy: {
+        year: 'asc',
+      },
+    });
+
+    return courseStudentsData.map((departureData) =>
+      PrismaCourseStudentsDataMapper.toDomain(departureData),
+    );
   }
 
   async create(courseStudentsData: CourseStudentsData): Promise<void> {

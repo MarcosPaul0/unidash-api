@@ -14,6 +14,30 @@ export class PrismaTeacherCoursesRepository
 {
   constructor(private prisma: PrismaService) {}
 
+  async findById(id: string): Promise<TeacherCourse | null> {
+    const teacherCourse = await this.prisma.teacherCourse.findFirst({
+      where: {
+        id,
+      },
+      include: {
+        teacher: {
+          include: {
+            user: true,
+          },
+        },
+        course: true,
+      },
+    });
+
+    if (!teacherCourse) {
+      return null;
+    }
+
+    return PrismaTeacherCourseMapper.toDomainWithTeacherAndCourse(
+      teacherCourse,
+    );
+  }
+
   async findAllByCourseId(
     courseId: string,
     { itemsPerPage, page }: Pagination,
@@ -46,7 +70,7 @@ export class PrismaTeacherCoursesRepository
       return {
         teacherCourses: [],
         totalItems: 0,
-        totalPages: 1,
+        totalPages: 0,
       };
     }
 
@@ -68,7 +92,9 @@ export class PrismaTeacherCoursesRepository
   ): Promise<TeacherCourse | null> {
     const teacherCourse = await this.prisma.teacherCourse.findFirst({
       where: {
-        teacherId,
+        teacher: {
+          userId: teacherId,
+        },
         courseId,
       },
       include: {
@@ -136,11 +162,19 @@ export class PrismaTeacherCoursesRepository
   async create(teacherCourse: TeacherCourse): Promise<void> {
     const data = PrismaTeacherCourseMapper.toPrismaCreate(teacherCourse);
 
-    await Promise.all([
-      this.prisma.teacherCourse.create({
-        data,
-      }),
-    ]);
+    const teacher = await this.prisma.teacher.findUnique({
+      where: {
+        userId: teacherCourse.teacherId,
+      },
+    });
+
+    await this.prisma.teacherCourse.create({
+      data: {
+        courseId: data.courseId,
+        teacherId: teacher!.id,
+        teacherRole: data.teacherRole,
+      },
+    });
   }
 
   async delete(teacherCourse: TeacherCourse): Promise<void> {

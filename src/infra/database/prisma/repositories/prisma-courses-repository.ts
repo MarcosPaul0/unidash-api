@@ -67,9 +67,29 @@ export class PrismaCoursesRepository implements CoursesRepository {
   async findAll(): Promise<Course[]> {
     const courses = await this.prisma.course.findMany();
 
-    if (courses.length === 0) {
+    return courses.map((course) => PrismaCourseMapper.toDomain(course));
+  }
+
+  async findAllByTeacher(teacherId: string): Promise<Course[]> {
+    const teacher = await this.prisma.teacher.findUnique({
+      where: {
+        userId: teacherId,
+      },
+    });
+
+    if (!teacher) {
       return [];
     }
+
+    const courses = await this.prisma.course.findMany({
+      where: {
+        teacherCourse: {
+          some: {
+            teacherId: teacher.id,
+          },
+        },
+      },
+    });
 
     return courses.map((course) => PrismaCourseMapper.toDomain(course));
   }

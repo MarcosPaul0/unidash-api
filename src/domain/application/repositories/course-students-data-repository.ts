@@ -1,6 +1,7 @@
 import { Pagination } from '@/core/pagination/pagination';
 import { Semester } from '@/domain/entities/course-data';
 import { CourseStudentsData } from '@/domain/entities/course-students-data';
+import { FindForIndicatorsFilter } from './course-coordination-data-repository';
 
 export type FindAllCourseStudentsDataFilter = {
   semester?: Semester;
@@ -21,9 +22,14 @@ export abstract class CourseStudentsDataRepository {
     semester: Semester,
   ): Promise<CourseStudentsData | null>;
   abstract findAll(
+    courseId: string,
     pagination?: Pagination,
     filters?: FindAllCourseStudentsDataFilter,
   ): Promise<FindAllCourseStudentsData>;
+  abstract findForIndicators(
+    courseId: string,
+    filters?: FindForIndicatorsFilter,
+  ): Promise<CourseStudentsData[]>;
   abstract create(courseStudentsData: CourseStudentsData): Promise<void>;
   abstract save(courseStudentsData: CourseStudentsData): Promise<void>;
   abstract delete(courseStudentsData: CourseStudentsData): Promise<void>;

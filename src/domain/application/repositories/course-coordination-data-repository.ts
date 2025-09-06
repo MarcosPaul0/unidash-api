@@ -7,6 +7,13 @@ export type FindAllCourseCoordinationDataFilter = {
   year?: number;
 };
 
+export type FindForIndicatorsFilter = {
+  semester?: Semester;
+  year?: number;
+  yearFrom?: number;
+  yearTo?: number;
+};
+
 export type FindAllCourseCoordinationData = {
   courseCoordinationData: CourseCoordinationData[];
   totalItems: number;
@@ -21,9 +28,14 @@ export abstract class CourseCoordinationDataRepository {
     semester: Semester,
   ): Promise<CourseCoordinationData | null>;
   abstract findAll(
+    courseId: string,
     pagination?: Pagination,
     filters?: FindAllCourseCoordinationDataFilter,
   ): Promise<FindAllCourseCoordinationData>;
+  abstract findForIndicators(
+    courseId: string,
+    filters?: FindForIndicatorsFilter,
+  ): Promise<CourseCoordinationData[]>;
   abstract create(
     courseCoordinationData: CourseCoordinationData,
   ): Promise<void>;

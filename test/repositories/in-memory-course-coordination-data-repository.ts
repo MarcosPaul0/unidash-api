@@ -3,6 +3,7 @@ import {
   CourseCoordinationDataRepository,
   FindAllCourseCoordinationData,
   FindAllCourseCoordinationDataFilter,
+  FindForIndicatorsFilter,
 } from '@/domain/application/repositories/course-coordination-data-repository';
 import { CourseCoordinationData } from '@/domain/entities/course-coordination-data';
 import { Semester } from '@/domain/entities/course-data';
@@ -44,13 +45,15 @@ export class InMemoryCourseCoordinationDataRepository
   }
 
   async findAll(
+    courseId: string,
     { page, itemsPerPage }: Pagination,
     { semester, year }: FindAllCourseCoordinationDataFilter,
   ): Promise<FindAllCourseCoordinationData> {
     const filteredCourseCoordinationData = this.courseCoordinationData.filter(
-      (CoordinationData) =>
-        (semester ? CoordinationData.semester === semester : true) &&
-        (year ? CoordinationData.year === year : true),
+      (coordinationData) =>
+        (semester ? coordinationData.semester === semester : true) &&
+        (year ? coordinationData.year === year : true) &&
+        coordinationData.courseId === courseId,
     );
 
     const currentPage = (page - 1) * itemsPerPage;
@@ -71,6 +74,24 @@ export class InMemoryCourseCoordinationDataRepository
       totalItems,
       totalPages,
     };
+  }
+
+  async findForIndicators(
+    courseId: string,
+    filters?: FindForIndicatorsFilter,
+  ): Promise<CourseCoordinationData[]> {
+    const filteredCourseCoordinationData = this.courseCoordinationData.filter(
+      (coordinationData) =>
+        (filters?.semester
+          ? coordinationData.semester === filters.semester
+          : true) &&
+        (filters?.year ? coordinationData.year === filters.year : true) &&
+        (filters?.yearFrom ? coordinationData.year > filters.yearFrom : true) &&
+        (filters?.yearTo ? coordinationData.year < filters.yearTo : true) &&
+        coordinationData.courseId === courseId,
+    );
+
+    return filteredCourseCoordinationData;
   }
 
   async save(courseCoordinationData: CourseCoordinationData): Promise<void> {

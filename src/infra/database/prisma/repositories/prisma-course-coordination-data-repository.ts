@@ -4,6 +4,7 @@ import {
   CourseCoordinationDataRepository,
   FindAllCourseCoordinationData,
   FindAllCourseCoordinationDataFilter,
+  FindForIndicatorsFilter,
 } from '@/domain/application/repositories/course-coordination-data-repository';
 import { CourseCoordinationData } from '@/domain/entities/course-coordination-data';
 import { Semester } from '@/domain/entities/course-data';
@@ -53,6 +54,7 @@ export class PrismaCourseCoordinationDataRepository
   }
 
   async findAll(
+    courseId,
     pagination?: Pagination,
     filters?: FindAllCourseCoordinationDataFilter,
   ): Promise<FindAllCourseCoordinationData> {
@@ -63,9 +65,10 @@ export class PrismaCourseCoordinationDataRepository
         }
       : undefined;
 
-    const courseDeparturesData =
+    const courseCoordinationData =
       await this.prisma.courseCoordinationData.findMany({
         where: {
+          courseId,
           semester: filters?.semester,
           year: filters?.year,
         },
@@ -78,21 +81,22 @@ export class PrismaCourseCoordinationDataRepository
     const totalCourseCoordinationData =
       await this.prisma.courseCoordinationData.count({
         where: {
+          courseId,
           semester: filters?.semester,
           year: filters?.year,
         },
       });
 
-    if (!courseDeparturesData) {
+    if (!courseCoordinationData) {
       return {
         courseCoordinationData: [],
         totalItems: 0,
-        totalPages: 1,
+        totalPages: 0,
       };
     }
 
     return {
-      courseCoordinationData: courseDeparturesData.map((departureData) =>
+      courseCoordinationData: courseCoordinationData.map((departureData) =>
         PrismaCourseCoordinationDataMapper.toDomain(departureData),
       ),
       totalItems: totalCourseCoordinationData,
@@ -100,6 +104,34 @@ export class PrismaCourseCoordinationDataRepository
         ? Math.ceil(totalCourseCoordinationData / pagination.itemsPerPage)
         : 1,
     };
+  }
+
+  async findForIndicators(
+    courseId: string,
+    filters?: FindForIndicatorsFilter,
+  ): Promise<CourseCoordinationData[]> {
+    const courseCoordinationData =
+      await this.prisma.courseCoordinationData.findMany({
+        where: {
+          courseId,
+          semester: filters?.semester,
+          ...(filters?.year
+            ? { year: filters.year }
+            : {
+                year: {
+                  gte: filters?.yearFrom,
+                  lte: filters?.yearTo,
+                },
+              }),
+        },
+        orderBy: {
+          year: 'asc',
+        },
+      });
+
+    return courseCoordinationData.map((departureData) =>
+      PrismaCourseCoordinationDataMapper.toDomain(departureData),
+    );
   }
 
   async create(courseCoordinationData: CourseCoordinationData): Promise<void> {

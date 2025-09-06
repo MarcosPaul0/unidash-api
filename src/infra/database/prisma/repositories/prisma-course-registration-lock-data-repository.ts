@@ -9,6 +9,7 @@ import { CourseRegistrationLockData } from '@/domain/entities/course-registratio
 import { PrismaCourseRegistrationLockDataMapper } from '../mappers/prisma-course-registration-lock-data-mapper';
 import { Semester } from '@/domain/entities/course-data';
 import { Pagination } from '@/core/pagination/pagination';
+import { FindForIndicatorsFilter } from '@/domain/application/repositories/course-coordination-data-repository';
 
 @Injectable()
 export class PrismaCourseRegistrationLockDataRepository
@@ -57,6 +58,7 @@ export class PrismaCourseRegistrationLockDataRepository
   }
 
   async findAll(
+    courseId: string,
     pagination?: Pagination,
     filters?: FindAllCourseRegistrationLockDataFilter,
   ): Promise<FindAllCourseRegistrationLockData> {
@@ -70,6 +72,7 @@ export class PrismaCourseRegistrationLockDataRepository
     const courseDeparturesData =
       await this.prisma.courseRegistrationLockData.findMany({
         where: {
+          courseId,
           semester: filters?.semester,
           year: filters?.year,
         },
@@ -82,6 +85,7 @@ export class PrismaCourseRegistrationLockDataRepository
     const totalCourseRegistrationLockData =
       await this.prisma.courseRegistrationLockData.count({
         where: {
+          courseId,
           semester: filters?.semester,
           year: filters?.year,
         },
@@ -91,7 +95,7 @@ export class PrismaCourseRegistrationLockDataRepository
       return {
         courseRegistrationLockData: [],
         totalItems: 0,
-        totalPages: 1,
+        totalPages: 0,
       };
     }
 
@@ -104,6 +108,34 @@ export class PrismaCourseRegistrationLockDataRepository
         ? Math.ceil(totalCourseRegistrationLockData / pagination.itemsPerPage)
         : 1,
     };
+  }
+
+  async findForIndicators(
+    courseId: string,
+    filters?: FindForIndicatorsFilter,
+  ): Promise<CourseRegistrationLockData[]> {
+    const courseRegistrationLockData =
+      await this.prisma.courseRegistrationLockData.findMany({
+        where: {
+          courseId,
+          semester: filters?.semester,
+          ...(filters?.year
+            ? { year: filters.year }
+            : {
+                year: {
+                  gte: filters?.yearFrom,
+                  lte: filters?.yearTo,
+                },
+              }),
+        },
+        orderBy: {
+          year: 'asc',
+        },
+      });
+
+    return courseRegistrationLockData.map((departureData) =>
+      PrismaCourseRegistrationLockDataMapper.toDomain(departureData),
+    );
   }
 
   async create(

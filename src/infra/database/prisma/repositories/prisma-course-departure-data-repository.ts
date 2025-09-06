@@ -9,6 +9,7 @@ import { CourseDepartureData } from '@/domain/entities/course-departure-data';
 import { PrismaCourseDepartureDataMapper } from '../mappers/prisma-course-departure-data-mapper';
 import { Semester } from '@/domain/entities/course-data';
 import { Pagination } from '@/core/pagination/pagination';
+import { FindForIndicatorsFilter } from '@/domain/application/repositories/course-coordination-data-repository';
 
 @Injectable()
 export class PrismaCourseDepartureDataRepository
@@ -53,6 +54,7 @@ export class PrismaCourseDepartureDataRepository
   }
 
   async findAll(
+    courseId: string,
     pagination?: Pagination,
     filters?: FindAllCourseDepartureDataFilter,
   ): Promise<FindAllCourseDepartureData> {
@@ -66,6 +68,7 @@ export class PrismaCourseDepartureDataRepository
     const courseDeparturesData = await this.prisma.courseDepartureData.findMany(
       {
         where: {
+          courseId,
           semester: filters?.semester,
           year: filters?.year,
         },
@@ -79,6 +82,7 @@ export class PrismaCourseDepartureDataRepository
     const totalCourseDepartureData =
       await this.prisma.courseDepartureData.count({
         where: {
+          courseId,
           semester: filters?.semester,
           year: filters?.year,
         },
@@ -88,7 +92,7 @@ export class PrismaCourseDepartureDataRepository
       return {
         courseDepartureData: [],
         totalItems: 0,
-        totalPages: 1,
+        totalPages: 0,
       };
     }
 
@@ -101,6 +105,33 @@ export class PrismaCourseDepartureDataRepository
         ? Math.ceil(totalCourseDepartureData / pagination.itemsPerPage)
         : 1,
     };
+  }
+
+  async findForIndicators(
+    courseId: string,
+    filters?: FindForIndicatorsFilter,
+  ): Promise<CourseDepartureData[]> {
+    const courseDepartureData = await this.prisma.courseDepartureData.findMany({
+      where: {
+        courseId,
+        semester: filters?.semester,
+        ...(filters?.year
+          ? { year: filters.year }
+          : {
+              year: {
+                gte: filters?.yearFrom,
+                lte: filters?.yearTo,
+              },
+            }),
+      },
+      orderBy: {
+        year: 'asc',
+      },
+    });
+
+    return courseDepartureData.map((departureData) =>
+      PrismaCourseDepartureDataMapper.toDomain(departureData),
+    );
   }
 
   async create(courseDepartureData: CourseDepartureData): Promise<void> {

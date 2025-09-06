@@ -1,4 +1,5 @@
 import { Pagination } from '@/core/pagination/pagination';
+import { FindForIndicatorsFilter } from '@/domain/application/repositories/course-coordination-data-repository';
 import {
   CourseRegistrationLockDataRepository,
   FindAllCourseRegistrationLockData,
@@ -44,14 +45,16 @@ export class InMemoryCourseRegistrationLockDataRepository
   }
 
   async findAll(
+    courseId: string,
     { page, itemsPerPage }: Pagination,
     { semester, year }: FindAllCourseRegistrationLockDataFilter,
   ): Promise<FindAllCourseRegistrationLockData> {
     const filteredCourseRegistrationLockData =
       this.courseRegistrationLockData.filter(
-        (RegistrationLockData) =>
-          (semester ? RegistrationLockData.semester === semester : true) &&
-          (year ? RegistrationLockData.year === year : true),
+        (registrationLockData) =>
+          (semester ? registrationLockData.semester === semester : true) &&
+          (year ? registrationLockData.year === year : true) &&
+          registrationLockData.courseId === courseId,
       );
 
     const currentPage = (page - 1) * itemsPerPage;
@@ -72,6 +75,27 @@ export class InMemoryCourseRegistrationLockDataRepository
       totalItems,
       totalPages,
     };
+  }
+
+  async findForIndicators(
+    courseId: string,
+    filters?: FindForIndicatorsFilter,
+  ): Promise<CourseRegistrationLockData[]> {
+    const filteredCourseRegistrationLockData =
+      this.courseRegistrationLockData.filter(
+        (coordinationData) =>
+          (filters?.semester
+            ? coordinationData.semester === filters.semester
+            : true) &&
+          (filters?.year ? coordinationData.year === filters.year : true) &&
+          (filters?.yearFrom
+            ? coordinationData.year > filters.yearFrom
+            : true) &&
+          (filters?.yearTo ? coordinationData.year < filters.yearTo : true) &&
+          coordinationData.courseId === courseId,
+      );
+
+    return filteredCourseRegistrationLockData;
   }
 
   async save(

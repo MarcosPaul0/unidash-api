@@ -5,6 +5,7 @@ import { PrismaStudentMapper } from '../mappers/prisma-student-mapper';
 import {
   StudentsRepository,
   FindAllStudents,
+  FindAllStudentsFilters,
 } from '@/domain/application/repositories/students-repository';
 import { Pagination } from '@/core/pagination/pagination';
 import { Student } from '@/domain/entities/student';
@@ -34,24 +35,39 @@ export class PrismaStudentsRepository implements StudentsRepository {
     });
   }
 
-  async findAll({ itemsPerPage, page }: Pagination): Promise<FindAllStudents> {
+  async findAll(
+    pagination?: Pagination,
+    filters?: FindAllStudentsFilters,
+  ): Promise<FindAllStudents> {
+    const paginationParams = pagination
+      ? {
+          take: pagination.itemsPerPage,
+          skip: (pagination.page - 1) * pagination.itemsPerPage,
+        }
+      : undefined;
+
     const students = await this.prisma.user.findMany({
       where: {
         role: 'student',
+        student: {
+          courseId: filters?.courseId,
+        },
       },
       include: {
         student: true,
       },
-      take: itemsPerPage,
-      skip: (page - 1) * itemsPerPage,
       orderBy: {
         createdAt: 'desc',
       },
+      ...paginationParams,
     });
 
     const totalStudents = await this.prisma.user.count({
       where: {
         role: 'student',
+        student: {
+          courseId: filters?.courseId,
+        },
       },
     });
 
@@ -59,7 +75,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
       return {
         students: [],
         totalItems: 0,
-        totalPages: 1,
+        totalPages: 0,
       };
     }
 
@@ -71,7 +87,9 @@ export class PrismaStudentsRepository implements StudentsRepository {
         }),
       ),
       totalItems: totalStudents,
-      totalPages: Math.ceil(totalStudents / itemsPerPage),
+      totalPages: pagination
+        ? Math.ceil(totalStudents / pagination.itemsPerPage)
+        : 1,
     };
   }
 
