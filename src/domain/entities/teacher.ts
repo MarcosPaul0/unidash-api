@@ -12,7 +12,7 @@ export class Teacher extends User<TeacherProps> {
   }
 
   set isActive(isActive: boolean) {
-    if (!isActive) {
+    if (isActive === null || isActive === undefined) {
       return;
     }
 
