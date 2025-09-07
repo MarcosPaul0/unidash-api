@@ -86,6 +86,21 @@ export class PrismaTeacherCoursesRepository
     };
   }
 
+  async findAllByTeacherId(teacherId: string): Promise<TeacherCourse[]> {
+    const teacherCourses = await this.prisma.teacherCourse.findMany({
+      where: {
+        teacher: {
+          userId: teacherId,
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return teacherCourses.map(PrismaTeacherCourseMapper.toDomain);
+  }
+
   async findByTeacherAndCourseId(
     teacherId: string,
     courseId: string,

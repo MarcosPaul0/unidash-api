@@ -21,6 +21,7 @@ export abstract class TeacherCoursesRepository {
     courseId: string,
     pagination?: Pagination,
   ): Promise<FindAllByCourseId>;
+  abstract findAllByTeacherId(teacherId: string): Promise<TeacherCourse[]>;
   abstract create(teacherCourse: TeacherCourse): Promise<void>;
   abstract save(teacherCourse: TeacherCourse): Promise<void>;
   abstract delete(teacherCourse: TeacherCourse): Promise<void>;

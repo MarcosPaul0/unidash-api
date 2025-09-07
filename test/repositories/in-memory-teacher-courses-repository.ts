@@ -77,6 +77,14 @@ export class InMemoryTeacherCoursesRepository
     };
   }
 
+  async findAllByTeacherId(teacherId: string): Promise<TeacherCourse[]> {
+    const teacherCourses = this.teacherCourses.filter(
+      (teacherCourse) => teacherCourse.teacherId === teacherId,
+    );
+
+    return teacherCourses;
+  }
+
   async save(teacherCourse: TeacherCourse): Promise<void> {
     const itemIndex = this.teacherCourses.findIndex(
       (item) => item.id === teacherCourse.id,
