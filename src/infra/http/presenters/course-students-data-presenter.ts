@@ -11,6 +11,8 @@ export class CourseStudentsDataPresenter {
       actives: courseStudentsData.actives,
       locks: courseStudentsData.locks,
       canceled: courseStudentsData.canceled,
+      vacancies: courseStudentsData.vacancies,
+      subscribers: courseStudentsData.subscribers,
       createdAt: courseStudentsData.createdAt,
       updatedAt: courseStudentsData.updatedAt,
     };

@@ -1,7 +1,7 @@
 import { TeacherCourse } from '@/domain/entities/teacher-course';
 
 export class TeacherCoursePresenter {
-  static toHTTP(teacherCourse: TeacherCourse) {
+  static toHTTPWithTeacher(teacherCourse: TeacherCourse) {
     return {
       id: teacherCourse.id.toString(),
       name: teacherCourse.teacher.name,
@@ -10,6 +10,17 @@ export class TeacherCoursePresenter {
       isActive: teacherCourse.teacher.isActive,
       teacherId: teacherCourse.teacher.id.toString(),
       accountActivatedAt: teacherCourse.teacher.accountActivatedAt,
+      teacherRole: teacherCourse.teacherRole,
+      courseId: teacherCourse.courseId,
+      createdAt: teacherCourse.createdAt,
+      updatedAt: teacherCourse.updatedAt,
+    };
+  }
+
+  static toHTTP(teacherCourse: TeacherCourse) {
+    return {
+      id: teacherCourse.id.toString(),
+      teacherId: teacherCourse.teacherId,
       teacherRole: teacherCourse.teacherRole,
       courseId: teacherCourse.courseId,
       createdAt: teacherCourse.createdAt,
