@@ -231,12 +231,14 @@ model CourseCoordinationData {
 }
 
 model CourseCompletionWorkData {
-  id           String   @id @default(uuid()) @db.Uuid
-  year         Int      @db.SmallInt
-  semester     Semester @default(first)
-  enrollments  Int      @default(0) @db.SmallInt
-  defenses     Int      @default(0) @db.SmallInt
-  abandonments Int      @default(0) @db.SmallInt
+  id           String    @id @default(uuid()) @db.Uuid
+  year         Int       @db.SmallInt
+  semester     Semester  @default(first)
+  enrollments  Int       @default(0) @db.SmallInt
+  defenses     Int       @default(0) @db.SmallInt
+  abandonments Int       @default(0) @db.SmallInt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
 
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId String @db.Uuid
@@ -245,11 +247,13 @@ model CourseCompletionWorkData {
 }
 
 model TeacherSupervisedCompletionWorkData {
-  id       String   @id @default(uuid()) @db.Uuid
-  year     Int      @db.SmallInt
-  semester Semester @default(first)
-  approved Int      @default(0) @db.SmallInt
-  failed   Int      @default(0) @db.SmallInt
+  id        String    @id @default(uuid()) @db.Uuid
+  year      Int       @db.SmallInt
+  semester  Semester  @default(first)
+  approved  Int       @default(0) @db.SmallInt
+  failed    Int       @default(0) @db.SmallInt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId  String  @db.Uuid
