@@ -28,6 +28,19 @@ type PrismaTeacherCourseWithTeacherAndCourse = PrismaTeacherCourse & {
 };
 
 export class PrismaTeacherCourseMapper {
+  static toDomain(raw: PrismaTeacherCourse): TeacherCourse {
+    return TeacherCourse.create(
+      {
+        teacherRole: raw.teacherRole,
+        teacherId: raw.teacherId,
+        courseId: raw.courseId,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
+      },
+      new UniqueEntityId(raw.id),
+    );
+  }
+
   static toDomainWithCourse(raw: PrismaTeacherCourseWithCourse): TeacherCourse {
     return TeacherCourse.create(
       {
@@ -63,7 +76,7 @@ export class PrismaTeacherCourseMapper {
             createdAt: raw.teacher.user.createdAt,
             updatedAt: raw.teacher.user.updatedAt,
           },
-          new UniqueEntityId(raw.teacher.id),
+          new UniqueEntityId(raw.teacher.userId),
         ),
       },
       new UniqueEntityId(raw.id),

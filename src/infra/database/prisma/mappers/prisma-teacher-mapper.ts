@@ -56,7 +56,7 @@ export class PrismaTeacherMapper {
           createdAt: raw.user.createdAt,
           updatedAt: raw.user.updatedAt,
         },
-        new UniqueEntityId(raw.id),
+        new UniqueEntityId(raw.userId),
       ),
       teacherCourse: raw.teacherCourse.map((currentTeacherCourse) =>
         PrismaTeacherCourseMapper.toDomainWithCourse(currentTeacherCourse),

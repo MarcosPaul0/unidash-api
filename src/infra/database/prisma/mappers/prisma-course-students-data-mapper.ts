@@ -15,6 +15,8 @@ export class PrismaCourseStudentsDataMapper {
         entrants: raw.entrants,
         actives: raw.actives,
         locks: raw.locks,
+        vacancies: raw.vacancies,
+        subscribers: raw.subscribers,
         canceled: raw.canceled,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
@@ -34,6 +36,8 @@ export class PrismaCourseStudentsDataMapper {
       actives: courseStudentsData.actives,
       locks: courseStudentsData.locks,
       canceled: courseStudentsData.canceled,
+      vacancies: courseStudentsData.vacancies,
+      subscribers: courseStudentsData.subscribers,
       createdAt: courseStudentsData.createdAt,
       updatedAt: courseStudentsData.updatedAt,
     };
@@ -50,6 +54,8 @@ export class PrismaCourseStudentsDataMapper {
       actives: courseStudentsData.actives,
       locks: courseStudentsData.locks,
       canceled: courseStudentsData.canceled,
+      vacancies: courseStudentsData.vacancies,
+      subscribers: courseStudentsData.subscribers,
       createdAt: courseStudentsData.createdAt,
       updatedAt: courseStudentsData.updatedAt,
     };
