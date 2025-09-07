@@ -12,6 +12,7 @@ import { makeCourse } from 'test/factories/make-course';
 import { InMemoryCourseStudentsDataRepository } from 'test/repositories/in-memory-course-students-data-repository';
 import { makeCourseStudentsData } from 'test/factories/make-course-students-data';
 import { CourseStudentsDataAlreadyExistsError } from '../errors/course-students-data-already-exists-error';
+import { makeSessionUser } from 'test/factories/make-session-user';
 
 let inMemoryCoursesRepository: InMemoryCoursesRepository;
 let inMemoryCourseStudentsDataRepository: InMemoryCourseStudentsDataRepository;
@@ -51,8 +52,10 @@ describe('Register Course Students Data', () => {
         actives: 10,
         locks: 10,
         canceled: 10,
+        subscribers: 10,
+        vacancies: 10,
       },
-      sessionUser: adminUser,
+      sessionUser: makeSessionUser(adminUser),
     });
 
     expect(result.isRight()).toBe(true);
@@ -63,7 +66,7 @@ describe('Register Course Students Data', () => {
   });
 
   it('should not be able to register course students data if course not exists', async () => {
-    const adminUser = makeAdmin();
+    const admin = makeAdmin();
 
     const result = await sut.execute({
       courseStudentsData: {
@@ -74,8 +77,10 @@ describe('Register Course Students Data', () => {
         actives: 10,
         locks: 10,
         canceled: 10,
+        subscribers: 10,
+        vacancies: 10,
       },
-      sessionUser: adminUser,
+      sessionUser: makeSessionUser(admin),
     });
 
     expect(result.isLeft()).toBe(true);
@@ -83,7 +88,7 @@ describe('Register Course Students Data', () => {
   });
 
   it('should not be able to register course students data if already exists', async () => {
-    const adminUser = makeAdmin();
+    const admin = makeAdmin();
     const course = makeCourse({}, new UniqueEntityId('course-1'));
     const newCourseStudentsData = makeCourseStudentsData(
       { semester: 'first', year: 2025, courseId: 'course-1' },
@@ -102,8 +107,10 @@ describe('Register Course Students Data', () => {
         actives: 10,
         locks: 10,
         canceled: 10,
+        subscribers: 10,
+        vacancies: 10,
       },
-      sessionUser: adminUser,
+      sessionUser: makeSessionUser(admin),
     });
 
     expect(result.isLeft()).toBe(true);
@@ -111,7 +118,7 @@ describe('Register Course Students Data', () => {
   });
 
   it('should not be able to register course students data if session user is student', async () => {
-    const studentUser = makeStudent();
+    const student = makeStudent();
     const course = makeCourse({}, new UniqueEntityId('course-1'));
 
     inMemoryCoursesRepository.create(course);
@@ -125,8 +132,10 @@ describe('Register Course Students Data', () => {
         actives: 10,
         locks: 10,
         canceled: 10,
+        subscribers: 10,
+        vacancies: 10,
       },
-      sessionUser: studentUser,
+      sessionUser: makeSessionUser(student),
     });
 
     expect(result.isLeft()).toBe(true);
@@ -151,8 +160,10 @@ describe('Register Course Students Data', () => {
         actives: 10,
         locks: 10,
         canceled: 10,
+        subscribers: 10,
+        vacancies: 10,
       },
-      sessionUser: teacherCourse.teacher,
+      sessionUser: makeSessionUser(teacherCourse.teacher),
     });
 
     expect(result.isLeft()).toBe(true);

@@ -26,6 +26,12 @@ import { PrismaCourseRegistrationLockDataRepository } from './prisma/repositorie
 import { CourseRegistrationLockDataRepository } from '@/domain/application/repositories/course-registration-lock-data-repository';
 import { PrismaCourseCoordinationDataRepository } from './prisma/repositories/prisma-course-coordination-data-repository';
 import { CourseCoordinationDataRepository } from '@/domain/application/repositories/course-coordination-data-repository';
+import { TeacherCoursesRepository } from '@/domain/application/repositories/teacher-courses-repository';
+import { PrismaTeacherCoursesRepository } from './prisma/repositories/prisma-teacher-courses-repository';
+import { PrismaTeacherSupervisedCompletionWorkDataRepository } from './prisma/repositories/prisma-teacher-supervised-completion-work-data-repository';
+import { TeacherSupervisedCompletionWorkDataRepository } from '@/domain/application/repositories/teacher-supervised-completion-work-data-repository';
+import { PrismaCourseCompletionWorkDataRepository } from './prisma/repositories/prisma-course-completion-work-data-repository';
+import { CourseCompletionWorkDataRepository } from '@/domain/application/repositories/course-completion-work-data-repository';
 
 @Module({
   providers: [
@@ -67,6 +73,10 @@ import { CourseCoordinationDataRepository } from '@/domain/application/repositor
       useClass: PrismaCoursesRepository,
     },
     {
+      provide: TeacherCoursesRepository,
+      useClass: PrismaTeacherCoursesRepository,
+    },
+    {
       provide: CourseDepartureDataRepository,
       useClass: PrismaCourseDepartureDataRepository,
     },
@@ -82,6 +92,14 @@ import { CourseCoordinationDataRepository } from '@/domain/application/repositor
       provide: CourseStudentsDataRepository,
       useClass: PrismaCourseStudentsDataRepository,
     },
+    {
+      provide: TeacherSupervisedCompletionWorkDataRepository,
+      useClass: PrismaTeacherSupervisedCompletionWorkDataRepository,
+    },
+    {
+      provide: CourseCompletionWorkDataRepository,
+      useClass: PrismaCourseCompletionWorkDataRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -94,10 +112,13 @@ import { CourseCoordinationDataRepository } from '@/domain/application/repositor
     CitiesRepository,
     AdminsRepository,
     CoursesRepository,
+    TeacherCoursesRepository,
     CourseDepartureDataRepository,
     CourseCoordinationDataRepository,
     CourseRegistrationLockDataRepository,
     CourseStudentsDataRepository,
+    TeacherSupervisedCompletionWorkDataRepository,
+    CourseCompletionWorkDataRepository,
   ],
 })
 export class DatabaseModule {}

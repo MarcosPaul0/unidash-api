@@ -21,12 +21,12 @@ const registerCourseRegistrationLockDataBodySchema = z.object({
   courseId: z.uuid(),
   year: z.int().max(new Date().getFullYear()).min(0),
   semester: z.enum(SEMESTER),
-  difficultyInDiscipline: z.int().min(0).max(200),
-  workload: z.int().min(0).max(200),
-  teacherMethodology: z.int().min(0).max(200),
-  incompatibilityWithWork: z.int().min(0).max(200),
-  lossOfInterest: z.int().min(0).max(200),
-  other: z.int().min(0).max(200),
+  difficultyInDiscipline: z.int().min(0).max(1000),
+  workload: z.int().min(0).max(1000),
+  teacherMethodology: z.int().min(0).max(1000),
+  incompatibilityWithWork: z.int().min(0).max(1000),
+  lossOfInterest: z.int().min(0).max(1000),
+  other: z.int().min(0).max(1000),
 });
 
 type RegisterCourseRegistrationLockDataBodySchema = z.infer<
@@ -41,10 +41,10 @@ export class RegisterCourseRegistrationLockDataController {
 
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(registerCourseRegistrationLockDataBodySchema))
   async handle(
     @CurrentUser() sessionUser: SessionUser,
-    @Body() body: RegisterCourseRegistrationLockDataBodySchema,
+    @Body(new ZodValidationPipe(registerCourseRegistrationLockDataBodySchema))
+    body: RegisterCourseRegistrationLockDataBodySchema,
   ) {
     const result = await this.registerCourseRegistrationLockData.execute({
       courseRegistrationLockData: body,

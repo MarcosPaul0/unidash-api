@@ -1,30 +1,40 @@
-import { Body, Controller, NotFoundException, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  NotFoundException,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
 import { z } from 'zod';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
-import { UserPayload } from '@/infra/auth/jwt.strategy';
 import { UpdateStudentUseCase } from '@/domain/application/use-cases/update-student/update-student';
+import { SessionUser } from '@/domain/entities/user';
+import { STUDENT_TYPE } from '@/domain/entities/student';
 
 const updateStudentBodySchema = z.object({
   name: z.string().optional(),
   matriculation: z.string().min(10).max(10).optional(),
+  type: z.enum(STUDENT_TYPE).optional(),
 });
 
 export type UpdateStudentBodySchema = z.infer<typeof updateStudentBodySchema>;
 
-@Controller('students')
+@Controller('/students/:studentId')
 export class UpdateStudentController {
   constructor(private updateStudentUseCase: UpdateStudentUseCase) {}
 
   @Patch()
   async handle(
-    @CurrentUser() { sub: userId }: UserPayload,
+    @Param('studentId') studentId: string,
+    @CurrentUser() sessionUser: SessionUser,
     @Body(new ZodValidationPipe(updateStudentBodySchema))
-    updateStudentBody: UpdateStudentBodySchema,
+    data: UpdateStudentBodySchema,
   ) {
     const result = await this.updateStudentUseCase.execute({
-      studentId: userId,
-      data: updateStudentBody,
+      studentId,
+      data,
+      sessionUser,
     });
 
     if (result.isLeft()) {

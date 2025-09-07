@@ -18,6 +18,7 @@ const findAllTeachersQuerySchema = z
     itemsPerPage: z.coerce.number().optional(),
     isActive: z.coerce.boolean().optional(),
     name: z.coerce.string().min(2).max(200).optional(),
+    email: z.coerce.string().min(2).max(200).optional(),
   })
   .optional();
 
@@ -42,6 +43,7 @@ export class FindAllTeachersController {
       filters: {
         isActive: query?.isActive,
         name: query?.name,
+        email: query?.email,
       },
       sessionUser,
     });

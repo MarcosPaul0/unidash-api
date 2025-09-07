@@ -6,6 +6,8 @@ import { TeachersRepository } from '../../repositories/teacher-repository';
 import { Teacher } from '@/domain/entities/teacher';
 import { SessionUser } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
+import { TeacherCoursesRepository } from '../../repositories/teacher-courses-repository';
+import { TeacherCourse } from '@/domain/entities/teacher-course';
 
 interface FindTeacherUseCaseRequest {
   sessionUser: SessionUser;
@@ -15,6 +17,7 @@ type FindTeacherUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
   {
     teacher: Teacher;
+    teacherCourses: TeacherCourse[];
   }
 >;
 
@@ -22,6 +25,7 @@ type FindTeacherUseCaseResponse = Either<
 export class FindTeacherUseCase {
   constructor(
     private teachersRepository: TeachersRepository,
+    private teacherCoursesRepository: TeacherCoursesRepository,
     private authorizationService: AuthorizationService,
   ) {}
 
@@ -37,16 +41,20 @@ export class FindTeacherUseCase {
       return left(authorization.value);
     }
 
-    const teacher = await this.teachersRepository.findById(
-      sessionUser.id.toString(),
-    );
+    const teacherId = sessionUser.id.toString();
+
+    const teacher = await this.teachersRepository.findById(teacherId);
 
     if (!teacher) {
       return left(new ResourceNotFoundError());
     }
 
+    const teacherCourses =
+      await this.teacherCoursesRepository.findAllByTeacherId(teacherId);
+
     return right({
       teacher,
+      teacherCourses,
     });
   }
 }

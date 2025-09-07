@@ -21,13 +21,13 @@ const registerCourseCoordinationDataBodySchema = z.object({
   courseId: z.uuid(),
   year: z.int().max(new Date().getFullYear()).min(0),
   semester: z.enum(SEMESTER),
-  servicesRequestsBySystem: z.int().min(0).max(200),
-  servicesRequestsByEmail: z.int().min(0).max(200),
-  resolutionActions: z.int().min(0).max(200),
-  administrativeDecisionActions: z.int().min(0).max(200),
-  meetingsByBoardOfDirectors: z.int().min(0).max(200),
-  meetingsByUndergraduateChamber: z.int().min(0).max(200),
-  meetingsByCourseCouncil: z.int().min(0).max(200),
+  servicesRequestsBySystem: z.int().min(0).max(1000),
+  servicesRequestsByEmail: z.int().min(0).max(1000),
+  resolutionActions: z.int().min(0).max(1000),
+  administrativeDecisionActions: z.int().min(0).max(1000),
+  meetingsByBoardOfDirectors: z.int().min(0).max(1000),
+  meetingsByUndergraduateChamber: z.int().min(0).max(1000),
+  meetingsByCourseCouncil: z.int().min(0).max(1000),
 });
 
 type RegisterCourseCoordinationDataBodySchema = z.infer<
@@ -42,10 +42,10 @@ export class RegisterCourseCoordinationDataController {
 
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(registerCourseCoordinationDataBodySchema))
   async handle(
     @CurrentUser() sessionUser: SessionUser,
-    @Body() body: RegisterCourseCoordinationDataBodySchema,
+    @Body(new ZodValidationPipe(registerCourseCoordinationDataBodySchema))
+    body: RegisterCourseCoordinationDataBodySchema,
   ) {
     const result = await this.registerCourseCoordinationData.execute({
       courseCoordinationData: body,

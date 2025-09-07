@@ -25,7 +25,7 @@ export type SetTeacherCourseBodySchema = z.infer<
   typeof setTeacherCourseBodySchema
 >;
 
-@Controller('/teacher-course')
+@Controller('/teacher-courses')
 export class SetTeacherCourseController {
   constructor(private setTeacherCourseUseCase: SetTeacherCourseUseCase) {}
 

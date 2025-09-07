@@ -21,14 +21,14 @@ const registerCourseDepartureDataBodySchema = z.object({
   courseId: z.uuid(),
   year: z.int().max(new Date().getFullYear()).min(0),
   semester: z.enum(SEMESTER),
-  completed: z.int().min(0).max(200),
-  maximumDuration: z.int().min(0).max(200),
-  dropouts: z.int().min(0).max(200),
-  transfers: z.int().min(0).max(200),
-  withdrawals: z.int().min(0).max(200),
-  removals: z.int().min(0).max(200),
-  newExams: z.int().min(0).max(200),
-  deaths: z.int().min(0).max(200),
+  completed: z.int().min(0).max(1000),
+  maximumDuration: z.int().min(0).max(1000),
+  dropouts: z.int().min(0).max(1000),
+  transfers: z.int().min(0).max(1000),
+  withdrawals: z.int().min(0).max(1000),
+  removals: z.int().min(0).max(1000),
+  newExams: z.int().min(0).max(1000),
+  deaths: z.int().min(0).max(1000),
 });
 
 type RegisterCourseDepartureDataBodySchema = z.infer<
@@ -43,10 +43,10 @@ export class RegisterCourseDepartureDataController {
 
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(registerCourseDepartureDataBodySchema))
   async handle(
     @CurrentUser() sessionUser: SessionUser,
-    @Body() body: RegisterCourseDepartureDataBodySchema,
+    @Body(new ZodValidationPipe(registerCourseDepartureDataBodySchema))
+    body: RegisterCourseDepartureDataBodySchema,
   ) {
     const result = await this.registerCourseDepartureData.execute({
       courseDepartureData: body,

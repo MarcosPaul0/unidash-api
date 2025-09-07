@@ -107,6 +107,24 @@ import { GetCourseCoordinationIndicatorsController } from './controllers/get-cou
 import { GetCourseCoordinationIndicatorsUseCase } from '@/domain/application/use-cases/get-course-coordination-indicators/get-course-coordination-indicators';
 import { GetCourseIndicatorsController } from './controllers/get-course-indicators/get-course-indicators.controller';
 import { GetCourseIndicatorsUseCase } from '@/domain/application/use-cases/get-course-indicators/get-course-indicators';
+import { DeleteCourseCompletionWorkDataController } from './controllers/delete-course-completion-work-data/delete-course-completion-work-data.controller';
+import { DeleteTeacherSupervisedCompletionWorkDataController } from './controllers/delete-teacher-supervised-completion-work-data/delete-teacher-supervised-completion-work-data.controller';
+import { FindAllCourseCompletionWorkDataController } from './controllers/find-all-course-completion-work-data/find-all-course-completion-work-data.controller';
+import { FindAllTeacherSupervisedCompletionWorkDataController } from './controllers/find-all-teacher-supervised-completion-work-data/find-all-teacher-supervised-completion-work-data.controller';
+import { RegisterCourseCompletionWorkDataController } from './controllers/register-course-completion-work-data/register-course-completion-work-data.controller';
+import { RegisterTeacherSupervisedCompletionWorkDataController } from './controllers/register-teacher-supervised-completion-work-data/register-teacher-supervised-completion-work-data.controller';
+import { DeleteCourseCompletionWorkDataUseCase } from '@/domain/application/use-cases/delete-course-completion-work-data/delete-course-completion-work-data';
+import { DeleteTeacherSupervisedCompletionWorkDataUseCase } from '@/domain/application/use-cases/delete-teacher-supervised-completion-work-data/delete-teacher-supervised-completion-work-data';
+import { FindAllCourseCompletionWorkDataUseCase } from '@/domain/application/use-cases/find-all-course-completion-work-data/find-all-course-completion-work-data';
+import { FindAllTeacherSupervisedCompletionWorkDataUseCase } from '@/domain/application/use-cases/find-all-teacher-supervised-completion-work-data/find-all-teacher-supervised-completion-work-data';
+import { RegisterCourseCompletionWorkDataUseCase } from '@/domain/application/use-cases/register-course-completion-work-data/register-course-completion-work-data';
+import { RegisterTeacherSupervisedCompletionWorkDataUseCase } from '@/domain/application/use-cases/register-teacher-supervised-completion-work-data/register-teacher-supervised-completion-work-data';
+import { RegisterTeacherSupervisedCompletionWorkDataByTeacherController } from './controllers/register-teacher-supervised-completion-work-data-by-teacher/register-teacher-supervised-completion-work-data-by-teacher.controller';
+import { RegisterTeacherSupervisedCompletionWorkDataByTeacherUseCase } from '@/domain/application/use-cases/register-teacher-supervised-completion-work-data-by-teacher/register-teacher-supervised-completion-work-data-by-teacher';
+import { FindAllTeacherSupervisedCompletionWorkDataForTeacherController } from './controllers/find-all-teacher-supervised-completion-work-data-for-teacher/find-all-teacher-supervised-completion-work-data-for-teacher.controller';
+import { FindAllTeacherSupervisedCompletionWorkDataForTeacherUseCase } from '@/domain/application/use-cases/find-all-teacher-supervised-completion-work-data-for-teacher/find-all-teacher-supervised-completion-work-data-for-teacher';
+import { GetCourseCompletionWorkIndicatorsController } from './controllers/get-course-completion-work-indicators/get-course-completion-work-indicators.controller';
+import { GetCourseCompletionWorkIndicatorsUseCase } from '@/domain/application/use-cases/get-course-completion-work-indicators/get-course-completion-work-indicators';
 
 @Module({
   imports: [
@@ -168,6 +186,15 @@ import { GetCourseIndicatorsUseCase } from '@/domain/application/use-cases/get-c
     UpdateTeacherByAdminController,
     GetCourseCoordinationIndicatorsController,
     GetCourseIndicatorsController,
+    DeleteCourseCompletionWorkDataController,
+    DeleteTeacherSupervisedCompletionWorkDataController,
+    FindAllCourseCompletionWorkDataController,
+    FindAllTeacherSupervisedCompletionWorkDataController,
+    RegisterCourseCompletionWorkDataController,
+    RegisterTeacherSupervisedCompletionWorkDataController,
+    RegisterTeacherSupervisedCompletionWorkDataByTeacherController,
+    FindAllTeacherSupervisedCompletionWorkDataForTeacherController,
+    GetCourseCompletionWorkIndicatorsController,
   ],
   providers: [
     RegisterStudentUseCase,
@@ -221,6 +248,15 @@ import { GetCourseIndicatorsUseCase } from '@/domain/application/use-cases/get-c
     UpdateTeacherByAdminUseCase,
     GetCourseCoordinationIndicatorsUseCase,
     GetCourseIndicatorsUseCase,
+    DeleteCourseCompletionWorkDataUseCase,
+    DeleteTeacherSupervisedCompletionWorkDataUseCase,
+    FindAllCourseCompletionWorkDataUseCase,
+    FindAllTeacherSupervisedCompletionWorkDataUseCase,
+    RegisterCourseCompletionWorkDataUseCase,
+    RegisterTeacherSupervisedCompletionWorkDataUseCase,
+    RegisterTeacherSupervisedCompletionWorkDataByTeacherUseCase,
+    FindAllTeacherSupervisedCompletionWorkDataForTeacherUseCase,
+    GetCourseCompletionWorkIndicatorsUseCase,
   ],
 })
 export class HttpModule {}

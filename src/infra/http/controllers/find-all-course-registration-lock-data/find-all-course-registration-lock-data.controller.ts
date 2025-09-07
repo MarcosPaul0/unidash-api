@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Query,
   UsePipes,
 } from '@nestjs/common';
@@ -12,16 +13,13 @@ import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
 import { SEMESTER } from '@/domain/entities/course-data';
 import { FindAllCourseRegistrationLockDataUseCase } from '@/domain/application/use-cases/find-all-course-registration-lock-data/find-all-course-registration-lock-data';
 import { CourseRegistrationLockDataPresenter } from '../../presenters/course-registration-lock-data-presenter';
+import { SessionUser } from '@/domain/entities/user';
+import { CurrentUser } from '@/infra/auth/current-user-decorator';
 
 const findAllCourseRegistrationLockDataQuerySchema = z
   .object({
     page: z.coerce.number().optional(),
     itemsPerPage: z.coerce.number().optional(),
-  })
-  .optional();
-
-const findAllCourseRegistrationLockDataFiltersSchema = z
-  .object({
     semester: z.enum(SEMESTER).optional(),
     year: z.int().max(new Date().getFullYear()).min(0).optional(),
   })
@@ -31,31 +29,32 @@ type FindAllCourseRegistrationLockDataQuerySchema = z.infer<
   typeof findAllCourseRegistrationLockDataQuerySchema
 >;
 
-type FindAllCourseRegistrationLockDataFiltersSchema = z.infer<
-  typeof findAllCourseRegistrationLockDataFiltersSchema
->;
-
-@Controller('/course-registration-lock-data')
-@UsePipes(new ZodValidationPipe(findAllCourseRegistrationLockDataFiltersSchema))
+@Controller('/course-registration-lock-data/:courseId')
+@UsePipes()
 export class FindAllCourseRegistrationLockDataController {
   constructor(
     private findAllCourseRegistrationLockData: FindAllCourseRegistrationLockDataUseCase,
   ) {}
 
   @Get()
-  @Public()
   @HttpCode(200)
   async handle(
+    @CurrentUser() sessionUser: SessionUser,
+    @Param('courseId') courseId: string,
     @Query(new ZodValidationPipe(findAllCourseRegistrationLockDataQuerySchema))
     query?: FindAllCourseRegistrationLockDataQuerySchema,
-    @Body() body?: FindAllCourseRegistrationLockDataFiltersSchema,
   ) {
     const result = await this.findAllCourseRegistrationLockData.execute({
+      courseId,
       pagination:
         query?.itemsPerPage && query?.page
           ? { itemsPerPage: query.itemsPerPage, page: query.page }
           : undefined,
-      filters: body,
+      filters: {
+        semester: query?.semester,
+        year: query?.year,
+      },
+      sessionUser,
     });
 
     if (result.isLeft()) {
@@ -63,7 +62,7 @@ export class FindAllCourseRegistrationLockDataController {
     }
 
     return {
-      students: result.value.courseRegistrationLockData.map(
+      courseRegistrationLockData: result.value.courseRegistrationLockData.map(
         CourseRegistrationLockDataPresenter.toHTTP,
       ),
       totalItems: result.value.totalItems,

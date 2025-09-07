@@ -40,7 +40,7 @@ export class SetTeacherCourseUseCase {
     data,
     sessionUser,
   }: SetTeacherCourseUseCaseRequest): Promise<SetTeacherCourseUseCaseResponse> {
-    const { courseId, teacherId } = data;
+    const { courseId, teacherId, teacherRole } = data;
 
     const authorization =
       await this.authorizationService.ensureIsAdminOrTeacherWithRole(
@@ -68,19 +68,25 @@ export class SetTeacherCourseUseCase {
 
     const teacherCourse =
       await this.teacherCoursesRepository.findByTeacherAndCourseId(
-        teacherId,
-        courseId,
+        teacherAlreadyExists.id.toString(),
+        courseAlreadyExists.id.toString(),
       );
 
     if (teacherCourse) {
-      Object.assign(teacherCourse, data);
+      Object.assign(teacherCourse, {
+        teacherRole: data.teacherRole,
+      });
 
       await this.teacherCoursesRepository.save(teacherCourse);
 
       return right({ teacherCourse });
     }
 
-    const teacherCourseToCreate = TeacherCourse.create(data);
+    const teacherCourseToCreate = TeacherCourse.create({
+      courseId,
+      teacherId,
+      teacherRole,
+    });
 
     await this.teacherCoursesRepository.create(teacherCourseToCreate);
 

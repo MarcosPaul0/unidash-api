@@ -19,6 +19,8 @@ interface RegisterCourseStudentsDataUseCaseRequest {
     actives: number;
     locks: number;
     canceled: number;
+    vacancies: number;
+    subscribers: number;
   };
   sessionUser: SessionUser;
 }
@@ -47,6 +49,8 @@ export class RegisterCourseStudentsDataUseCase {
       actives,
       locks,
       canceled,
+      subscribers,
+      vacancies,
     },
     sessionUser,
   }: RegisterCourseStudentsDataUseCaseRequest): Promise<RegisterCourseStudentsDataUseCaseResponse> {
@@ -86,6 +90,8 @@ export class RegisterCourseStudentsDataUseCase {
       actives,
       locks,
       canceled,
+      subscribers,
+      vacancies,
     });
 
     await this.courseStudentsDataRepository.create(courseStudentsData);

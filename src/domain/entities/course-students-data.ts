@@ -7,6 +7,8 @@ export interface CourseStudentsDataProps extends CourseDataProps {
   actives: number;
   locks: number;
   canceled: number;
+  vacancies: number;
+  subscribers: number;
 }
 
 export class CourseStudentsData extends CourseData<CourseStudentsDataProps> {
@@ -56,6 +58,30 @@ export class CourseStudentsData extends CourseData<CourseStudentsDataProps> {
     }
 
     this.props.canceled = canceled;
+  }
+
+  get vacancies() {
+    return this.props.vacancies;
+  }
+
+  set vacancies(vacancies: number) {
+    if (!vacancies) {
+      return;
+    }
+
+    this.props.vacancies = vacancies;
+  }
+
+  get subscribers() {
+    return this.props.subscribers;
+  }
+
+  set subscribers(subscribers: number) {
+    if (!subscribers) {
+      return;
+    }
+
+    this.props.subscribers = subscribers;
   }
 
   static create(

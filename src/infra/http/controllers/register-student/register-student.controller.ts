@@ -9,10 +9,8 @@ import {
   ForbiddenException,
   HttpCode,
   Post,
-  UsePipes,
 } from '@nestjs/common';
 import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
-import { Public } from '@/infra/auth/public';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { SessionUser } from '@/domain/entities/user';
 import { STUDENT_TYPE } from '@/domain/entities/student';
@@ -30,16 +28,15 @@ const registerStudentBodySchema = z.object({
 type RegisterStudentBodySchema = z.infer<typeof registerStudentBodySchema>;
 
 @Controller('/students')
-@Public()
 export class RegisterStudentController {
   constructor(private registerStudent: RegisterStudentUseCase) {}
 
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(registerStudentBodySchema))
   async handle(
     @CurrentUser() sessionUser: SessionUser,
-    @Body() body: RegisterStudentBodySchema,
+    @Body(new ZodValidationPipe(registerStudentBodySchema))
+    body: RegisterStudentBodySchema,
   ) {
     const { name, email, password, matriculation, courseId, type } = body;
 

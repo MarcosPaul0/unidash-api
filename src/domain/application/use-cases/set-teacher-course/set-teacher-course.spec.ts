@@ -10,6 +10,7 @@ import { makeTeacher } from 'test/factories/make-teacher';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { makeTeacherCourse } from 'test/factories/make-teacher-course';
+import { makeSessionUser } from 'test/factories/make-session-user';
 
 let inMemoryTeachersRepository: InMemoryTeachersRepository;
 let inMemoryCoursesRepository: InMemoryCoursesRepository;
@@ -55,7 +56,7 @@ describe('Register Teacher Course', () => {
         teacherId: 'teacher-1',
         teacherRole: 'internshipManagerTeacher',
       },
-      sessionUser: adminUser,
+      sessionUser: makeSessionUser(adminUser),
     });
 
     expect(result.isRight()).toBe(true);
@@ -86,7 +87,7 @@ describe('Register Teacher Course', () => {
         teacherId: 'teacher-1',
         teacherRole: 'extensionsActivitiesManagerTeacher',
       },
-      sessionUser: adminUser,
+      sessionUser: makeSessionUser(adminUser),
     });
 
     expect(result.isRight()).toBe(true);
@@ -118,7 +119,7 @@ describe('Register Teacher Course', () => {
         teacherId: 'teacher-1',
         teacherRole: 'internshipManagerTeacher',
       },
-      sessionUser: teacherCourse.teacher,
+      sessionUser: makeSessionUser(teacherCourse.teacher),
     });
 
     expect(result.isRight()).toBe(true);
@@ -143,7 +144,7 @@ describe('Register Teacher Course', () => {
         teacherId: 'teacher-1',
         teacherRole: 'internshipManagerTeacher',
       },
-      sessionUser: adminUser,
+      sessionUser: makeSessionUser(adminUser),
     });
 
     expect(result.isLeft()).toBe(true);
@@ -166,7 +167,7 @@ describe('Register Teacher Course', () => {
         teacherId: 'teacher-1',
         teacherRole: 'internshipManagerTeacher',
       },
-      sessionUser: adminUser,
+      sessionUser: makeSessionUser(adminUser),
     });
 
     expect(result.isLeft()).toBe(true);
@@ -186,7 +187,7 @@ describe('Register Teacher Course', () => {
         teacherId: 'teacher-1',
         teacherRole: 'internshipManagerTeacher',
       },
-      sessionUser: studentUser,
+      sessionUser: makeSessionUser(studentUser),
     });
 
     expect(result.isLeft()).toBe(true);
@@ -208,7 +209,7 @@ describe('Register Teacher Course', () => {
         teacherId: 'teacher-1',
         teacherRole: 'internshipManagerTeacher',
       },
-      sessionUser: teacherCourse.teacher,
+      sessionUser: makeSessionUser(teacherCourse.teacher),
     });
 
     expect(result.isLeft()).toBe(true);

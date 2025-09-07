@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Query,
   UsePipes,
 } from '@nestjs/common';
@@ -12,16 +13,13 @@ import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
 import { SEMESTER } from '@/domain/entities/course-data';
 import { FindAllCourseStudentsDataUseCase } from '@/domain/application/use-cases/find-all-course-students-data/find-all-course-students-data';
 import { CourseStudentsDataPresenter } from '../../presenters/course-students-data-presenter';
+import { CurrentUser } from '@/infra/auth/current-user-decorator';
+import { SessionUser } from '@/domain/entities/user';
 
 const findAllCourseStudentsDataQuerySchema = z
   .object({
     page: z.coerce.number().optional(),
     itemsPerPage: z.coerce.number().optional(),
-  })
-  .optional();
-
-const findAllCourseStudentsDataFiltersSchema = z
-  .object({
     semester: z.enum(SEMESTER).optional(),
     year: z.int().max(new Date().getFullYear()).min(0).optional(),
   })
@@ -31,31 +29,32 @@ type FindAllCourseStudentsDataQuerySchema = z.infer<
   typeof findAllCourseStudentsDataQuerySchema
 >;
 
-type FindAllCourseStudentsDataFiltersSchema = z.infer<
-  typeof findAllCourseStudentsDataFiltersSchema
->;
-
-@Controller('/course-students-data')
-@UsePipes(new ZodValidationPipe(findAllCourseStudentsDataFiltersSchema))
+@Controller('/course-students-data/:courseId')
+@UsePipes()
 export class FindAllCourseStudentsDataController {
   constructor(
     private findAllCourseStudentsData: FindAllCourseStudentsDataUseCase,
   ) {}
 
   @Get()
-  @Public()
   @HttpCode(200)
   async handle(
+    @CurrentUser() sessionUser: SessionUser,
+    @Param('courseId') courseId: string,
     @Query(new ZodValidationPipe(findAllCourseStudentsDataQuerySchema))
     query?: FindAllCourseStudentsDataQuerySchema,
-    @Body() body?: FindAllCourseStudentsDataFiltersSchema,
   ) {
     const result = await this.findAllCourseStudentsData.execute({
+      courseId,
       pagination:
         query?.itemsPerPage && query?.page
           ? { itemsPerPage: query.itemsPerPage, page: query.page }
           : undefined,
-      filters: body,
+      filters: {
+        semester: query?.semester,
+        year: query?.year,
+      },
+      sessionUser,
     });
 
     if (result.isLeft()) {
@@ -63,7 +62,7 @@ export class FindAllCourseStudentsDataController {
     }
 
     return {
-      students: result.value.courseStudentsData.map(
+      courseStudentsData: result.value.courseStudentsData.map(
         CourseStudentsDataPresenter.toHTTP,
       ),
       totalItems: result.value.totalItems,

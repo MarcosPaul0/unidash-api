@@ -62,4 +62,38 @@ export class AuthorizationService implements Authorization {
 
     return right(undefined);
   }
+
+  async ensureIsAdminOrTeacherOwner(
+    sessionUser: SessionUser,
+    courseId: string,
+    teacherIdFromData: string,
+  ): Promise<EnsureTeacherHasCoursePermissionResponse> {
+    if (sessionUser.role === 'admin') {
+      return right(undefined);
+    }
+
+    if (sessionUser.role != 'teacher') {
+      return left(new NotAllowedError());
+    }
+
+    const userId = sessionUser.id.toString();
+
+    const teacherCourse =
+      await this.teacherCoursesRepository.findByUserAndCourseId(
+        userId,
+        courseId,
+      );
+
+    if (!teacherCourse) {
+      return left(new NotAllowedError());
+    }
+
+    const hasPermission = teacherCourse.teacherId === teacherIdFromData;
+
+    if (!hasPermission) {
+      return left(new NotAllowedError());
+    }
+
+    return right(undefined);
+  }
 }

@@ -14,7 +14,7 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { TeacherPresenter } from '../../presenters/teacher-presenter';
 import { SessionUser } from '@/domain/entities/user';
 
-@Controller('/teachers/:teacherId')
+@Controller('/teachers/by-id/:teacherId')
 export class FindTeacherByIdController {
   constructor(private findTeacherByIdUseCase: FindTeacherByIdUseCase) {}
 

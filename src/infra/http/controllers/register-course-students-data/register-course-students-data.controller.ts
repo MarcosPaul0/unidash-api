@@ -21,10 +21,12 @@ const registerCourseStudentsDataBodySchema = z.object({
   courseId: z.uuid(),
   year: z.int().max(new Date().getFullYear()).min(0),
   semester: z.enum(SEMESTER),
-  entrants: z.int().min(0).max(200),
-  actives: z.int().min(0).max(200),
-  locks: z.int().min(0).max(200),
-  canceled: z.int().min(0).max(200),
+  entrants: z.int().min(0).max(1000),
+  actives: z.int().min(0).max(1000),
+  locks: z.int().min(0).max(1000),
+  canceled: z.int().min(0).max(1000),
+  vacancies: z.int().min(0).max(1000),
+  subscribers: z.int().min(0).max(1000),
 });
 
 type RegisterCourseStudentsDataBodySchema = z.infer<
@@ -39,10 +41,10 @@ export class RegisterCourseStudentsDataController {
 
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(registerCourseStudentsDataBodySchema))
   async handle(
     @CurrentUser() sessionUser: SessionUser,
-    @Body() body: RegisterCourseStudentsDataBodySchema,
+    @Body(new ZodValidationPipe(registerCourseStudentsDataBodySchema))
+    body: RegisterCourseStudentsDataBodySchema,
   ) {
     const result = await this.registerCourseStudentsData.execute({
       courseStudentsData: body,

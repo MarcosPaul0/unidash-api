@@ -12,6 +12,7 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { TeacherPresenter } from '../../presenters/teacher-presenter';
 import { FindTeacherUseCase } from '@/domain/application/use-cases/find-teacher/find-teacher';
 import { SessionUser } from '@/domain/entities/user';
+import { TeacherCoursePresenter } from '../../presenters/teacher-course-presenter';
 
 @Controller('/teachers/me')
 export class FindTeacherController {
@@ -39,6 +40,9 @@ export class FindTeacherController {
 
     return {
       teacher: TeacherPresenter.toHTTP(result.value.teacher),
+      teacherCourses: result.value.teacherCourses.map(
+        TeacherCoursePresenter.toHTTP,
+      ),
     };
   }
 }
