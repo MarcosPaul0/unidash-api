@@ -21,6 +21,8 @@ export function makeCourseStudentsData(
       actives: faker.number.int(),
       locks: faker.number.int(),
       canceled: faker.number.int(),
+      subscribers: faker.number.int(),
+      vacancies: faker.number.int(),
       ...override,
     },
     id,
