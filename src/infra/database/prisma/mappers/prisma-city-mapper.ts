@@ -7,7 +7,7 @@ export class PrismaCityMapper {
     return City.create(
       {
         name: raw.name,
-        stateId: new UniqueEntityId(raw.stateId),
+        stateId: raw.stateId,
       },
       new UniqueEntityId(raw.id),
     );

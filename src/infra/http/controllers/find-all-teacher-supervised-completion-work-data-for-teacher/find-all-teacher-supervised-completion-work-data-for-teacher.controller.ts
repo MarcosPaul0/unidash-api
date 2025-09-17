@@ -59,8 +59,6 @@ export class FindAllTeacherSupervisedCompletionWorkDataForTeacherController {
       return;
     }
 
-    console.log(result);
-
     return {
       teacherSupervisedCompletionWorkData:
         result.value.teacherSupervisedCompletionWorkData.map(

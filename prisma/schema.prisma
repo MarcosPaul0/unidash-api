@@ -46,8 +46,12 @@ model Teacher {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @db.Uuid
 
-  teacherCourse                       TeacherCourse[]
-  teacherSupervisedCompletionWorkData TeacherSupervisedCompletionWorkData[]
+  teacherCourse                             TeacherCourse[]
+  teacherSupervisedCompletionWorkData       TeacherSupervisedCompletionWorkData[]
+  teacherTechnicalScientificProductionsData TeacherTechnicalScientificProductionsData[]
+  teacherResearchAndExtensionProjectsData   TeacherResearchAndExtensionProjectsData[]
+
+  courseInternshipData CourseInternshipData[]
 
   @@map("teachers")
 }
@@ -68,6 +72,8 @@ model Student {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @db.Uuid
 
+  studentIncomingData StudentIncomingData?
+
   @@map("students")
 }
 
@@ -77,13 +83,18 @@ model Course {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  student                    Student[]
-  teacherCourse              TeacherCourse[]
-  courseDepartureData        CourseDepartureData[]
-  courseRegistrationLockData CourseRegistrationLockData[]
-  courseCoordinationData     CourseCoordinationData[]
-  courseStudentsData         CourseStudentsData[]
-  courseCompletionWorkData   CourseCompletionWorkData[]
+  student                                    Student[]
+  teacherCourse                              TeacherCourse[]
+  courseDepartureData                        CourseDepartureData[]
+  courseRegistrationLockData                 CourseRegistrationLockData[]
+  courseCoordinationData                     CourseCoordinationData[]
+  courseStudentsData                         CourseStudentsData[]
+  courseCompletionWorkData                   CourseCompletionWorkData[]
+  courseTeachingComplementaryActivitiesData  CourseTeachingComplementaryActivitiesData[]
+  courseSearchComplementaryActivitiesData    CourseSearchComplementaryActivitiesData[]
+  courseExtensionComplementaryActivitiesData CourseExtensionComplementaryActivitiesData[]
+  courseExtensionActivitiesData              CourseExtensionActivitiesData[]
+  courseInternshipData                       CourseInternshipData[]
 
   teacherSupervisedCompletionWorkData TeacherSupervisedCompletionWorkData[]
 
@@ -138,6 +149,8 @@ model City {
 
   state   State  @relation(fields: [stateId], references: [id], onDelete: Cascade)
   stateId String @db.Uuid
+
+  courseInternshipData CourseInternshipData[]
 
   @@map("cities")
 }
@@ -261,4 +274,392 @@ model TeacherSupervisedCompletionWorkData {
   teacherId String  @db.Uuid
 
   @@map("teacherSupervisedCompletionWorkData")
+}
+
+model CourseTeachingComplementaryActivitiesData {
+  id                            String    @id @default(uuid()) @db.Uuid
+  year                          Int       @db.SmallInt
+  semester                      Semester  @default(first)
+  subjectMonitoring             Int       @default(0) @db.SmallInt
+  sponsorshipOfNewStudents      Int       @default(0) @db.SmallInt
+  providingTraining             Int       @default(0) @db.SmallInt
+  coursesInTheArea              Int       @default(0) @db.SmallInt
+  coursesOutsideTheArea         Int       @default(0) @db.SmallInt
+  electivesDisciplines          Int       @default(0) @db.SmallInt
+  complementaryCoursesInTheArea Int       @default(0) @db.SmallInt
+  preparationForTest            Int       @default(0) @db.SmallInt
+  createdAt                     DateTime  @default(now())
+  updatedAt                     DateTime? @updatedAt
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @db.Uuid
+
+  @@map("courseTeachingComplementaryActivitiesData")
+}
+
+model CourseSearchComplementaryActivitiesData {
+  id                    String    @id @default(uuid()) @db.Uuid
+  year                  Int       @db.SmallInt
+  semester              Semester  @default(first)
+  scientificInitiation  Int       @default(0) @db.SmallInt
+  developmentInitiation Int       @default(0) @db.SmallInt
+  publishedArticles     Int       @default(0) @db.SmallInt
+  fullPublishedArticles Int       @default(0) @db.SmallInt
+  publishedAbstracts    Int       @default(0) @db.SmallInt
+  presentationOfWork    Int       @default(0) @db.SmallInt
+  participationInEvents Int       @default(0) @db.SmallInt
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime? @updatedAt
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @db.Uuid
+
+  @@map("courseSearchComplementaryActivitiesData")
+}
+
+model CourseExtensionComplementaryActivitiesData {
+  id                              String    @id @default(uuid()) @db.Uuid
+  year                            Int       @db.SmallInt
+  semester                        Semester  @default(first)
+  culturalActivities              Int       @default(0) @db.SmallInt
+  sportsCompetitions              Int       @default(0) @db.SmallInt
+  awardsAtEvents                  Int       @default(0) @db.SmallInt
+  studentRepresentation           Int       @default(0) @db.SmallInt
+  participationInCollegiateBodies Int       @default(0) @db.SmallInt
+  createdAt                       DateTime  @default(now())
+  updatedAt                       DateTime? @updatedAt
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @db.Uuid
+
+  @@map("courseExtensionComplementaryActivitiesData")
+}
+
+model CourseExtensionActivitiesData {
+  id                                         String    @id @default(uuid()) @db.Uuid
+  year                                       Int       @db.SmallInt
+  semester                                   Semester  @default(first)
+  specialProjects                            Int       @default(0) @db.SmallInt
+  participationInCompetitions                Int       @default(0) @db.SmallInt
+  entrepreneurshipAndInnovation              Int       @default(0) @db.SmallInt
+  eventOrganization                          Int       @default(0) @db.SmallInt
+  externalInternship                         Int       @default(0) @db.SmallInt
+  cultureAndExtensionProjects                Int       @default(0) @db.SmallInt
+  semiannualProjects                         Int       @default(0) @db.SmallInt
+  workNonGovernmentalOrganization            Int       @default(0) @db.SmallInt
+  juniorCompanies                            Int       @default(0) @db.SmallInt
+  provisionOfServicesWithSelfEmployedWorkers Int       @default(0) @db.SmallInt
+  createdAt                                  DateTime  @default(now())
+  updatedAt                                  DateTime? @updatedAt
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @db.Uuid
+
+  @@map("courseExtensionActivitiesData")
+}
+
+model TeacherTechnicalScientificProductionsData {
+  id           String    @id @default(uuid()) @db.Uuid
+  year         Int       @db.SmallInt
+  semester     Semester  @default(first)
+  periodicals  Int       @default(0) @db.SmallInt
+  congress     Int       @default(0) @db.SmallInt
+  booksChapter Int       @default(0) @db.SmallInt
+  programs     Int       @default(0) @db.SmallInt
+  abstracts    Int       @default(0) @db.SmallInt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
+
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId String  @db.Uuid
+
+  @@map("teacherTechnicalScientificProductionsData")
+}
+
+model TeacherResearchAndExtensionProjectsData {
+  id                String    @id @default(uuid()) @db.Uuid
+  year              Int       @db.SmallInt
+  semester          Semester  @default(first)
+  extensionProjects Int       @default(0) @db.SmallInt
+  researchProjects  Int       @default(0) @db.SmallInt
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime? @updatedAt
+
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId String  @db.Uuid
+
+  @@map("teacherResearchAndExtensionProjectsData")
+}
+
+enum ConclusionTime {
+  bigger
+  medium
+  smaller
+}
+
+model CourseInternshipData {
+  id                   String         @id @default(uuid()) @db.Uuid
+  year                 Int            @db.SmallInt
+  semester             Semester       @default(first)
+  studentMatriculation String         @unique @db.VarChar(10)
+  enterpriseCnpj       String         @db.VarChar(14)
+  role                 String         @db.VarChar(60)
+  conclusionTime       ConclusionTime
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime?      @updatedAt
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @db.Uuid
+
+  teacher   Teacher @relation(fields: [advisorId], references: [id], onDelete: Cascade)
+  advisorId String  @db.Uuid
+
+  city   City   @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  cityId String @db.Uuid
+
+  @@map("courseInternshipData")
+}
+
+enum WorkExpectation {
+  employmentContract // CLT
+  independentContractor // PJ
+  undecided // Não sabe
+  publicSector // Empresa pública
+  academicCareer // Área acadêmica
+}
+
+enum CurrentEducation {
+  technicalInField // Formação técnica em tecnologia
+  technicalOutField // Formação técnica não tecnológica
+  higherInField // Formação superior em tecnologia
+  higherOutField // Formação superior não tecnológica
+  none // Não possui
+}
+
+enum EnglishProficiencyLevel {
+  low // Baixo
+  intermediate // Intermediário
+  fluent // Fluente
+}
+
+model StudentIncomingData {
+  id                          String                  @id @default(uuid()) @db.Uuid
+  year                        Int                     @db.SmallInt
+  workExpectation             WorkExpectation
+  currentEducation            CurrentEducation
+  englishProficiencyLevel     EnglishProficiencyLevel
+  nocturnalPreference         Boolean
+  knowRelatedCourseDifference Boolean
+  readPedagogicalProject      Boolean
+  semester                    Semester                @default(first)
+  createdAt                   DateTime                @default(now())
+
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId String  @unique @db.Uuid
+
+  studentAffinityByDisciplineData   StudentAffinityByDisciplineData[]
+  studentHobbyOrHabitData           StudentHobbyOrHabitData[]
+  studentAssetData                  StudentAssetData[]
+  studentCourseChoiceReasonData     StudentCourseChoiceReasonData[]
+  studentUniversityChoiceReasonData StudentUniversityChoiceReasonData[]
+  studentTechnologyData             StudentTechnologyData[]
+
+  @@map("studentIncomingData")
+}
+
+enum HighSchoolDiscipline {
+  history
+  geography
+  portuguese
+  biology
+  chemical
+  mathematics
+  physical
+  english
+  technology
+}
+
+enum AffinityLevel {
+  low
+  medium
+  high
+}
+
+model StudentAffinityByDisciplineData {
+  id            String               @id @default(uuid()) @db.Uuid
+  discipline    HighSchoolDiscipline
+  affinityLevel AffinityLevel
+
+  studentIncomingData   StudentIncomingData @relation(fields: [studentIncomingDataId], references: [id], onDelete: Cascade)
+  studentIncomingDataId String              @db.Uuid
+
+  @@map("studentAffinityByDisciplineData")
+}
+
+enum HobbyOrHabit {
+  videoGames // Jogos eletrônicos
+  physicalActivity // Atividade física
+  listeningMusic // Escutar música
+  teamSports // Esportes coletivos
+  moviesOrSeries // Filmes ou seriados
+  reading // Leitura
+  internetBrowsing // Navegar na internet
+  playingInstrument // Tocar instrumento musical
+  socialMedia // Redes sociais
+  traveling // Viajar
+  individualSports // Esportes individuais
+  handcrafting // Trabalhos manuais
+  other // Outros
+}
+
+model StudentHobbyOrHabit {
+  id           String       @id @default(uuid()) @db.Uuid
+  hobbyOrHabit HobbyOrHabit @unique
+  description  String       @db.VarChar(200)
+
+  studentHobbyOrHabitData StudentHobbyOrHabitData[]
+
+  @@map("studentHobbyOrHabit")
+}
+
+model StudentHobbyOrHabitData {
+  id String @id @default(uuid()) @db.Uuid
+
+  studentIncomingData   StudentIncomingData @relation(fields: [studentIncomingDataId], references: [id], onDelete: Cascade)
+  studentIncomingDataId String              @db.Uuid
+
+  studentHobbyOrHabit   StudentHobbyOrHabit @relation(fields: [studentHobbyOrHabitId], references: [id], onDelete: Cascade)
+  studentHobbyOrHabitId String              @db.Uuid
+
+  @@map("studentHobbyOrHabitData")
+}
+
+enum Asset {
+  car // Carro
+  motorcycle // Moto
+  virtualAssistant // Assistente virtual (ex.: Alexa, Google Home)
+  payTv // TV por assinatura
+  printer // Impressora
+  internet // Internet
+  tablet // Tablet
+  desktopComputer // Desktop
+  laptop // Notebook
+  smartphone // Smartphone
+}
+
+model StudentAsset {
+  id          String @id @default(uuid()) @db.Uuid
+  asset       Asset  @unique
+  description String @db.VarChar(200)
+
+  studentAssetData StudentAssetData[]
+
+  @@map("studentAsset")
+}
+
+model StudentAssetData {
+  id String @id @default(uuid()) @db.Uuid
+
+  studentIncomingData   StudentIncomingData @relation(fields: [studentIncomingDataId], references: [id], onDelete: Cascade)
+  studentIncomingDataId String              @db.Uuid
+
+  studentAsset   StudentAsset @relation(fields: [studentAssetId], references: [id], onDelete: Cascade)
+  studentAssetId String       @db.Uuid
+
+  @@map("studentAssetData")
+}
+
+enum CourseChoiceReason {
+  hobbyRelation // Relação com hobby
+  financialReasons // Motivos financeiros
+  courseQuality // Qualidade do curso
+  sisuPreference // Mais interessante pelo SISU
+  notFirstChoice // Não foi minha 1ª opção
+  higherEducationDesire // Desejo de formação superior
+  professionalUpdate // Atualização profissional
+  other // Outra
+}
+
+model StudentCourseChoiceReason {
+  id           String             @id @default(uuid()) @db.Uuid
+  choiceReason CourseChoiceReason @unique
+  description  String             @db.VarChar(200)
+
+  studentCourseChoiceReasonData StudentCourseChoiceReasonData[]
+
+  @@map("studentCourseChoiceReason")
+}
+
+model StudentCourseChoiceReasonData {
+  id String @id @default(uuid()) @db.Uuid
+
+  studentIncomingData   StudentIncomingData @relation(fields: [studentIncomingDataId], references: [id], onDelete: Cascade)
+  studentIncomingDataId String              @db.Uuid
+
+  studentCourseChoiceReason   StudentCourseChoiceReason @relation(fields: [studentCourseChoiceReasonId], references: [id], onDelete: Cascade)
+  studentCourseChoiceReasonId String                    @db.Uuid
+
+  @@map("studentCourseChoiceReasonData")
+}
+
+enum UniversityChoiceReason {
+  reputation // Renome
+  closePeople // Pessoas próximas (influência de familiares/amigos)
+  publicEducation // Ensino público
+  professionalReasons // Motivos profissionais
+  financialReasons // Motivos financeiros
+  notFirstChoice // Não foi minha 1ª escolha
+  other // Outra
+}
+
+model StudentUniversityChoiceReason {
+  id           String                 @id @default(uuid()) @db.Uuid
+  choiceReason UniversityChoiceReason @unique
+  description  String                 @db.VarChar(200)
+
+  studentUniversityChoiceReasonData StudentUniversityChoiceReasonData[]
+
+  @@map("studentUniversityChoiceReason")
+}
+
+model StudentUniversityChoiceReasonData {
+  id String @id @default(uuid()) @db.Uuid
+
+  studentIncomingData   StudentIncomingData @relation(fields: [studentIncomingDataId], references: [id], onDelete: Cascade)
+  studentIncomingDataId String              @db.Uuid
+
+  studentUniversityChoiceReason   StudentUniversityChoiceReason @relation(fields: [studentUniversityChoiceReasonId], references: [id], onDelete: Cascade)
+  studentUniversityChoiceReasonId String                        @db.Uuid
+
+  @@map("studentUniversityChoiceReasonData")
+}
+
+enum Technology {
+  internetNavigation // Navegação na internet
+  softwareInstallation // Instalação de softwares
+  programmingAndLanguages // Programas e linguagens
+  spreadsheets // Planilhas
+  operatingSystemSetup // Instalações de sistemas operacionais
+}
+
+model StudentTechnology {
+  id          String     @id @default(uuid()) @db.Uuid
+  technology  Technology @unique
+  description String     @db.VarChar(200)
+
+  studentTechnologyData StudentTechnologyData[]
+
+  @@map("studentTechnology")
+}
+
+model StudentTechnologyData {
+  id String @id @default(uuid()) @db.Uuid
+
+  studentIncomingData   StudentIncomingData @relation(fields: [studentIncomingDataId], references: [id], onDelete: Cascade)
+  studentIncomingDataId String              @db.Uuid
+
+  studentTechnology   StudentTechnology @relation(fields: [studentTechnologyId], references: [id], onDelete: Cascade)
+  studentTechnologyId String            @db.Uuid
+
+  @@map("studentStudentTechnologyData")
 }

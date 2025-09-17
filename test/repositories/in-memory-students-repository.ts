@@ -18,6 +18,18 @@ export class InMemoryStudentsRepository implements StudentsRepository {
     return student;
   }
 
+  async findByMatriculation(matriculation: string): Promise<Student | null> {
+    const student = this.items.find(
+      (item) => item.matriculation === matriculation,
+    );
+
+    if (!student) {
+      return null;
+    }
+
+    return student;
+  }
+
   async findAll({ page, itemsPerPage }: Pagination): Promise<FindAllStudents> {
     const currentPage = (page - 1) * itemsPerPage;
     const totalItemsToTake = page * itemsPerPage;

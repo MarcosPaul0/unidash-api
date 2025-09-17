@@ -29,7 +29,7 @@ type FindAllTeacherSupervisedCompletionWorkDataUseCaseResponse = Either<
 @Injectable()
 export class FindAllTeacherSupervisedCompletionWorkDataUseCase {
   constructor(
-    private TeacherSupervisedCompletionWorkDataRepository: TeacherSupervisedCompletionWorkDataRepository,
+    private teacherSupervisedCompletionWorkDataRepository: TeacherSupervisedCompletionWorkDataRepository,
     private authorizationService: AuthorizationService,
   ) {}
 
@@ -57,7 +57,7 @@ export class FindAllTeacherSupervisedCompletionWorkDataUseCase {
 
     if (isAdminOrWorkCompletionManagerTeacher.isRight()) {
       const teacherSupervisedCompletionWorkData =
-        await this.TeacherSupervisedCompletionWorkDataRepository.findAll(
+        await this.teacherSupervisedCompletionWorkDataRepository.findAll(
           courseId,
           pagination,
           filters,
@@ -67,7 +67,7 @@ export class FindAllTeacherSupervisedCompletionWorkDataUseCase {
     }
 
     const teacherSupervisedCompletionWorkData =
-      await this.TeacherSupervisedCompletionWorkDataRepository.findAllForTeacher(
+      await this.teacherSupervisedCompletionWorkDataRepository.findAllForTeacher(
         sessionUser.id,
         courseId,
         pagination,

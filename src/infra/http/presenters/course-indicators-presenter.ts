@@ -8,36 +8,6 @@ type CourseIndicatorsParams = {
   courseDepartureData: CourseDepartureData[];
 };
 
-/*
-  {
-    2025: [
-      {
-        type: 'cancelado',
-        firstSemester: 12,
-        secondSemester: 12,
-      },
-      {
-        type: 'abandono',
-        firstSemester: 15,
-        secondSemester: 18,
-      },
-    ],
-    2024: [
-      {
-        type: 'cancelado',
-        firstSemester: 12,
-        secondSemester: 12,
-      },
-      {
-        type: 'abandono',
-        firstSemester: 15,
-        secondSemester: 18,
-      },
-    ]
-  }
-
-*/
-
 const DEPARTURE_TYPES = [
   'completed',
   'maximumDuration',

@@ -90,6 +90,7 @@ export class PrismaTeacherSupervisedCompletionWorkDataMapper {
       year: teacherSupervisedCompletionWorkData.year,
       semester: teacherSupervisedCompletionWorkData.semester,
       approved: teacherSupervisedCompletionWorkData.approved,
+      failed: teacherSupervisedCompletionWorkData.failed,
       createdAt: teacherSupervisedCompletionWorkData.createdAt,
       updatedAt: teacherSupervisedCompletionWorkData.updatedAt,
     };

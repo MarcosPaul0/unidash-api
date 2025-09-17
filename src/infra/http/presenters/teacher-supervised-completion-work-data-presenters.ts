@@ -4,8 +4,6 @@ export class TeacherSupervisedCompletionWorkDataPresenter {
   static toHTTP(
     teacherSupervisedCompletionWorkData: TeacherSupervisedCompletionWorkData,
   ) {
-    console.log({ teacherData: teacherSupervisedCompletionWorkData?.teacher });
-
     const teacherData = Boolean(teacherSupervisedCompletionWorkData?.teacher)
       ? {
           teacherName: teacherSupervisedCompletionWorkData.teacher!.name,

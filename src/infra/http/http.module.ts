@@ -125,6 +125,74 @@ import { FindAllTeacherSupervisedCompletionWorkDataForTeacherController } from '
 import { FindAllTeacherSupervisedCompletionWorkDataForTeacherUseCase } from '@/domain/application/use-cases/find-all-teacher-supervised-completion-work-data-for-teacher/find-all-teacher-supervised-completion-work-data-for-teacher';
 import { GetCourseCompletionWorkIndicatorsController } from './controllers/get-course-completion-work-indicators/get-course-completion-work-indicators.controller';
 import { GetCourseCompletionWorkIndicatorsUseCase } from '@/domain/application/use-cases/get-course-completion-work-indicators/get-course-completion-work-indicators';
+import { DeleteCourseExtensionComplementaryActivitiesDataController } from './controllers/delete-course-extension-complementary-activities-data/delete-course-extension-complementary-activities-data.controller';
+import { RegisterCourseExtensionComplementaryActivitiesDataController } from './controllers/register-course-extension-complementary-activities-data/register-course-extension-complementary-activities-data.controller';
+import { FindAllCourseExtensionComplementaryActivitiesDataController } from './controllers/find-all-course-extension-complementary-activities-data/find-all-course-extension-complementary-activities-data.controller';
+import { DeleteCourseTeachingComplementaryActivitiesDataController } from './controllers/delete-course-teaching-complementary-activities-data/delete-course-teaching-complementary-activities-data.controller';
+import { RegisterCourseTeachingComplementaryActivitiesDataController } from './controllers/register-course-teaching-complementary-activities-data/register-course-teaching-complementary-activities-data.controller';
+import { FindAllCourseTeachingComplementaryActivitiesDataController } from './controllers/find-all-course-teaching-complementary-activities-data/find-all-course-teaching-complementary-activities-data.controller';
+import { DeleteCourseSearchComplementaryActivitiesDataController } from './controllers/delete-course-search-complementary-activities-data/delete-course-search-complementary-activities-data.controller';
+import { RegisterCourseSearchComplementaryActivitiesDataController } from './controllers/register-course-search-complementary-activities-data/register-course-search-complementary-activities-data.controller';
+import { FindAllCourseSearchComplementaryActivitiesDataController } from './controllers/find-all-course-search-complementary-activities-data/find-all-course-search-complementary-activities-data.controller';
+import { DeleteCourseExtensionComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/delete-course-extension-complementary-activities-data/delete-course-extension-complementary-activities-data';
+import { RegisterCourseExtensionComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/register-course-extension-complementary-activities-data/register-course-extension-complementary-activities-data';
+import { FindAllCourseExtensionComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/find-all-course-extension-complementary-activities-data/find-all-course-extension-complementary-activities-data';
+import { DeleteCourseTeachingComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/delete-course-teaching-complementary-activities-data/delete-course-teaching-complementary-activities-data';
+import { RegisterCourseTeachingComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/register-course-teaching-complementary-activities-data/register-course-teaching-complementary-activities-data';
+import { DeleteCourseSearchComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/delete-course-search-complementary-activities-data/delete-course-search-complementary-activities-data';
+import { FindAllCourseTeachingComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/find-all-course-teaching-complementary-activities-data/find-all-course-teaching-complementary-activities-data';
+import { RegisterCourseSearchComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/register-course-search-complementary-activities-data/register-course-search-complementary-activities-data';
+import { FindAllCourseSearchComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/find-all-course-search-complementary-activities-data/find-all-course-search-complementary-activities-data';
+import { FindAllCourseExtensionActivitiesDataController } from './controllers/find-all-course-extension-activities-data/find-all-course-extension-activities-data.controller';
+import { RegisterCourseExtensionActivitiesDataController } from './controllers/register-course-extension-activities-data/register-course-extension-activities-data.controller';
+import { DeleteCourseExtensionActivitiesDataController } from './controllers/delete-course-extension-activities-data/delete-course-extension-activities-data.controller';
+import { DeleteCourseExtensionActivitiesDataUseCase } from '@/domain/application/use-cases/delete-course-extension-activities-data/delete-course-extension-activities-data';
+import { RegisterCourseExtensionActivitiesDataUseCase } from '@/domain/application/use-cases/register-course-extension-activities-data/register-course-extension-activities-data';
+import { FindAllCourseExtensionActivitiesDataUseCase } from '@/domain/application/use-cases/find-all-course-extension-activities-data/find-all-course-extension-activities-data';
+import { RegisterTeacherTechnicalScientificProductionsDataByTeacherController } from './controllers/register-teacher-technical-scientific-productions-data-by-teacher/register-teacher-technical-scientific-productions-data-by-teacher.controller';
+import { RegisterTeacherTechnicalScientificProductionsDataController } from './controllers/register-teacher-technical-scientific-productions-data/register-teacher-technical-scientific-productions-data.controller';
+import { RegisterTeacherResearchAndExtensionProjectsDataByTeacherController } from './controllers/register-teacher-research-and-extension-projects-data-by-teacher/register-teacher-research-and-extension-projects-data-by-teacher.controller';
+import { RegisterTeacherResearchAndExtensionProjectsDataController } from './controllers/register-teacher-research-and-extension-projects-data/register-teacher-research-and-extension-projects-data.controller';
+import { FindAllTeacherTechnicalScientificProductionsDataController } from './controllers/find-all-teacher-technical-scientific-productions-data/find-all-teacher-technical-scientific-productions-data.controller';
+import { FindAllTeacherResearchAndExtensionProjectsDataController } from './controllers/find-all-teacher-research-and-extension-projects-data/find-all-teacher-research-and-extension-projects-data.controller';
+import { DeleteTeacherTechnicalScientificProductionsDataController } from './controllers/delete-teacher-technical-scientific-productions-data/delete-teacher-technical-scientific-productions-data.controller';
+import { DeleteTeacherResearchAndExtensionProjectsDataController } from './controllers/delete-teacher-research-and-extension-projects-data/delete-teacher-research-and-extension-projects-data.controller';
+import { DeleteTeacherResearchAndExtensionProjectsDataUseCase } from '@/domain/application/use-cases/delete-teacher-research-and-extension-projects-data/delete-teacher-research-and-extension-projects-data';
+import { DeleteTeacherTechnicalScientificProductionsDataUseCase } from '@/domain/application/use-cases/delete-teacher-technical-scientific-productions-data/delete-teacher-technical-scientific-productions-data';
+import { FindAllTeacherResearchAndExtensionProjectsDataUseCase } from '@/domain/application/use-cases/find-all-teacher-research-and-extension-projects-data/find-all-teacher-research-and-extension-projects-data';
+import { FindAllTeacherTechnicalScientificProductionsDataUseCase } from '@/domain/application/use-cases/find-all-teacher-technical-scientific-productions-data/find-all-teacher-technical-scientific-productions-data';
+import { RegisterTeacherResearchAndExtensionProjectsDataUseCase } from '@/domain/application/use-cases/register-teacher-research-and-extension-projects-data/register-teacher-research-and-extension-projects-data';
+import { RegisterTeacherResearchAndExtensionProjectsDataByTeacherUseCase } from '@/domain/application/use-cases/register-teacher-research-and-extension-projects-data-by-teacher/register-teacher-research-and-extension-projects-data-by-teacher';
+import { RegisterTeacherTechnicalScientificProductionsDataUseCase } from '@/domain/application/use-cases/register-teacher-technical-scientific-productions-data/register-teacher-technical-scientific-productions-data';
+import { RegisterTeacherTechnicalScientificProductionsDataByTeacherUseCase } from '@/domain/application/use-cases/register-teacher-technical-scientific-productions-data-by-teacher/register-teacher-technical-scientific-productions-data-by-teacher';
+import { FindAllTeacherResearchAndExtensionProjectsDataForTeacherUseCase } from '@/domain/application/use-cases/find-all-teacher-research-and-extension-projects-data-for-teacher/find-all-teacher-research-and-extension-projects-data-for-teacher';
+import { FindAllTeacherTechnicalScientificProductionsDataForTeacherUseCase } from '@/domain/application/use-cases/find-all-teacher-technical-scientific-productions-data-for-teacher/find-all-teacher-technical-scientific-productions-data-for-teacher';
+import { FindAllTeacherResearchAndExtensionProjectsDataForTeacherController } from './controllers/find-all-teacher-research-and-extension-projects-data-for-teacher/find-all-teacher-research-and-extension-projects-data-for-teacher.controller';
+import { FindAllTeacherTechnicalScientificProductionsDataForTeacherController } from './controllers/find-all-teacher-technical-scientific-productions-data-for-teacher/find-all-teacher-technical-scientific-productions-data-for-teacher.controller';
+import { DeleteCourseInternshipDataController } from './controllers/delete-course-internship-data/delete-course-internship-data.controller';
+import { FindAllCourseInternshipDataController } from './controllers/find-all-course-internship-data/find-all-course-internship-data.controller';
+import { RegisterCourseInternshipDataController } from './controllers/register-course-internship-data/register-course-internship-data.controller';
+import { FindAllCourseInternshipDataUseCase } from '@/domain/application/use-cases/find-all-course-internship-data/find-all-course-internship-data';
+import { DeleteCourseInternshipDataUseCase } from '@/domain/application/use-cases/delete-course-internship-data/delete-course-internship-data';
+import { RegisterCourseInternshipDataUseCase } from '@/domain/application/use-cases/register-course-internship-data/register-course-internship-data';
+import { FindAllCitiesController } from './controllers/find-all-cities/find-all-cities.controller';
+import { FindAllCitiesUseCase } from '@/domain/application/use-cases/find-all-cities/find-all-cities';
+import { DeleteStudentIncomingDataController } from './controllers/delete-student-incoming-data/delete-student-incoming-data.controller';
+import { DeleteStudentIncomingDataUseCase } from '@/domain/application/use-cases/delete-student-incoming-data/delete-student-incoming-data';
+import { FindAllStudentIncomingDataUseCase } from '@/domain/application/use-cases/find-all-student-incoming-data/find-all-student-incoming-data';
+import { FindAllStudentIncomingDataController } from './controllers/find-all-student-incoming-data/find-all-student-incoming-data.controller';
+import { RegisterStudentIncomingDataController } from './controllers/register-student-incoming-data/register-student-incoming-data.controller';
+import { RegisterStudentIncomingDataUseCase } from '@/domain/application/use-cases/register-student-incoming-data/register-student-incoming-data';
+import { CheckIncomingStudentRespondedController } from './controllers/check-incoming-student-responded/check-incoming-student-responded.controller';
+import { CheckIncomingStudentRespondedUseCase } from '@/domain/application/use-cases/check-incoming-student-responded/check-incoming-student-responded';
+import { GetCourseActivitiesIndicatorsUseCase } from '@/domain/application/use-cases/get-course-activities-indicators/get-course-activities-indicators';
+import { GetCourseActivitiesIndicatorsController } from './controllers/get-course-activities-indicators/get-course-activities-indicators.controller';
+import { GetCourseInternshipIndicatorsController } from './controllers/get-course-internship-indicators/get-course-internship-indicators.controller';
+import { GetCourseInternshipIndicatorsUseCase } from '@/domain/application/use-cases/get-course-internship-indicators/get-course-internship-indicators';
+import { GetCourseTeachersProductionsIndicatorsController } from './controllers/get-course-teachers-productions-indicators/get-course-teachers-productions-indicators.controller';
+import { GetCourseTeachersProductionsIndicatorsUseCase } from '@/domain/application/use-cases/get-course-teachers-productions-indicators/get-course-teachers-productions-indicators';
+import { GetCourseStudentIncomingIndicatorsController } from './controllers/get-course-student-incoming-indicators/get-course-student-incoming-indicators.controller';
+import { GetCourseStudentIncomingIndicatorsUseCase } from '@/domain/application/use-cases/get-course-student-incoming-indicators/get-course-student-incoming-indicators';
 
 @Module({
   imports: [
@@ -195,6 +263,40 @@ import { GetCourseCompletionWorkIndicatorsUseCase } from '@/domain/application/u
     RegisterTeacherSupervisedCompletionWorkDataByTeacherController,
     FindAllTeacherSupervisedCompletionWorkDataForTeacherController,
     GetCourseCompletionWorkIndicatorsController,
+    DeleteCourseExtensionComplementaryActivitiesDataController,
+    RegisterCourseExtensionComplementaryActivitiesDataController,
+    FindAllCourseExtensionComplementaryActivitiesDataController,
+    DeleteCourseTeachingComplementaryActivitiesDataController,
+    RegisterCourseTeachingComplementaryActivitiesDataController,
+    FindAllCourseTeachingComplementaryActivitiesDataController,
+    DeleteCourseSearchComplementaryActivitiesDataController,
+    RegisterCourseSearchComplementaryActivitiesDataController,
+    FindAllCourseSearchComplementaryActivitiesDataController,
+    DeleteCourseExtensionActivitiesDataController,
+    RegisterCourseExtensionActivitiesDataController,
+    FindAllCourseExtensionActivitiesDataController,
+    DeleteTeacherResearchAndExtensionProjectsDataController,
+    DeleteTeacherTechnicalScientificProductionsDataController,
+    FindAllTeacherResearchAndExtensionProjectsDataController,
+    FindAllTeacherTechnicalScientificProductionsDataController,
+    FindAllTeacherResearchAndExtensionProjectsDataForTeacherController,
+    FindAllTeacherTechnicalScientificProductionsDataForTeacherController,
+    RegisterTeacherResearchAndExtensionProjectsDataController,
+    RegisterTeacherResearchAndExtensionProjectsDataByTeacherController,
+    RegisterTeacherTechnicalScientificProductionsDataController,
+    RegisterTeacherTechnicalScientificProductionsDataByTeacherController,
+    FindAllCourseInternshipDataController,
+    DeleteCourseInternshipDataController,
+    RegisterCourseInternshipDataController,
+    FindAllCitiesController,
+    DeleteStudentIncomingDataController,
+    FindAllStudentIncomingDataController,
+    RegisterStudentIncomingDataController,
+    CheckIncomingStudentRespondedController,
+    GetCourseActivitiesIndicatorsController,
+    GetCourseInternshipIndicatorsController,
+    GetCourseTeachersProductionsIndicatorsController,
+    GetCourseStudentIncomingIndicatorsController,
   ],
   providers: [
     RegisterStudentUseCase,
@@ -257,6 +359,40 @@ import { GetCourseCompletionWorkIndicatorsUseCase } from '@/domain/application/u
     RegisterTeacherSupervisedCompletionWorkDataByTeacherUseCase,
     FindAllTeacherSupervisedCompletionWorkDataForTeacherUseCase,
     GetCourseCompletionWorkIndicatorsUseCase,
+    DeleteCourseExtensionComplementaryActivitiesDataUseCase,
+    RegisterCourseExtensionComplementaryActivitiesDataUseCase,
+    FindAllCourseExtensionComplementaryActivitiesDataUseCase,
+    DeleteCourseTeachingComplementaryActivitiesDataUseCase,
+    RegisterCourseTeachingComplementaryActivitiesDataUseCase,
+    FindAllCourseTeachingComplementaryActivitiesDataUseCase,
+    DeleteCourseSearchComplementaryActivitiesDataUseCase,
+    RegisterCourseSearchComplementaryActivitiesDataUseCase,
+    FindAllCourseSearchComplementaryActivitiesDataUseCase,
+    DeleteCourseExtensionActivitiesDataUseCase,
+    RegisterCourseExtensionActivitiesDataUseCase,
+    FindAllCourseExtensionActivitiesDataUseCase,
+    DeleteTeacherResearchAndExtensionProjectsDataUseCase,
+    DeleteTeacherTechnicalScientificProductionsDataUseCase,
+    FindAllTeacherResearchAndExtensionProjectsDataUseCase,
+    FindAllTeacherTechnicalScientificProductionsDataUseCase,
+    FindAllTeacherResearchAndExtensionProjectsDataForTeacherUseCase,
+    FindAllTeacherTechnicalScientificProductionsDataForTeacherUseCase,
+    RegisterTeacherResearchAndExtensionProjectsDataUseCase,
+    RegisterTeacherResearchAndExtensionProjectsDataByTeacherUseCase,
+    RegisterTeacherTechnicalScientificProductionsDataUseCase,
+    RegisterTeacherTechnicalScientificProductionsDataByTeacherUseCase,
+    FindAllCourseInternshipDataUseCase,
+    DeleteCourseInternshipDataUseCase,
+    RegisterCourseInternshipDataUseCase,
+    FindAllCitiesUseCase,
+    DeleteStudentIncomingDataUseCase,
+    FindAllStudentIncomingDataUseCase,
+    RegisterStudentIncomingDataUseCase,
+    CheckIncomingStudentRespondedUseCase,
+    GetCourseActivitiesIndicatorsUseCase,
+    GetCourseInternshipIndicatorsUseCase,
+    GetCourseTeachersProductionsIndicatorsUseCase,
+    GetCourseStudentIncomingIndicatorsUseCase,
   ],
 })
 export class HttpModule {}

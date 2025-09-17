@@ -8,6 +8,8 @@ import { AuthorizationService } from '@/infra/authorization/authorization.servic
 import { makeStudent } from 'test/factories/make-student';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { makeAdmin } from 'test/factories/make-admin';
+import { makeSessionUser } from 'test/factories/make-session-user';
+import { makeTeacherCourse } from 'test/factories/make-teacher-course';
 
 let inMemoryTeachersRepository: InMemoryTeachersRepository;
 let inMemoryTeacherCoursesRepository: InMemoryTeacherCoursesRepository;
@@ -26,22 +28,29 @@ describe('Find Teacher', () => {
 
     sut = new FindTeacherUseCase(
       inMemoryTeachersRepository,
+      inMemoryTeacherCoursesRepository,
       authorizationService,
     );
   });
 
   it('should be able to find a teacher', async () => {
     const teacher = makeTeacher({}, new UniqueEntityId('teacher-1'));
+    const teacherCourse = makeTeacherCourse({
+      teacher,
+      teacherId: 'teacher-1',
+    });
 
     inMemoryTeachersRepository.create(teacher);
+    inMemoryTeacherCoursesRepository.teacherCourses.push(teacherCourse);
 
     const result = await sut.execute({
-      sessionUser: teacher,
+      sessionUser: makeSessionUser(teacher),
     });
 
     expect(result.isRight()).toBe(true);
     expect(result.value).toEqual({
       teacher,
+      teacherCourses: [teacherCourse],
     });
   });
 
@@ -49,7 +58,7 @@ describe('Find Teacher', () => {
     const teacher = makeTeacher({}, new UniqueEntityId('teacher-2'));
 
     const result = await sut.execute({
-      sessionUser: teacher,
+      sessionUser: makeSessionUser(teacher),
     });
 
     expect(result.isLeft()).toBe(true);
@@ -60,7 +69,7 @@ describe('Find Teacher', () => {
     const student = makeStudent({}, new UniqueEntityId('student-1'));
 
     const result = await sut.execute({
-      sessionUser: student,
+      sessionUser: makeSessionUser(student),
     });
 
     expect(result.isLeft()).toBe(true);
@@ -71,7 +80,7 @@ describe('Find Teacher', () => {
     const admin = makeAdmin({}, new UniqueEntityId('admin-1'));
 
     const result = await sut.execute({
-      sessionUser: admin,
+      sessionUser: makeSessionUser(admin),
     });
 
     expect(result.isLeft()).toBe(true);
