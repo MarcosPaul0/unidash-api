@@ -51,7 +51,8 @@ model Teacher {
   teacherTechnicalScientificProductionsData TeacherTechnicalScientificProductionsData[]
   teacherResearchAndExtensionProjectsData   TeacherResearchAndExtensionProjectsData[]
 
-  courseInternshipData CourseInternshipData[]
+  courseTeacherWorkloadData CourseTeacherWorkloadData[]
+  courseInternshipData      CourseInternshipData[]
 
   @@map("teachers")
 }
@@ -95,6 +96,7 @@ model Course {
   courseExtensionComplementaryActivitiesData CourseExtensionComplementaryActivitiesData[]
   courseExtensionActivitiesData              CourseExtensionActivitiesData[]
   courseInternshipData                       CourseInternshipData[]
+  courseTeacherWorkloadData                  CourseTeacherWorkloadData[]
 
   teacherSupervisedCompletionWorkData TeacherSupervisedCompletionWorkData[]
 
@@ -208,8 +210,6 @@ model CourseStudentsData {
   semester    Semester  @default(first)
   entrants    Int       @default(0) @db.SmallInt
   actives     Int       @default(0) @db.SmallInt
-  locks       Int       @default(0) @db.SmallInt
-  canceled    Int       @default(0) @db.SmallInt
   vacancies   Int       @default(0) @db.SmallInt
   subscribers Int       @default(0) @db.SmallInt
   createdAt   DateTime  @default(now())
@@ -662,4 +662,20 @@ model StudentTechnologyData {
   studentTechnologyId String            @db.Uuid
 
   @@map("studentStudentTechnologyData")
+}
+
+model CourseTeacherWorkloadData {
+  id                String    @id @default(uuid()) @db.Uuid
+  year              Int       @db.SmallInt
+  semester          Semester  @default(first)
+  workloadInMinutes Int       @default(0) @db.SmallInt
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime? @updatedAt
+
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId String  @db.Uuid
+  course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId  String  @db.Uuid
+
+  @@map("courseTeacherWorkloadData")
 }
