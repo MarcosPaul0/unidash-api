@@ -13,7 +13,7 @@ const findAllTeacherSupervisedCompletionWorkDataForTeacherQuerySchema = z
     page: z.coerce.number().optional(),
     itemsPerPage: z.coerce.number().optional(),
     semester: z.enum(SEMESTER).optional(),
-    year: z.int().max(new Date().getFullYear()).min(0).optional(),
+    year: z.coerce.number().max(new Date().getFullYear()).min(0).optional(),
   })
   .optional();
 

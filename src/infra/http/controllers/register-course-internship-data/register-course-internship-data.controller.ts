@@ -9,7 +9,6 @@ import {
   HttpCode,
   Post,
 } from '@nestjs/common';
-import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
@@ -17,6 +16,7 @@ import { SEMESTER } from '@/domain/entities/course-data';
 import { RegisterCourseInternshipDataUseCase } from '@/domain/application/use-cases/register-course-internship-data/register-course-internship-data';
 import { CONCLUSION_TIME } from '@/domain/entities/course-internship-data';
 import { InvalidStudentForCourseDataError } from '@/domain/application/use-cases/errors/invalid-student-for-course-data-error';
+import { CourseInternshipDataAlreadyExistsError } from '@/domain/application/use-cases/errors/course-internship-data-already-exists-error';
 
 const registerCourseInternshipDataBodySchema = z.object({
   courseId: z.uuid(),
@@ -56,7 +56,7 @@ export class RegisterCourseInternshipDataController {
       const error = result.value;
 
       switch (error.constructor) {
-        case UserAlreadyExistsError:
+        case CourseInternshipDataAlreadyExistsError:
           throw new ConflictException(error.message);
         case InvalidStudentForCourseDataError:
           throw new ConflictException(error.message);

@@ -8,44 +8,41 @@ import {
   ForbiddenException,
   HttpCode,
   Post,
-  UsePipes,
 } from '@nestjs/common';
-import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { SEMESTER } from '@/domain/entities/course-data';
-import { RegisterCourseStudentsDataUseCase } from '@/domain/application/use-cases/register-course-students-data/register-course-students-data';
+import { RegisterCourseTeacherWorkloadDataUseCase } from '@/domain/application/use-cases/register-course-teacher-workload-data/register-course-teacher-workload-data';
+import { CourseTeacherWorkloadDataAlreadyExistsError } from '@/domain/application/use-cases/errors/course-teacher-workload-data-already-exists-error';
 
-const registerCourseStudentsDataBodySchema = z.object({
+const registerCourseTeacherWorkloadDataBodySchema = z.object({
   courseId: z.uuid(),
+  teacherId: z.uuid(),
   year: z.int().max(new Date().getFullYear()).min(0),
   semester: z.enum(SEMESTER),
-  entrants: z.int().min(0).max(1000),
-  actives: z.int().min(0).max(1000),
-  vacancies: z.int().min(0).max(1000),
-  subscribers: z.int().min(0).max(1000),
+  workloadInMinutes: z.int().min(0).max(1000),
 });
 
-type RegisterCourseStudentsDataBodySchema = z.infer<
-  typeof registerCourseStudentsDataBodySchema
+type RegisterCourseTeacherWorkloadDataBodySchema = z.infer<
+  typeof registerCourseTeacherWorkloadDataBodySchema
 >;
 
-@Controller('/course-students-data')
-export class RegisterCourseStudentsDataController {
+@Controller('/course-teacher-workload-data')
+export class RegisterCourseTeacherWorkloadDataController {
   constructor(
-    private registerCourseStudentsData: RegisterCourseStudentsDataUseCase,
+    private registerCourseTeacherWorkloadData: RegisterCourseTeacherWorkloadDataUseCase,
   ) {}
 
   @Post()
   @HttpCode(201)
   async handle(
     @CurrentUser() sessionUser: SessionUser,
-    @Body(new ZodValidationPipe(registerCourseStudentsDataBodySchema))
-    body: RegisterCourseStudentsDataBodySchema,
+    @Body(new ZodValidationPipe(registerCourseTeacherWorkloadDataBodySchema))
+    body: RegisterCourseTeacherWorkloadDataBodySchema,
   ) {
-    const result = await this.registerCourseStudentsData.execute({
-      courseStudentsData: body,
+    const result = await this.registerCourseTeacherWorkloadData.execute({
+      courseTeacherWorkloadData: body,
       sessionUser,
     });
 
@@ -53,7 +50,7 @@ export class RegisterCourseStudentsDataController {
       const error = result.value;
 
       switch (error.constructor) {
-        case UserAlreadyExistsError:
+        case CourseTeacherWorkloadDataAlreadyExistsError:
           throw new ConflictException(error.message);
         case NotAllowedError:
           throw new ForbiddenException(error.message);

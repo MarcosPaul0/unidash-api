@@ -193,6 +193,12 @@ import { GetCourseTeachersProductionsIndicatorsController } from './controllers/
 import { GetCourseTeachersProductionsIndicatorsUseCase } from '@/domain/application/use-cases/get-course-teachers-productions-indicators/get-course-teachers-productions-indicators';
 import { GetCourseStudentIncomingIndicatorsController } from './controllers/get-course-student-incoming-indicators/get-course-student-incoming-indicators.controller';
 import { GetCourseStudentIncomingIndicatorsUseCase } from '@/domain/application/use-cases/get-course-student-incoming-indicators/get-course-student-incoming-indicators';
+import { RegisterCourseTeacherWorkloadDataController } from './controllers/register-course-teacher-workload-data/register-course-teacher-workload-data.controller';
+import { DeleteCourseTeacherWorkloadDataController } from './controllers/delete-course-teacher-workload-data/delete-course-teacher-workload-data.controller';
+import { FindAllCourseTeacherWorkloadDataController } from './controllers/find-all-course-teacher-workload-data/find-all-course-teacher-workload-data.controller';
+import { RegisterCourseTeacherWorkloadDataUseCase } from '@/domain/application/use-cases/register-course-teacher-workload-data/register-course-teacher-workload-data';
+import { DeleteCourseTeacherWorkloadDataUseCase } from '@/domain/application/use-cases/delete-course-teacher-workload-data/delete-course-teacher-workload-data';
+import { FindAllCourseTeacherWorkloadDataUseCase } from '@/domain/application/use-cases/find-all-course-teacher-workload-data/find-all-course-teacher-workload-data';
 
 @Module({
   imports: [
@@ -297,6 +303,9 @@ import { GetCourseStudentIncomingIndicatorsUseCase } from '@/domain/application/
     GetCourseInternshipIndicatorsController,
     GetCourseTeachersProductionsIndicatorsController,
     GetCourseStudentIncomingIndicatorsController,
+    RegisterCourseTeacherWorkloadDataController,
+    DeleteCourseTeacherWorkloadDataController,
+    FindAllCourseTeacherWorkloadDataController,
   ],
   providers: [
     RegisterStudentUseCase,
@@ -393,6 +402,9 @@ import { GetCourseStudentIncomingIndicatorsUseCase } from '@/domain/application/
     GetCourseInternshipIndicatorsUseCase,
     GetCourseTeachersProductionsIndicatorsUseCase,
     GetCourseStudentIncomingIndicatorsUseCase,
+    RegisterCourseTeacherWorkloadDataUseCase,
+    DeleteCourseTeacherWorkloadDataUseCase,
+    FindAllCourseTeacherWorkloadDataUseCase,
   ],
 })
 export class HttpModule {}

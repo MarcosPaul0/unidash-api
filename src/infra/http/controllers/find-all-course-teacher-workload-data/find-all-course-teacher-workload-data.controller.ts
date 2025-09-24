@@ -1,14 +1,13 @@
 import { Controller, Get, HttpCode, Param, Query } from '@nestjs/common';
-import { Public } from '@/infra/auth/public';
-import { FindAllCourseDepartureDataUseCase } from '@/domain/application/use-cases/find-all-course-departure-data/find-all-course-departure-data';
 import z from 'zod';
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
-import { CourseDepartureDataPresenter } from '../../presenters/course-departure-data-presenter';
 import { SEMESTER } from '@/domain/entities/course-data';
 import { SessionUser } from '@/domain/entities/user';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
+import { FindAllCourseTeacherWorkloadDataUseCase } from '@/domain/application/use-cases/find-all-course-teacher-workload-data/find-all-course-teacher-workload-data';
+import { CourseTeacherWorkloadDataPresenter } from '../../presenters/course-teacher-workload-data-presenter';
 
-const findAllCourseDepartureDataQuerySchema = z
+const findAllCourseTeacherWorkloadDataQuerySchema = z
   .object({
     page: z.coerce.number().optional(),
     itemsPerPage: z.coerce.number().optional(),
@@ -17,14 +16,14 @@ const findAllCourseDepartureDataQuerySchema = z
   })
   .optional();
 
-type FindAllCourseDepartureDataQuerySchema = z.infer<
-  typeof findAllCourseDepartureDataQuerySchema
+type FindAllCourseTeacherWorkloadDataQuerySchema = z.infer<
+  typeof findAllCourseTeacherWorkloadDataQuerySchema
 >;
 
-@Controller('/course-departure-data/:courseId')
-export class FindAllCourseDepartureDataController {
+@Controller('/course-teacher-workload-data/:courseId')
+export class FindAllCourseTeacherWorkloadDataController {
   constructor(
-    private findAllCourseDepartureData: FindAllCourseDepartureDataUseCase,
+    private findAllCourseTeacherWorkloadData: FindAllCourseTeacherWorkloadDataUseCase,
   ) {}
 
   @Get()
@@ -32,10 +31,10 @@ export class FindAllCourseDepartureDataController {
   async handle(
     @CurrentUser() sessionUser: SessionUser,
     @Param('courseId') courseId: string,
-    @Query(new ZodValidationPipe(findAllCourseDepartureDataQuerySchema))
-    query?: FindAllCourseDepartureDataQuerySchema,
+    @Query(new ZodValidationPipe(findAllCourseTeacherWorkloadDataQuerySchema))
+    query?: FindAllCourseTeacherWorkloadDataQuerySchema,
   ) {
-    const result = await this.findAllCourseDepartureData.execute({
+    const result = await this.findAllCourseTeacherWorkloadData.execute({
       courseId,
       pagination:
         query?.itemsPerPage && query?.page
@@ -53,8 +52,8 @@ export class FindAllCourseDepartureDataController {
     }
 
     return {
-      courseDepartureData: result.value.courseDepartureData.map(
-        CourseDepartureDataPresenter.toHTTP,
+      courseTeacherWorkloadData: result.value.courseTeacherWorkloadData.map(
+        CourseTeacherWorkloadDataPresenter.toHTTP,
       ),
       totalItems: result.value.totalItems,
       totalPages: result.value.totalPages,
