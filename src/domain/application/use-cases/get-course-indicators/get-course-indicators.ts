@@ -8,6 +8,8 @@ import { CourseDepartureDataRepository } from '../../repositories/course-departu
 import { CourseStudentsData } from '@/domain/entities/course-students-data';
 import { CourseDepartureData } from '@/domain/entities/course-departure-data';
 import { CourseRegistrationLockData } from '@/domain/entities/course-registration-lock-data';
+import { CourseTeacherWorkloadDataRepository } from '../../repositories/course-teacher-workload-data-repository';
+import { CourseTeacherWorkloadData } from '@/domain/entities/course-teacher-workload-data';
 
 interface GetCourseIndicatorsUseCaseRequest {
   courseId: string;
@@ -20,6 +22,7 @@ type GetCourseIndicatorsUseCaseResponse = Either<
     courseRegistrationLockData: CourseRegistrationLockData[];
     courseStudentsData: CourseStudentsData[];
     courseDepartureData: CourseDepartureData[];
+    courseTeacherWorkloadData: CourseTeacherWorkloadData[];
   }
 >;
 
@@ -29,6 +32,7 @@ export class GetCourseIndicatorsUseCase {
     private courseRegistrationLockDataRepository: CourseRegistrationLockDataRepository,
     private courseStudentsDataRepository: CourseStudentsDataRepository,
     private courseDepartureDataRepository: CourseDepartureDataRepository,
+    private courseTeacherWorkloadDataRepository: CourseTeacherWorkloadDataRepository,
   ) {}
 
   async execute({
@@ -53,10 +57,17 @@ export class GetCourseIndicatorsUseCase {
         filters,
       );
 
+    const courseTeacherWorkloadData =
+      await this.courseTeacherWorkloadDataRepository.findForIndicators(
+        courseId,
+        filters,
+      );
+
     return right({
       courseDepartureData,
       courseRegistrationLockData,
       courseStudentsData,
+      courseTeacherWorkloadData,
     });
   }
 }

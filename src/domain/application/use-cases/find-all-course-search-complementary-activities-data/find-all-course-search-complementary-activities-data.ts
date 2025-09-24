@@ -39,10 +39,12 @@ export class FindAllCourseSearchComplementaryActivitiesDataUseCase {
     filters,
     sessionUser,
   }: FindAllCourseSearchComplementaryActivitiesDataUseCaseRequest): Promise<FindAllCourseSearchComplementaryActivitiesDataUseCaseResponse> {
-    const authorization = await this.authorizationService.ensureUserRole(
-      sessionUser,
-      ['admin', 'teacher'],
-    );
+    const authorization =
+      await this.authorizationService.ensureIsAdminOrTeacherWithRole(
+        sessionUser,
+        courseId,
+        ['complementaryActivitiesManagerTeacher'],
+      );
 
     if (authorization.isLeft()) {
       return left(authorization.value);

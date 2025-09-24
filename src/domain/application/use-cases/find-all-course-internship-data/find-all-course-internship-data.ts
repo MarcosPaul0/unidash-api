@@ -43,7 +43,7 @@ export class FindAllCourseInternshipDataUseCase {
       await this.authorizationService.ensureIsAdminOrTeacherWithRole(
         sessionUser,
         courseId,
-        ['courseManagerTeacher', 'internshipManagerTeacher'],
+        ['internshipManagerTeacher'],
       );
 
     if (authorization.isLeft()) {

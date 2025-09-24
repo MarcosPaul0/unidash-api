@@ -5,8 +5,6 @@ import { CourseData, CourseDataProps } from './course-data';
 export interface CourseStudentsDataProps extends CourseDataProps {
   entrants: number;
   actives: number;
-  locks: number;
-  canceled: number;
   vacancies: number;
   subscribers: number;
 }
@@ -34,30 +32,6 @@ export class CourseStudentsData extends CourseData<CourseStudentsDataProps> {
     }
 
     this.props.actives = actives;
-  }
-
-  get locks() {
-    return this.props.locks;
-  }
-
-  set locks(locks: number) {
-    if (!locks) {
-      return;
-    }
-
-    this.props.locks = locks;
-  }
-
-  get canceled() {
-    return this.props.canceled;
-  }
-
-  set canceled(canceled: number) {
-    if (!canceled) {
-      return;
-    }
-
-    this.props.canceled = canceled;
   }
 
   get vacancies() {

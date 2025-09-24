@@ -43,7 +43,7 @@ export class CourseTeachersProductionsIndicatorsPresenter {
         technicalScientificProductionsByTeacher[data.year] = newTeacherYearData;
       } else {
         const teacherData = yearDataByTeacher.find(
-          (data) => data.teacherId == data.teacherId,
+          (yearData) => yearData.teacherId == data.teacherId,
         );
 
         if (teacherData) {
@@ -107,7 +107,7 @@ export class CourseTeachersProductionsIndicatorsPresenter {
         researchAndExtensionProjectsByTeacher[data.year] = newTeacherYearData;
       } else {
         const teacherData = yearDataByTeacher.find(
-          (data) => data.teacherId == data.teacherId,
+          (yearData) => yearData.teacherId == data.teacherId,
         );
 
         if (teacherData) {
@@ -117,8 +117,8 @@ export class CourseTeachersProductionsIndicatorsPresenter {
           yearDataByTeacher.push({
             teacherId: data.teacherId,
             teacher: data.teacher!.name,
-            periodicals: data.extensionProjects,
-            congress: data.researchProjects,
+            extensionProjects: data.extensionProjects,
+            researchProjects: data.researchProjects,
           });
         }
       }

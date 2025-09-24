@@ -35,17 +35,13 @@ export class PrismaCourseInternshipDataRepository
     return PrismaCourseInternshipDataMapper.toDomain(courseInternshipsData);
   }
 
-  async findByCourseAndPeriod(
-    courseId: string,
-    year: number,
-    semester: Semester,
+  async findByMatriculation(
+    matriculation: string,
   ): Promise<CourseInternshipData | null> {
     const courseInternshipsData =
-      await this.prisma.courseInternshipData.findFirst({
+      await this.prisma.courseInternshipData.findUnique({
         where: {
-          courseId,
-          year,
-          semester,
+          studentMatriculation: matriculation,
         },
         include: {
           city: true,

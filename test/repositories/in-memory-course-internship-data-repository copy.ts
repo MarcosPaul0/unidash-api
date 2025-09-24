@@ -25,16 +25,11 @@ export class InMemoryCourseInternshipDataRepository
     return courseInternshipData;
   }
 
-  async findByCourseAndPeriod(
-    courseId: string,
-    year: number,
-    semester: Semester,
+  async findByMatriculation(
+    matriculation: string,
   ): Promise<CourseInternshipData | null> {
     const courseInternshipData = this.courseInternshipData.find(
-      (item) =>
-        item.courseId === courseId &&
-        item.year === year &&
-        item.semester === semester,
+      (item) => item.studentMatriculation === matriculation,
     );
 
     if (!courseInternshipData) {

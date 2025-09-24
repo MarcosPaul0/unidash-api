@@ -39,10 +39,12 @@ export class FindAllCourseRegistrationLockDataUseCase {
     filters,
     sessionUser,
   }: FindAllCourseRegistrationLockDataUseCaseRequest): Promise<FindAllCourseRegistrationLockDataUseCaseResponse> {
-    const authorization = await this.authorizationService.ensureUserRole(
-      sessionUser,
-      ['admin', 'teacher'],
-    );
+    const authorization =
+      await this.authorizationService.ensureIsAdminOrTeacherWithRole(
+        sessionUser,
+        courseId,
+        ['courseManagerTeacher'],
+      );
 
     if (authorization.isLeft()) {
       return left(authorization.value);

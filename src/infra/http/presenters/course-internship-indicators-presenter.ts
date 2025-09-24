@@ -19,6 +19,7 @@ export class CourseInternshipIndicatorsPresenter {
             role: currentData.role,
             conclusionTime: currentData.conclusionTime,
             city: currentData.city!.name,
+            advisorId: currentData.advisorId,
             advisor: currentData.advisor!.name,
           },
         ]);
@@ -29,6 +30,7 @@ export class CourseInternshipIndicatorsPresenter {
             role: currentData.role,
             conclusionTime: currentData.conclusionTime,
             city: currentData.city!.name,
+            advisorId: currentData.advisorId,
             advisor: currentData.advisor!.name,
           },
         ]);
@@ -49,11 +51,12 @@ export class CourseInternshipIndicatorsPresenter {
       const yearInternships = internshipsByYear.get(year);
 
       yearInternships.forEach((currentData) => {
-        const cityCount = dataGroupedByCity[currentData.city];
-        const roleCount = dataGroupedByRole[currentData.role];
-        const advisorCount = dataGroupedByAdvisor[currentData.advisor];
-        const conclusionTimeCount =
-          dataGroupedByConclusionTime[currentData.conclusionTime];
+        const cityCount = dataGroupedByCity.get(currentData.city);
+        const roleCount = dataGroupedByRole.get(currentData.role);
+        const advisorCount = dataGroupedByAdvisor.get(currentData.advisor);
+        const conclusionTimeCount = dataGroupedByConclusionTime.get(
+          currentData.conclusionTime,
+        );
 
         if (cityCount) {
           dataGroupedByCity.set(currentData.city, cityCount + 1);

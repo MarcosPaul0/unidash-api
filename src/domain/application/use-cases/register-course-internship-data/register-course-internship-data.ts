@@ -102,10 +102,8 @@ export class RegisterCourseInternshipDataUseCase {
     }
 
     const courseInternshipDataAlreadyExists =
-      await this.courseInternshipDataRepository.findByCourseAndPeriod(
-        courseId,
-        year,
-        semester,
+      await this.courseInternshipDataRepository.findByMatriculation(
+        studentMatriculation,
       );
 
     if (courseInternshipDataAlreadyExists) {

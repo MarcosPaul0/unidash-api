@@ -39,14 +39,18 @@ export class FindAllCourseStudentsDataUseCase {
     filters,
     sessionUser,
   }: FindAllCourseStudentsDataUseCaseRequest): Promise<FindAllCourseStudentsDataUseCaseResponse> {
-    const authorization = await this.authorizationService.ensureUserRole(
-      sessionUser,
-      ['admin', 'teacher'],
-    );
+    const authorization =
+      await this.authorizationService.ensureIsAdminOrTeacherWithRole(
+        sessionUser,
+        courseId,
+        ['courseManagerTeacher'],
+      );
 
     if (authorization.isLeft()) {
       return left(authorization.value);
     }
+
+    console.log({ courseId, filters });
 
     const courseStudentsData = await this.courseStudentsDataRepository.findAll(
       courseId,

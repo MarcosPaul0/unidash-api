@@ -16,10 +16,8 @@ export type FindAllCourseInternshipData = {
 
 export abstract class CourseInternshipDataRepository {
   abstract findById(id: string): Promise<CourseInternshipData | null>;
-  abstract findByCourseAndPeriod(
-    courseId: string,
-    year: number,
-    semester: Semester,
+  abstract findByMatriculation(
+    matriculation: string,
   ): Promise<CourseInternshipData | null>;
   abstract findAll(
     courseId: string,

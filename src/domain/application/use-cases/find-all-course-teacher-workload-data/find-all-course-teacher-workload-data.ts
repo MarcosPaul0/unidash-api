@@ -1,35 +1,35 @@
 import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
-import {
-  CourseDepartureDataRepository,
-  FindAllCourseDepartureDataFilter,
-} from '../../repositories/course-departure-data-repository';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
-import { CourseDepartureData } from '@/domain/entities/course-departure-data';
 import { Pagination } from '@/core/pagination/pagination';
 import { SessionUser } from '@/domain/entities/user';
 import { AuthorizationService } from '@/infra/authorization/authorization.service';
+import { CourseTeacherWorkloadData } from '@/domain/entities/course-teacher-workload-data';
+import {
+  CourseTeacherWorkloadDataRepository,
+  FindAllCourseTeacherWorkloadDataFilter,
+} from '../../repositories/course-teacher-workload-data-repository';
 
-interface FindAllCourseDepartureDataUseCaseRequest {
+interface FindAllCourseTeacherWorkloadDataUseCaseRequest {
   courseId: string;
   pagination?: Pagination;
-  filters?: FindAllCourseDepartureDataFilter;
+  filters?: FindAllCourseTeacherWorkloadDataFilter;
   sessionUser: SessionUser;
 }
 
-type FindAllCourseDepartureDataUseCaseResponse = Either<
+type FindAllCourseTeacherWorkloadDataUseCaseResponse = Either<
   ResourceNotFoundError,
   {
-    courseDepartureData: CourseDepartureData[];
+    courseTeacherWorkloadData: CourseTeacherWorkloadData[];
     totalItems: number;
     totalPages: number;
   }
 >;
 
 @Injectable()
-export class FindAllCourseDepartureDataUseCase {
+export class FindAllCourseTeacherWorkloadDataUseCase {
   constructor(
-    private courseDepartureDataRepository: CourseDepartureDataRepository,
+    private courseTeacherWorkloadDataRepository: CourseTeacherWorkloadDataRepository,
     private authorizationService: AuthorizationService,
   ) {}
 
@@ -38,7 +38,7 @@ export class FindAllCourseDepartureDataUseCase {
     pagination,
     filters,
     sessionUser,
-  }: FindAllCourseDepartureDataUseCaseRequest): Promise<FindAllCourseDepartureDataUseCaseResponse> {
+  }: FindAllCourseTeacherWorkloadDataUseCaseRequest): Promise<FindAllCourseTeacherWorkloadDataUseCaseResponse> {
     const authorization =
       await this.authorizationService.ensureIsAdminOrTeacherWithRole(
         sessionUser,
@@ -50,13 +50,13 @@ export class FindAllCourseDepartureDataUseCase {
       return left(authorization.value);
     }
 
-    const courseDepartureData =
-      await this.courseDepartureDataRepository.findAll(
+    const courseTeacherWorkloadData =
+      await this.courseTeacherWorkloadDataRepository.findAllForCourse(
         courseId,
         pagination,
         filters,
       );
 
-    return right(courseDepartureData);
+    return right(courseTeacherWorkloadData);
   }
 }

@@ -39,10 +39,12 @@ export class FindAllCourseCompletionWorkDataUseCase {
     filters,
     sessionUser,
   }: FindAllCourseCompletionWorkDataUseCaseRequest): Promise<FindAllCourseCompletionWorkDataUseCaseResponse> {
-    const authorization = await this.authorizationService.ensureUserRole(
-      sessionUser,
-      ['admin', 'teacher'],
-    );
+    const authorization =
+      await this.authorizationService.ensureIsAdminOrTeacherWithRole(
+        sessionUser,
+        courseId,
+        ['workCompletionManagerTeacher'],
+      );
 
     if (authorization.isLeft()) {
       return left(authorization.value);

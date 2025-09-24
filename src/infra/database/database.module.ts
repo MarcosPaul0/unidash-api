@@ -60,6 +60,8 @@ import { StudentTechnologyDataRepository } from '@/domain/application/repositori
 import { PrismaStudentTechnologyDataRepository } from './prisma/repositories/prisma-student-technology-data-repository';
 import { StudentUniversityChoiceReasonDataRepository } from '@/domain/application/repositories/student-university-choice-reason-data-repository';
 import { PrismaStudentUniversityChoiceReasonDataRepository } from './prisma/repositories/prisma-student-university-choice-reason-data-repository';
+import { PrismaCourseTeacherWorkloadDataRepository } from './prisma/repositories/prisma-course-teacher-workload-data-repository';
+import { CourseTeacherWorkloadDataRepository } from '@/domain/application/repositories/course-teacher-workload-data-repository';
 
 @Module({
   providers: [
@@ -184,6 +186,10 @@ import { PrismaStudentUniversityChoiceReasonDataRepository } from './prisma/repo
       provide: StudentUniversityChoiceReasonDataRepository,
       useClass: PrismaStudentUniversityChoiceReasonDataRepository,
     },
+    {
+      provide: CourseTeacherWorkloadDataRepository,
+      useClass: PrismaCourseTeacherWorkloadDataRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -217,6 +223,7 @@ import { PrismaStudentUniversityChoiceReasonDataRepository } from './prisma/repo
     StudentIncomingDataRepository,
     StudentTechnologyDataRepository,
     StudentUniversityChoiceReasonDataRepository,
+    CourseTeacherWorkloadDataRepository,
   ],
 })
 export class DatabaseModule {}
