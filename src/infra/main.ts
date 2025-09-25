@@ -10,7 +10,7 @@ async function bootstrap() {
   const port = envService.get('PORT');
 
   app.enableCors({
-    origin: ['http://localhost:3001'],
+    origin: [envService.get('FRONTEND_BASE_URL')],
     credentials: true,
   });
 
