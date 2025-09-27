@@ -125,7 +125,7 @@ export class PrismaCourseDepartureDataRepository
             }),
       },
       orderBy: {
-        year: 'asc',
+        year: 'desc',
       },
     });
 

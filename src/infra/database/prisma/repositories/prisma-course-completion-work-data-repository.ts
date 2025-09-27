@@ -125,7 +125,7 @@ export class PrismaCourseCompletionWorkDataRepository
               }),
         },
         orderBy: {
-          year: 'asc',
+          year: 'desc',
         },
       });
 

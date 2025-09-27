@@ -50,8 +50,6 @@ export class FindAllCourseStudentsDataUseCase {
       return left(authorization.value);
     }
 
-    console.log({ courseId, filters });
-
     const courseStudentsData = await this.courseStudentsDataRepository.findAll(
       courseId,
       pagination,

@@ -16,6 +16,7 @@ import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { SEMESTER } from '@/domain/entities/course-data';
 import { RegisterCourseRegistrationLockDataUseCase } from '@/domain/application/use-cases/register-course-registration-lock-data/register-course-registration-lock-data';
+import { CourseRegistrationLockDataAlreadyExistsError } from '@/domain/application/use-cases/errors/course-registration-lock-data-already-exists-error';
 
 const registerCourseRegistrationLockDataBodySchema = z.object({
   courseId: z.uuid(),
@@ -55,7 +56,7 @@ export class RegisterCourseRegistrationLockDataController {
       const error = result.value;
 
       switch (error.constructor) {
-        case UserAlreadyExistsError:
+        case CourseRegistrationLockDataAlreadyExistsError:
           throw new ConflictException(error.message);
         case NotAllowedError:
           throw new ForbiddenException(error.message);

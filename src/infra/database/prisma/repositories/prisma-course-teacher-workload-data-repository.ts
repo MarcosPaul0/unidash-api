@@ -231,7 +231,7 @@ export class PrismaCourseTeacherWorkloadDataRepository
           },
         },
         orderBy: {
-          year: 'asc',
+          year: 'desc',
         },
       });
 

@@ -125,7 +125,7 @@ export class PrismaCourseCoordinationDataRepository
               }),
         },
         orderBy: {
-          year: 'asc',
+          year: 'desc',
         },
       });
 

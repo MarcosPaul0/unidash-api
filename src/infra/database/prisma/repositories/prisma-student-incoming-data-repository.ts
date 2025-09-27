@@ -183,6 +183,9 @@ export class PrismaStudentIncomingDataRepository
           },
         },
       },
+      orderBy: {
+        year: 'desc',
+      },
     });
 
     return studentIncomingData.map(

@@ -247,7 +247,7 @@ export class PrismaTeacherTechnicalScientificProductionsDataRepository
           },
         },
         orderBy: {
-          year: 'asc',
+          year: 'desc',
         },
       });
 

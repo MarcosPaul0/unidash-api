@@ -225,7 +225,7 @@ export class PrismaTeacherSupervisedCompletionWorkDataRepository
           },
         },
         orderBy: {
-          year: 'asc',
+          year: 'desc',
         },
       });
 

@@ -123,7 +123,7 @@ export class PrismaCourseStudentsDataRepository
             }),
       },
       orderBy: {
-        year: 'asc',
+        year: 'desc',
       },
     });
 

@@ -11,7 +11,7 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { CurrentUser } from '../../../auth/current-user-decorator';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { AdminPresenter } from '../../presenters/admin-presenter';
-import { User } from '@/domain/entities/user';
+import { SessionUser } from '@/domain/entities/user';
 
 @Controller('/admin/me')
 export class FindAdminByIdController {
@@ -19,9 +19,9 @@ export class FindAdminByIdController {
 
   @Get()
   @HttpCode(200)
-  async handle(@CurrentUser() sessionUser: User) {
+  async handle(@CurrentUser() sessionUser: SessionUser) {
     const result = await this.findAdminByIdUseCase.execute({
-      id: sessionUser.id.toString(),
+      id: sessionUser.id,
       userRole: sessionUser.role,
     });
 

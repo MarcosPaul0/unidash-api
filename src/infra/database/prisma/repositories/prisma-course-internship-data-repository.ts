@@ -143,7 +143,7 @@ export class PrismaCourseInternshipDataRepository
           },
         },
         orderBy: {
-          year: 'asc',
+          year: 'desc',
         },
       });
 

@@ -72,10 +72,10 @@ export class CourseIndicatorsPresenter {
       });
     });
 
-    const registrationLocks = {};
+    const registrationLocks = new Map();
 
     courseRegistrationLockData.forEach((data) => {
-      const yearData = registrationLocks[data.year];
+      const yearData = registrationLocks[String(data.year)];
 
       if (!yearData) {
         const newYearData = REGISTRATION_LOCK_TYPES.map((type) => ({

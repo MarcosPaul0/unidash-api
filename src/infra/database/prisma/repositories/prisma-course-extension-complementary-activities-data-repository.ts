@@ -137,7 +137,7 @@ export class PrismaCourseExtensionComplementaryActivitiesDataRepository
               }),
         },
         orderBy: {
-          year: 'asc',
+          year: 'desc',
         },
       });
 

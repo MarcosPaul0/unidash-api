@@ -129,7 +129,7 @@ export class PrismaCourseRegistrationLockDataRepository
               }),
         },
         orderBy: {
-          year: 'asc',
+          year: 'desc',
         },
       });
 

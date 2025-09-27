@@ -247,7 +247,7 @@ export class PrismaTeacherResearchAndExtensionProjectsDataRepository
           },
         },
         orderBy: {
-          year: 'asc',
+          year: 'desc',
         },
       });
 
