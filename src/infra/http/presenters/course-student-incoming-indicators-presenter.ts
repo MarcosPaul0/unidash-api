@@ -9,6 +9,7 @@ export class CourseStudentIncomingIndicatorsPresenter {
   static toHTTP({
     studentIncomingData,
   }: CourseStudentIncomingIndicatorsParams) {
+    const studentIncomingByCity = {};
     const studentIncomingByEnglishProficiencyLevel = {};
     const studentIncomingByCurrentEducation = {};
     const studentIncomingByWorkExpectation = {};
@@ -21,6 +22,32 @@ export class CourseStudentIncomingIndicatorsPresenter {
     const studentIncomingByUniversityChoiceReason = {};
 
     studentIncomingData.forEach((data) => {
+      const yearCity = studentIncomingByCity[data.year];
+
+      if (!yearCity) {
+        const newYearCity = [
+          {
+            city: data.city?.name,
+            cityId: data.city?.id.toString(),
+            count: 1,
+          },
+        ];
+
+        studentIncomingByCity[data.year] = newYearCity;
+      } else {
+        const cityData = yearCity.find((data) => data.cityId === data.cityId);
+
+        if (cityData) {
+          cityData.count += 1;
+        } else {
+          yearCity.push({
+            city: data.city?.name,
+            cityId: data.city?.id.toString(),
+            count: 1,
+          });
+        }
+      }
+
       const yearWorkExpectation = studentIncomingByWorkExpectation[data.year];
 
       if (!yearWorkExpectation) {
@@ -357,6 +384,7 @@ export class CourseStudentIncomingIndicatorsPresenter {
     });
 
     return {
+      studentIncomingByCity,
       studentIncomingByEnglishProficiencyLevel,
       studentIncomingByCurrentEducation,
       studentIncomingByWorkExpectation,

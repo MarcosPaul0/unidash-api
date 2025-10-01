@@ -28,6 +28,8 @@ const registerCourseCoordinationDataBodySchema = z.object({
   meetingsByBoardOfDirectors: z.int().min(0).max(1000),
   meetingsByUndergraduateChamber: z.int().min(0).max(1000),
   meetingsByCourseCouncil: z.int().min(0).max(1000),
+  academicActionPlans: z.int().min(0).max(1000),
+  administrativeActionPlans: z.int().min(0).max(1000),
 });
 
 type RegisterCourseCoordinationDataBodySchema = z.infer<

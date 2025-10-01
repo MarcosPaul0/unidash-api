@@ -8,6 +8,7 @@ import { Semester } from '@/domain/entities/course-data';
 import {
   ConclusionTime,
   CourseInternshipData,
+  EmploymentType,
 } from '@/domain/entities/course-internship-data';
 import { CourseInternshipDataRepository } from '../../repositories/course-internship-data-repository';
 import { CourseInternshipDataAlreadyExistsError } from '../errors/course-internship-data-already-exists-error';
@@ -23,6 +24,7 @@ interface RegisterCourseInternshipDataUseCaseRequest {
     semester: Semester;
     studentMatriculation: string;
     enterpriseCnpj: string;
+    employmentType: EmploymentType;
     role: string;
     conclusionTime: ConclusionTime;
     cityId: string;
@@ -60,6 +62,7 @@ export class RegisterCourseInternshipDataUseCase {
       cityId,
       conclusionTime,
       enterpriseCnpj,
+      employmentType,
       role,
       studentMatriculation,
     },
@@ -118,6 +121,7 @@ export class RegisterCourseInternshipDataUseCase {
       cityId,
       conclusionTime,
       enterpriseCnpj,
+      employmentType,
       role,
       studentMatriculation,
     });

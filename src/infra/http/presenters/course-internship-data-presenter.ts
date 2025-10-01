@@ -12,6 +12,7 @@ export class CourseInternshipDataPresenter {
       role: courseInternshipData.role,
       conclusionTime: courseInternshipData.conclusionTime,
       cityId: courseInternshipData.cityId,
+      employmentType: courseInternshipData.employmentType,
       cityName: courseInternshipData.city?.name,
       advisorId: courseInternshipData.advisorId,
       advisorName: courseInternshipData.advisor?.name,

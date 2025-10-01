@@ -153,6 +153,7 @@ model City {
   stateId String @db.Uuid
 
   courseInternshipData CourseInternshipData[]
+  studentIncomingData  StudentIncomingData[]
 
   @@map("cities")
 }
@@ -223,18 +224,21 @@ model CourseStudentsData {
 }
 
 model CourseCoordinationData {
-  id                             String    @id @default(uuid()) @db.Uuid
-  year                           Int       @db.SmallInt
-  semester                       Semester  @default(first)
-  servicesRequestsBySystem       Int       @default(0) @db.SmallInt
-  servicesRequestsByEmail        Int       @default(0) @db.SmallInt
-  resolutionActions              Int       @default(0) @db.SmallInt
-  administrativeDecisionActions  Int       @default(0) @db.SmallInt
-  meetingsByBoardOfDirectors     Int       @default(0) @db.SmallInt
-  meetingsByUndergraduateChamber Int       @default(0) @db.SmallInt
-  meetingsByCourseCouncil        Int       @default(0) @db.SmallInt
-  createdAt                      DateTime  @default(now())
-  updatedAt                      DateTime? @updatedAt
+  id                             String   @id @default(uuid()) @db.Uuid
+  year                           Int      @db.SmallInt
+  semester                       Semester @default(first)
+  servicesRequestsBySystem       Int      @default(0) @db.SmallInt
+  servicesRequestsByEmail        Int      @default(0) @db.SmallInt
+  resolutionActions              Int      @default(0) @db.SmallInt
+  administrativeDecisionActions  Int      @default(0) @db.SmallInt
+  meetingsByBoardOfDirectors     Int      @default(0) @db.SmallInt
+  meetingsByUndergraduateChamber Int      @default(0) @db.SmallInt
+  meetingsByCourseCouncil        Int      @default(0) @db.SmallInt
+  academicActionPlans            Int      @default(0) @db.SmallInt
+  administrativeActionPlans      Int      @default(0) @db.SmallInt
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId String @db.Uuid
@@ -397,6 +401,12 @@ enum ConclusionTime {
   smaller
 }
 
+enum EmploymentType {
+  employmentContract // CLT
+  independentContractor // PJ
+  internship
+}
+
 model CourseInternshipData {
   id                   String         @id @default(uuid()) @db.Uuid
   year                 Int            @db.SmallInt
@@ -405,6 +415,7 @@ model CourseInternshipData {
   enterpriseCnpj       String         @db.VarChar(14)
   role                 String         @db.VarChar(60)
   conclusionTime       ConclusionTime
+  employmentType       EmploymentType @default(internship)
   createdAt            DateTime       @default(now())
   updatedAt            DateTime?      @updatedAt
 
@@ -456,6 +467,9 @@ model StudentIncomingData {
 
   student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId String  @unique @db.Uuid
+
+  city   City   @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  cityId String @db.Uuid
 
   studentAffinityByDisciplineData   StudentAffinityByDisciplineData[]
   studentHobbyOrHabitData           StudentHobbyOrHabitData[]

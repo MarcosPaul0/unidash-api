@@ -24,6 +24,8 @@ export function makeCourseCoordinationData(
       meetingsByBoardOfDirectors: faker.number.int(),
       meetingsByUndergraduateChamber: faker.number.int(),
       meetingsByCourseCouncil: faker.number.int(),
+      academicActionPlans: faker.number.int(),
+      administrativeActionPlans: faker.number.int(),
       ...override,
     },
     id,

@@ -17,6 +17,9 @@ export class CourseCoordinationDataPresenter {
       meetingsByUndergraduateChamber:
         courseCoordinationData.meetingsByUndergraduateChamber,
       meetingsByCourseCouncil: courseCoordinationData.meetingsByCourseCouncil,
+      academicActionPlans: courseCoordinationData.academicActionPlans,
+      administrativeActionPlans:
+        courseCoordinationData.administrativeActionPlans,
       createdAt: courseCoordinationData.createdAt,
       updatedAt: courseCoordinationData.updatedAt,
     };

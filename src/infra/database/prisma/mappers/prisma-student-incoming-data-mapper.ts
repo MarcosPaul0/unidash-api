@@ -11,6 +11,7 @@ import {
   StudentCourseChoiceReason as PrismaStudentCourseChoiceReason,
   StudentUniversityChoiceReason as PrismaStudentUniversityChoiceReason,
   StudentTechnology as PrismaStudentTechnology,
+  City as PrismaCity,
   Prisma,
 } from '@prisma/client';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
@@ -21,6 +22,11 @@ import { StudentAssetData } from '@/domain/entities/student-asset-data';
 import { StudentCourseChoiceReasonData } from '@/domain/entities/student-course-choice-reason-data';
 import { StudentUniversityChoiceReasonData } from '@/domain/entities/student-university-choice-reason-data';
 import { StudentTechnologyData } from '@/domain/entities/student-technology-data';
+import { City } from '@/domain/entities/city';
+
+type PrismaStudentIncomingDataWithCity = PrismaStudentIncomingData & {
+  city: PrismaCity;
+};
 
 type PrismaStudentHobbyOrHabitFullData = PrismaStudentHobbyOrHabitData & {
   studentHobbyOrHabit: PrismaStudentHobbyOrHabit;
@@ -44,20 +50,50 @@ type PrismaStudentTechnologyFullData = PrismaStudentTechnologyData & {
   studentTechnology: PrismaStudentTechnology;
 };
 
-type PrismaStudentIncomingFullDataWithTeacher = PrismaStudentIncomingData & {
-  studentAffinityByDisciplineData: PrismaStudentAffinityByDisciplineData[];
-  studentHobbyOrHabitData: PrismaStudentHobbyOrHabitFullData[];
-  studentAssetData: PrismaStudentAssetFullData[];
-  studentCourseChoiceReasonData: PrismaStudentCourseChoiceReasonFullData[];
-  studentUniversityChoiceReasonData: PrismaStudentUniversityChoiceReasonFullData[];
-  studentTechnologyData: PrismaStudentTechnologyFullData[];
-};
+type PrismaStudentIncomingFullDataWithTeacher =
+  PrismaStudentIncomingDataWithCity & {
+    studentAffinityByDisciplineData: PrismaStudentAffinityByDisciplineData[];
+    studentHobbyOrHabitData: PrismaStudentHobbyOrHabitFullData[];
+    studentAssetData: PrismaStudentAssetFullData[];
+    studentCourseChoiceReasonData: PrismaStudentCourseChoiceReasonFullData[];
+    studentUniversityChoiceReasonData: PrismaStudentUniversityChoiceReasonFullData[];
+    studentTechnologyData: PrismaStudentTechnologyFullData[];
+  };
 
 export class PrismaStudentIncomingDataMapper {
   static toDomain(raw: PrismaStudentIncomingData): StudentIncomingData {
     return StudentIncomingData.create(
       {
         studentId: raw.studentId,
+        cityId: raw.cityId,
+        workExpectation: raw.workExpectation,
+        currentEducation: raw.currentEducation,
+        englishProficiencyLevel: raw.englishProficiencyLevel,
+        year: raw.year,
+        createdAt: raw.createdAt,
+        knowRelatedCourseDifference: raw.knowRelatedCourseDifference,
+        nocturnalPreference: raw.nocturnalPreference,
+        readPedagogicalProject: raw.readPedagogicalProject,
+        semester: raw.semester,
+        studentAffinityByDisciplineData: [],
+        studentHobbyOrHabitData: [],
+        studentAssetData: [],
+        studentCourseChoiceReasonData: [],
+        studentUniversityChoiceReasonData: [],
+        studentTechnologyData: [],
+      },
+      new UniqueEntityId(raw.id),
+    );
+  }
+
+  static withCityToDomain(
+    raw: PrismaStudentIncomingDataWithCity,
+  ): StudentIncomingData {
+    return StudentIncomingData.create(
+      {
+        studentId: raw.studentId,
+        cityId: raw.cityId,
+        city: City.create(raw.city),
         workExpectation: raw.workExpectation,
         currentEducation: raw.currentEducation,
         englishProficiencyLevel: raw.englishProficiencyLevel,
@@ -93,6 +129,8 @@ export class PrismaStudentIncomingDataMapper {
         nocturnalPreference: raw.nocturnalPreference,
         readPedagogicalProject: raw.readPedagogicalProject,
         semester: raw.semester,
+        cityId: raw.cityId,
+        city: City.create(raw.city),
         studentAffinityByDisciplineData:
           raw.studentAffinityByDisciplineData.map((data) =>
             StudentAffinityByDisciplineData.create(
@@ -169,6 +207,7 @@ export class PrismaStudentIncomingDataMapper {
         studentIncomingData.knowRelatedCourseDifference,
       nocturnalPreference: studentIncomingData.nocturnalPreference,
       readPedagogicalProject: studentIncomingData.readPedagogicalProject,
+      cityId: studentIncomingData.cityId,
       studentId: studentIncomingData.studentId,
       workExpectation: studentIncomingData.workExpectation,
       year: studentIncomingData.year,

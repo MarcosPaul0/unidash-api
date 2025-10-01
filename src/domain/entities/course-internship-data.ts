@@ -13,11 +13,21 @@ export const CONCLUSION_TIME = {
 export type ConclusionTime =
   (typeof CONCLUSION_TIME)[keyof typeof CONCLUSION_TIME];
 
+export const EMPLOYMENT_TYPE = {
+  employmentContract: 'employmentContract',
+  independentContractor: 'independentContractor',
+  internship: 'internship',
+} as const;
+
+export type EmploymentType =
+  (typeof EMPLOYMENT_TYPE)[keyof typeof EMPLOYMENT_TYPE];
+
 export interface CourseInternshipDataProps extends CourseDataProps {
   studentMatriculation: string;
   enterpriseCnpj: string;
   role: string;
   conclusionTime: ConclusionTime;
+  employmentType: EmploymentType;
 
   cityId: string;
   city?: City | null;
@@ -49,6 +59,18 @@ export class CourseInternshipData extends CourseData<CourseInternshipDataProps> 
     }
 
     this.props.enterpriseCnpj = enterpriseCnpj;
+  }
+
+  get employmentType() {
+    return this.props.employmentType;
+  }
+
+  set employmentType(employmentType: EmploymentType) {
+    if (!employmentType) {
+      return;
+    }
+
+    this.props.employmentType = employmentType;
   }
 
   get role() {

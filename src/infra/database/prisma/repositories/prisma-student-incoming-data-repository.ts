@@ -31,6 +31,7 @@ export class PrismaStudentIncomingDataRepository
           id,
         },
         include: {
+          city: true,
           studentAffinityByDisciplineData: true,
           studentAssetData: {
             include: {
@@ -77,6 +78,9 @@ export class PrismaStudentIncomingDataRepository
             userId: studentId,
           },
         },
+        include: {
+          city: true,
+        },
       },
     );
 
@@ -84,7 +88,9 @@ export class PrismaStudentIncomingDataRepository
       return null;
     }
 
-    return PrismaStudentIncomingDataMapper.toDomain(studentIncomingData);
+    return PrismaStudentIncomingDataMapper.withCityToDomain(
+      studentIncomingData,
+    );
   }
 
   async findAll(
@@ -106,6 +112,9 @@ export class PrismaStudentIncomingDataRepository
         },
         semester: filters?.semester,
         year: filters?.year,
+      },
+      include: {
+        city: true,
       },
       orderBy: {
         createdAt: 'desc',
@@ -134,7 +143,7 @@ export class PrismaStudentIncomingDataRepository
 
     return {
       studentIncomingData: studentIncomingData.map((departureData) =>
-        PrismaStudentIncomingDataMapper.toDomain(departureData),
+        PrismaStudentIncomingDataMapper.withCityToDomain(departureData),
       ),
       totalItems: totalStudentIncomingData,
       totalPages: pagination
@@ -156,6 +165,7 @@ export class PrismaStudentIncomingDataRepository
         year: filters?.year,
       },
       include: {
+        city: true,
         studentAffinityByDisciplineData: true,
         studentAssetData: {
           include: {

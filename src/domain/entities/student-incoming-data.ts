@@ -8,6 +8,7 @@ import { StudentAssetData } from './student-asset-data';
 import { StudentCourseChoiceReasonData } from './student-course-choice-reason-data';
 import { StudentUniversityChoiceReasonData } from './student-university-choice-reason-data';
 import { StudentTechnologyData } from './student-technology-data';
+import { City } from './city';
 
 export const WORK_EXPECTATION = {
   employmentContract: 'employmentContract',
@@ -50,6 +51,8 @@ export interface StudentIncomingDataProps {
   nocturnalPreference: boolean;
   knowRelatedCourseDifference: boolean;
   readPedagogicalProject: boolean;
+  cityId: string;
+  city?: City | null;
   studentAffinityByDisciplineData: StudentAffinityByDisciplineData[];
   studentHobbyOrHabitData: StudentHobbyOrHabitData[];
   studentAssetData: StudentAssetData[];
@@ -119,6 +122,30 @@ export class StudentIncomingData extends Entity<StudentIncomingDataProps> {
     }
 
     this.props.currentEducation = currentEducation;
+  }
+
+  get cityId() {
+    return this.props.cityId;
+  }
+
+  set cityId(cityId: string) {
+    if (!cityId) {
+      return;
+    }
+
+    this.props.cityId = cityId;
+  }
+
+  get city(): City | null {
+    return this.props.city ?? null;
+  }
+
+  set city(city: City) {
+    if (!city) {
+      return;
+    }
+
+    this.props.city = city;
   }
 
   get englishProficiencyLevel() {

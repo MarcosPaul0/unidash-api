@@ -11,6 +11,7 @@ export class StudentIncomingDataPresenter {
       englishProficiencyLevel: studentIncomingData.englishProficiencyLevel,
       currentEducation: studentIncomingData.currentEducation,
       nocturnalPreference: studentIncomingData.nocturnalPreference,
+      city: studentIncomingData.city?.name,
       knowRelatedCourseDifference:
         studentIncomingData.knowRelatedCourseDifference,
       readPedagogicalProject: studentIncomingData.readPedagogicalProject,

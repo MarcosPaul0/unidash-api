@@ -34,6 +34,8 @@ import { StudentCourseChoiceReasonData } from '@/domain/entities/student-course-
 import { StudentUniversityChoiceReasonData } from '@/domain/entities/student-university-choice-reason-data';
 import { StudentHobbyOrHabitData } from '@/domain/entities/student-hobby-or-habit-data';
 import { StudentTechnologyData } from '@/domain/entities/student-technology-data';
+import { CitiesRepository } from '../../repositories/cities-repository';
+import { CityNotFoundError } from '../errors/city-not-found-error';
 
 interface RegisterStudentIncomingDataUseCaseRequest {
   studentIncomingData: {
@@ -42,6 +44,7 @@ interface RegisterStudentIncomingDataUseCaseRequest {
     workExpectation: WorkExpectation;
     currentEducation: CurrentEducation;
     englishProficiencyLevel: EnglishProficiencyLevel;
+    cityId: string;
     nocturnalPreference: boolean;
     knowRelatedCourseDifference: boolean;
     readPedagogicalProject: boolean;
@@ -61,7 +64,8 @@ interface RegisterStudentIncomingDataUseCaseRequest {
 type RegisterStudentIncomingDataUseCaseResponse = Either<
   | StudentIncomingDataAlreadyExistsError
   | ResourceNotFoundError
-  | InvalidStudentForCourseDataError,
+  | InvalidStudentForCourseDataError
+  | CityNotFoundError,
   {
     studentIncomingData: StudentIncomingData;
   }
@@ -70,6 +74,7 @@ type RegisterStudentIncomingDataUseCaseResponse = Either<
 @Injectable()
 export class RegisterStudentIncomingDataUseCase {
   constructor(
+    private citiesRepository: CitiesRepository,
     private studentIncomingDataRepository: StudentIncomingDataRepository,
     private studentAffinityByDisciplineDataRepository: StudentAffinityByDisciplineDataRepository,
     private studentAssetDataRepository: StudentAssetDataRepository,
@@ -96,6 +101,7 @@ export class RegisterStudentIncomingDataUseCase {
       universityChoiceReasons,
       currentEducation,
       englishProficiencyLevel,
+      cityId,
     },
     sessionUser,
   }: RegisterStudentIncomingDataUseCaseRequest): Promise<RegisterStudentIncomingDataUseCaseResponse> {
@@ -106,6 +112,12 @@ export class RegisterStudentIncomingDataUseCase {
 
     if (authorization.isLeft()) {
       return left(authorization.value);
+    }
+
+    const city = await this.citiesRepository.findById(cityId);
+
+    if (!city) {
+      return left(new CityNotFoundError());
     }
 
     const studentId = sessionUser.id;
@@ -127,6 +139,7 @@ export class RegisterStudentIncomingDataUseCase {
       studentId,
       currentEducation,
       englishProficiencyLevel,
+      cityId,
     });
 
     const studentIncomingDataCreated =

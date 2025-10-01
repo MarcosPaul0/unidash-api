@@ -33,6 +33,7 @@ import { UNIVERSITY_CHOICE_REASON } from '@/domain/entities/student-university-c
 
 const registerStudentIncomingDataBodySchema = z.object({
   year: z.int().max(new Date().getFullYear()).min(0),
+  cityId: z.uuid(),
   semester: z.enum(SEMESTER),
   workExpectation: z.enum(WORK_EXPECTATION),
   currentEducation: z.enum(CURRENT_EDUCATION),

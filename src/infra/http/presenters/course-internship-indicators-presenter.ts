@@ -17,6 +17,7 @@ export class CourseInternshipIndicatorsPresenter {
           {
             enterpriseCnpj: currentData.enterpriseCnpj,
             role: currentData.role,
+            employmentType: currentData.employmentType,
             conclusionTime: currentData.conclusionTime,
             city: currentData.city!.name,
             advisorId: currentData.advisorId,
@@ -29,6 +30,7 @@ export class CourseInternshipIndicatorsPresenter {
             enterpriseCnpj: currentData.enterpriseCnpj,
             role: currentData.role,
             conclusionTime: currentData.conclusionTime,
+            employmentType: currentData.employmentType,
             city: currentData.city!.name,
             advisorId: currentData.advisorId,
             advisor: currentData.advisor!.name,
@@ -38,12 +40,14 @@ export class CourseInternshipIndicatorsPresenter {
     });
 
     const internshipsByCity = {};
+    const internshipsByEmploymentType = {};
     const internshipsByRole = {};
     const internshipsByAdvisor = {};
     const internshipsByConclusionTime = {};
 
     Array.from(internshipsByYear.keys()).forEach((year) => {
       const dataGroupedByCity = new Map();
+      const dataGroupedByEmploymentType = new Map();
       const dataGroupedByRole = new Map();
       const dataGroupedByAdvisor = new Map();
       const dataGroupedByConclusionTime = new Map();
@@ -52,6 +56,9 @@ export class CourseInternshipIndicatorsPresenter {
 
       yearInternships.forEach((currentData) => {
         const cityCount = dataGroupedByCity.get(currentData.city);
+        const employmentTypeCount = dataGroupedByEmploymentType.get(
+          currentData.employmentType,
+        );
         const roleCount = dataGroupedByRole.get(currentData.role);
         const advisorCount = dataGroupedByAdvisor.get(currentData.advisor);
         const conclusionTimeCount = dataGroupedByConclusionTime.get(
@@ -62,6 +69,15 @@ export class CourseInternshipIndicatorsPresenter {
           dataGroupedByCity.set(currentData.city, cityCount + 1);
         } else {
           dataGroupedByCity.set(currentData.city, 1);
+        }
+
+        if (employmentTypeCount) {
+          dataGroupedByEmploymentType.set(
+            currentData.employmentType,
+            employmentTypeCount + 1,
+          );
+        } else {
+          dataGroupedByEmploymentType.set(currentData.employmentType, 1);
         }
 
         if (roleCount) {
@@ -90,6 +106,13 @@ export class CourseInternshipIndicatorsPresenter {
         (city) => ({ city, count: dataGroupedByCity.get(city) }),
       );
 
+      internshipsByEmploymentType[year] = Array.from(
+        dataGroupedByEmploymentType.keys(),
+      ).map((employmentType) => ({
+        employmentType,
+        count: dataGroupedByEmploymentType.get(employmentType),
+      }));
+
       internshipsByRole[year] = Array.from(dataGroupedByRole.keys()).map(
         (role) => ({ role, count: dataGroupedByRole.get(role) }),
       );
@@ -109,6 +132,7 @@ export class CourseInternshipIndicatorsPresenter {
     return {
       internshipsByCity,
       internshipsByRole,
+      internshipsByEmploymentType,
       internshipsByAdvisor,
       internshipsByConclusionTime,
     };

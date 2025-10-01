@@ -44,6 +44,7 @@ export class PrismaCourseInternshipDataMapper {
         cityId: raw.cityId,
         conclusionTime: raw.conclusionTime,
         enterpriseCnpj: raw.enterpriseCnpj,
+        employmentType: raw.employmentType,
         role: raw.role,
         studentMatriculation: raw.studentMatriculation,
         createdAt: raw.createdAt,
@@ -83,6 +84,7 @@ export class PrismaCourseInternshipDataMapper {
           new UniqueEntityId(raw.teacher.user.id),
         ),
         cityId: raw.cityId,
+        employmentType: raw.employmentType,
         conclusionTime: raw.conclusionTime,
         enterpriseCnpj: raw.enterpriseCnpj,
         role: raw.role,
@@ -107,6 +109,7 @@ export class PrismaCourseInternshipDataMapper {
       enterpriseCnpj: courseInternshipData.enterpriseCnpj,
       role: courseInternshipData.role,
       studentMatriculation: courseInternshipData.studentMatriculation,
+      employmentType: courseInternshipData.employmentType,
       createdAt: courseInternshipData.createdAt,
       updatedAt: courseInternshipData.updatedAt,
     };
@@ -126,6 +129,7 @@ export class PrismaCourseInternshipDataMapper {
       enterpriseCnpj: courseInternshipData.enterpriseCnpj,
       role: courseInternshipData.role,
       studentMatriculation: courseInternshipData.studentMatriculation,
+      employmentType: courseInternshipData.employmentType,
       createdAt: courseInternshipData.createdAt,
       updatedAt: courseInternshipData.updatedAt,
     };
