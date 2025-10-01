@@ -22,7 +22,7 @@ ENV NODE_ENV production
 USER node
 WORKDIR /usr/app
 
-# COPY --from=builder --chown=node:node /usr/app/.env ./
+COPY --from=builder --chown=node:node /usr/app/.env ./
 COPY --from=builder --chown=node:node /usr/app/package*.json ./
 COPY --from=builder --chown=node:node /usr/app/node_modules/ ./node_modules/
 COPY --from=builder --chown=node:node /usr/app/dist/ ./dist/
