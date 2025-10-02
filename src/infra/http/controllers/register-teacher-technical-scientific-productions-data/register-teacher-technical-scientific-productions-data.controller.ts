@@ -16,6 +16,7 @@ import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { SEMESTER } from '@/domain/entities/course-data';
 import { RegisterTeacherTechnicalScientificProductionsDataUseCase } from '@/domain/application/use-cases/register-teacher-technical-scientific-productions-data/register-teacher-technical-scientific-productions-data';
+import { TeacherTechnicalScientificProductionsDataAlreadyExistsError } from '@/domain/application/use-cases/errors/teacher-technical-scientific-productions-data-already-exists-error';
 
 const registerTeacherTechnicalScientificProductionsDataBodySchema = z.object({
   teacherId: z.uuid(),
@@ -59,7 +60,7 @@ export class RegisterTeacherTechnicalScientificProductionsDataController {
       const error = result.value;
 
       switch (error.constructor) {
-        case UserAlreadyExistsError:
+        case TeacherTechnicalScientificProductionsDataAlreadyExistsError:
           throw new ConflictException(error.message);
         case NotAllowedError:
           throw new ForbiddenException(error.message);

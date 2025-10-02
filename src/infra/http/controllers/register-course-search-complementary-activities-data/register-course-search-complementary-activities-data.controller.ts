@@ -15,6 +15,7 @@ import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { SEMESTER } from '@/domain/entities/course-data';
 import { RegisterCourseSearchComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/register-course-search-complementary-activities-data/register-course-search-complementary-activities-data';
+import { CourseSearchComplementaryActivitiesDataAlreadyExistsError } from '@/domain/application/use-cases/errors/course-search-complementary-activities-data-already-exists-error';
 
 const registerCourseSearchComplementaryActivitiesDataBodySchema = z.object({
   courseId: z.uuid(),
@@ -60,7 +61,7 @@ export class RegisterCourseSearchComplementaryActivitiesDataController {
       const error = result.value;
 
       switch (error.constructor) {
-        case UserAlreadyExistsError:
+        case CourseSearchComplementaryActivitiesDataAlreadyExistsError:
           throw new ConflictException(error.message);
         case NotAllowedError:
           throw new ForbiddenException(error.message);

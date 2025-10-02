@@ -8,7 +8,6 @@ import {
   ForbiddenException,
   HttpCode,
   Post,
-  UsePipes,
 } from '@nestjs/common';
 import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
@@ -16,6 +15,7 @@ import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { SEMESTER } from '@/domain/entities/course-data';
 import { RegisterCourseExtensionComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/register-course-extension-complementary-activities-data/register-course-extension-complementary-activities-data';
+import { CourseExtensionComplementaryActivitiesDataAlreadyExistsError } from '@/domain/application/use-cases/errors/course-extension-complementary-activities-data-already-exists-error';
 
 const registerCourseExtensionComplementaryActivitiesDataBodySchema = z.object({
   courseId: z.uuid(),
@@ -59,7 +59,7 @@ export class RegisterCourseExtensionComplementaryActivitiesDataController {
       const error = result.value;
 
       switch (error.constructor) {
-        case UserAlreadyExistsError:
+        case CourseExtensionComplementaryActivitiesDataAlreadyExistsError:
           throw new ConflictException(error.message);
         case NotAllowedError:
           throw new ForbiddenException(error.message);

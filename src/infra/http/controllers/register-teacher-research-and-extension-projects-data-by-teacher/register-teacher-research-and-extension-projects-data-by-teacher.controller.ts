@@ -15,6 +15,7 @@ import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { SEMESTER } from '@/domain/entities/course-data';
 import { RegisterTeacherResearchAndExtensionProjectsDataByTeacherUseCase } from '@/domain/application/use-cases/register-teacher-research-and-extension-projects-data-by-teacher/register-teacher-research-and-extension-projects-data-by-teacher';
+import { TeacherResearchAndExtensionProjectsDataAlreadyExistsError } from '@/domain/application/use-cases/errors/teacher-research-and-extension-projects-data-already-exists-error';
 
 const registerTeacherResearchAndExtensionProjectsDataByTeacherBodySchema =
   z.object({
@@ -57,7 +58,7 @@ export class RegisterTeacherResearchAndExtensionProjectsDataByTeacherController 
       const error = result.value;
 
       switch (error.constructor) {
-        case UserAlreadyExistsError:
+        case TeacherResearchAndExtensionProjectsDataAlreadyExistsError:
           throw new ConflictException(error.message);
         case NotAllowedError:
           throw new ForbiddenException(error.message);

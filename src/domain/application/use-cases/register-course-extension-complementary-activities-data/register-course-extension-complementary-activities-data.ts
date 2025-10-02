@@ -62,7 +62,7 @@ export class RegisterCourseExtensionComplementaryActivitiesDataUseCase {
       await this.authorizationService.ensureIsAdminOrTeacherWithRole(
         sessionUser,
         courseId,
-        ['courseManagerTeacher'],
+        ['courseManagerTeacher', 'complementaryActivitiesManagerTeacher'],
       );
 
     if (authorization.isLeft()) {
