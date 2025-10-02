@@ -39,10 +39,10 @@ export class FindAllTeachersByCourseController {
     query?: FindAllTeachersByCourseQuerySchema,
   ) {
     const result = await this.findAllTeachersByCourseUseCase.execute({
-      pagination: {
-        page: query?.page ?? 1,
-        itemsPerPage: query?.itemsPerPage ?? 15,
-      },
+      pagination:
+        query?.itemsPerPage && query?.page
+          ? { itemsPerPage: query.itemsPerPage, page: query.page }
+          : undefined,
       courseId,
       sessionUser,
     });
