@@ -40,8 +40,15 @@ export class PrismaTeacherCoursesRepository
 
   async findAllByCourseId(
     courseId: string,
-    { itemsPerPage, page }: Pagination,
+    pagination: Pagination,
   ): Promise<FindAllByCourseId> {
+    const paginationParams = pagination
+      ? {
+          take: pagination.itemsPerPage,
+          skip: (pagination.page - 1) * pagination.itemsPerPage,
+        }
+      : undefined;
+
     const teacherCourses = await this.prisma.teacherCourse.findMany({
       where: {
         courseId,
@@ -53,8 +60,7 @@ export class PrismaTeacherCoursesRepository
           },
         },
       },
-      take: itemsPerPage,
-      skip: (page - 1) * itemsPerPage,
+      ...paginationParams,
       orderBy: {
         createdAt: 'desc',
       },
@@ -82,7 +88,9 @@ export class PrismaTeacherCoursesRepository
         }),
       ),
       totalItems: totalTeachers,
-      totalPages: Math.ceil(totalTeachers / itemsPerPage),
+      totalPages: pagination
+        ? Math.ceil(totalTeachers / pagination.itemsPerPage)
+        : 1,
     };
   }
 
