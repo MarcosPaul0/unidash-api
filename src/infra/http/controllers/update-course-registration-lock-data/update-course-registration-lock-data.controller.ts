@@ -18,12 +18,12 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { UpdateCourseRegistrationLockDataUseCase } from '@/domain/application/use-cases/update-course-registration-lock-data/update-course-registration-lock-data';
 
 const updateCourseRegistrationLockDataBodySchema = z.object({
-  difficultyInDiscipline: z.int().min(0).max(200).optional(),
-  workload: z.int().min(0).max(200).optional(),
-  teacherMethodology: z.int().min(0).max(200).optional(),
-  incompatibilityWithWork: z.int().min(0).max(200).optional(),
-  lossOfInterest: z.int().min(0).max(200).optional(),
-  other: z.int().min(0).max(200).optional(),
+  difficultyInDiscipline: z.int().min(0).max(1000).optional(),
+  workload: z.int().min(0).max(1000).optional(),
+  teacherMethodology: z.int().min(0).max(1000).optional(),
+  incompatibilityWithWork: z.int().min(0).max(1000).optional(),
+  lossOfInterest: z.int().min(0).max(1000).optional(),
+  other: z.int().min(0).max(1000).optional(),
 });
 
 type UpdateCourseRegistrationLockDataBodySchema = z.infer<
