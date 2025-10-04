@@ -8,7 +8,6 @@ export class CourseStudentsDataPresenter {
       year: courseStudentsData.year,
       semester: courseStudentsData.semester,
       entrants: courseStudentsData.entrants,
-      actives: courseStudentsData.actives,
       vacancies: courseStudentsData.vacancies,
       subscribers: courseStudentsData.subscribers,
       createdAt: courseStudentsData.createdAt,

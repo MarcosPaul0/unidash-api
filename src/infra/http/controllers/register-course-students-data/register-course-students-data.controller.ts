@@ -22,7 +22,6 @@ const registerCourseStudentsDataBodySchema = z.object({
   year: z.int().max(new Date().getFullYear()).min(0),
   semester: z.enum(SEMESTER),
   entrants: z.int().min(0).max(1000),
-  actives: z.int().min(0).max(1000),
   vacancies: z.int().min(0).max(1000),
   subscribers: z.int().min(0).max(1000),
 });

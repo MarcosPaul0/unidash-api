@@ -4,7 +4,6 @@ import { CourseData, CourseDataProps } from './course-data';
 
 export interface CourseStudentsDataProps extends CourseDataProps {
   entrants: number;
-  actives: number;
   vacancies: number;
   subscribers: number;
 }
@@ -20,18 +19,6 @@ export class CourseStudentsData extends CourseData<CourseStudentsDataProps> {
     }
 
     this.props.entrants = entrants;
-  }
-
-  get actives() {
-    return this.props.actives;
-  }
-
-  set actives(actives: number) {
-    if (!actives) {
-      return;
-    }
-
-    this.props.actives = actives;
   }
 
   get vacancies() {

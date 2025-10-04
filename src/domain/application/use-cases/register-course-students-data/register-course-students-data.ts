@@ -16,7 +16,6 @@ interface RegisterCourseStudentsDataUseCaseRequest {
     year: number;
     semester: Semester;
     entrants: number;
-    actives: number;
     vacancies: number;
     subscribers: number;
   };
@@ -44,7 +43,6 @@ export class RegisterCourseStudentsDataUseCase {
       year,
       semester,
       entrants,
-      actives,
       subscribers,
       vacancies,
     },
@@ -83,7 +81,6 @@ export class RegisterCourseStudentsDataUseCase {
       year,
       semester,
       entrants,
-      actives,
       subscribers,
       vacancies,
     });
