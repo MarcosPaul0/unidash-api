@@ -79,7 +79,7 @@ export class PrismaCourseTeachingComplementaryActivitiesDataRepository
           year: filters?.year,
         },
         orderBy: {
-          createdAt: 'desc',
+          year: 'desc',
         },
         ...paginationParams,
       });

@@ -91,7 +91,7 @@ export class PrismaTeacherSupervisedCompletionWorkDataRepository
           year: filters?.year,
         },
         orderBy: {
-          createdAt: 'desc',
+          year: 'desc',
         },
         include: {
           teacher: {
@@ -160,7 +160,7 @@ export class PrismaTeacherSupervisedCompletionWorkDataRepository
           year: filters?.year,
         },
         orderBy: {
-          createdAt: 'desc',
+          year: 'desc',
         },
         ...paginationParams,
       });

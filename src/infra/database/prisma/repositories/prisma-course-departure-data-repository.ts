@@ -73,7 +73,7 @@ export class PrismaCourseDepartureDataRepository
           year: filters?.year,
         },
         orderBy: {
-          createdAt: 'desc',
+          year: 'desc',
         },
         ...paginationParams,
       },

@@ -77,7 +77,7 @@ export class PrismaCourseExtensionActivitiesDataRepository
           year: filters?.year,
         },
         orderBy: {
-          createdAt: 'desc',
+          year: 'desc',
         },
         ...paginationParams,
       });

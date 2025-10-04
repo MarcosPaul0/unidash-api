@@ -102,7 +102,7 @@ export class PrismaTeacherResearchAndExtensionProjectsDataRepository
           year: filters?.year,
         },
         orderBy: {
-          createdAt: 'desc',
+          year: 'desc',
         },
         include: {
           teacher: {
@@ -176,7 +176,7 @@ export class PrismaTeacherResearchAndExtensionProjectsDataRepository
           year: filters?.year,
         },
         orderBy: {
-          createdAt: 'desc',
+          year: 'desc',
         },
         ...paginationParams,
       });

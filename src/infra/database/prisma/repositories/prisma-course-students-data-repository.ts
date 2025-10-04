@@ -73,7 +73,7 @@ export class PrismaCourseStudentsDataRepository
         courseId,
       },
       orderBy: {
-        createdAt: 'desc',
+        year: 'desc',
       },
       ...paginationParams,
     });
