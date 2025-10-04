@@ -97,6 +97,7 @@ model Course {
   courseExtensionActivitiesData              CourseExtensionActivitiesData[]
   courseInternshipData                       CourseInternshipData[]
   courseTeacherWorkloadData                  CourseTeacherWorkloadData[]
+  courseActiveStudentsData                   CourseActiveStudentsData[]
 
   teacherSupervisedCompletionWorkData TeacherSupervisedCompletionWorkData[]
 
@@ -210,7 +211,6 @@ model CourseStudentsData {
   year        Int       @db.SmallInt
   semester    Semester  @default(first)
   entrants    Int       @default(0) @db.SmallInt
-  actives     Int       @default(0) @db.SmallInt
   vacancies   Int       @default(0) @db.SmallInt
   subscribers Int       @default(0) @db.SmallInt
   createdAt   DateTime  @default(now())
@@ -221,6 +221,34 @@ model CourseStudentsData {
 
   @@unique([year, semester, courseId])
   @@map("courseStudentsData")
+}
+
+model CourseActiveStudentsData {
+  id        String    @id @default(uuid()) @db.Uuid
+  year      Int       @db.SmallInt
+  semester  Semester  @default(first)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @db.Uuid
+
+  activeStudentsByIngress ActiveStudentsByIngress[]
+
+  @@unique([year, semester, courseId])
+  @@map("courseActiveStudentsData")
+}
+
+model ActiveStudentsByIngress {
+  id               String @id @default(uuid()) @db.Uuid
+  ingressYear      Int    @db.SmallInt
+  numberOfStudents Int    @default(0) @db.SmallInt
+
+  courseActiveStudentsData   CourseActiveStudentsData @relation(fields: [courseActiveStudentsDataId], references: [id], onDelete: Cascade)
+  courseActiveStudentsDataId String                   @db.Uuid
+
+  @@unique([ingressYear, courseActiveStudentsDataId])
+  @@map("activeStudentsByIngress")
 }
 
 model CourseCoordinationData {
