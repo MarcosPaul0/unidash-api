@@ -57,7 +57,7 @@ export class RegisterCourseCompletionWorkDataUseCase {
       await this.authorizationService.ensureIsAdminOrTeacherWithRole(
         sessionUser,
         courseId,
-        ['courseManagerTeacher'],
+        ['courseManagerTeacher', 'workCompletionManagerTeacher'],
       );
 
     if (authorization.isLeft()) {

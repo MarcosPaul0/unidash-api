@@ -1,3 +1,5 @@
+import { ActiveStudentsByIngress } from '@/domain/entities/active-students-by-ingress';
+import { CourseActiveStudentsData } from '@/domain/entities/course-active-students-data';
 import { CourseDepartureData } from '@/domain/entities/course-departure-data';
 import { CourseRegistrationLockData } from '@/domain/entities/course-registration-lock-data';
 import { CourseStudentsData } from '@/domain/entities/course-students-data';
@@ -8,6 +10,7 @@ type CourseIndicatorsParams = {
   courseStudentsData: CourseStudentsData[];
   courseDepartureData: CourseDepartureData[];
   courseTeacherWorkloadData: CourseTeacherWorkloadData[];
+  courseActiveStudentsData: CourseActiveStudentsData[];
 };
 
 const DEPARTURE_TYPES = [
@@ -35,6 +38,7 @@ export class CourseIndicatorsPresenter {
     courseDepartureData,
     courseRegistrationLockData,
     courseStudentsData,
+    courseActiveStudentsData,
     courseTeacherWorkloadData,
   }: CourseIndicatorsParams) {
     const departures = {};
@@ -157,44 +161,43 @@ export class CourseIndicatorsPresenter {
       }
     });
 
-    const studentsByYear: Record<
-      string,
-      {
-        entrants: number;
-        actives: number;
-        vacancies: number;
-        subscribers: number;
+    const activeStudents = {};
+
+    courseActiveStudentsData.forEach((data) => {
+      const yearActiveStudents = activeStudents[data.year];
+
+      if (yearActiveStudents && data.semester === 'second') {
+        activeStudents[data.year] = this.formatActiveStudentsByIngress(
+          data.activeStudentsByIngress,
+        );
+      } else {
+        activeStudents[data.year] = this.formatActiveStudentsByIngress(
+          data.activeStudentsByIngress,
+        );
       }
-    > = {};
+    });
+
+    const students = {};
 
     courseStudentsData.forEach((data) => {
-      const yearStudents = studentsByYear[data.year];
+      const yearStudents = students[data.year];
 
       if (yearStudents) {
-        studentsByYear[data.year] = {
+        students[data.year] = {
           entrants: yearStudents.entrants + data.entrants,
-          actives: yearStudents.actives + data.actives,
           vacancies: yearStudents.vacancies + data.vacancies,
           subscribers: yearStudents.subscribers + data.subscribers,
         };
       } else {
-        studentsByYear[data.year] = studentsByYear[data.year] = {
+        students[data.year] = students[data.year] = {
           entrants: data.entrants,
-          actives: data.actives,
           vacancies: data.vacancies,
           subscribers: data.subscribers,
         };
       }
     });
 
-    const students = Object.entries(studentsByYear).map(([year, data]) => {
-      return {
-        year,
-        actives: data.actives,
-      };
-    });
-
-    const studentDataYears = Object.keys(studentsByYear);
+    const studentDataYears = Object.keys(students);
     const departuresDataYears = Object.keys(departures);
     const registrationLocksDataYears = Object.keys(registrationLocks);
 
@@ -235,13 +238,21 @@ export class CourseIndicatorsPresenter {
           graduatesDepartureData.secondSemester
         : 0;
 
+      const yearActiveStudent = activeStudents[year];
+
+      const actives = yearActiveStudent
+        ? yearActiveStudent.reduce(
+            (accumulator, currentActiveStudents) =>
+              accumulator + currentActiveStudents.numberOfStudents,
+            0,
+          )
+        : 0;
       complements[year] = {
-        successRate: graduates / studentsByYear[year].entrants,
-        dropoutRate: canceled / studentsByYear[year].actives,
+        successRate: graduates / students[year].entrants,
+        dropoutRate: canceled / actives,
         applicantsToSeatRatio:
-          studentsByYear[year].subscribers / studentsByYear[year].vacancies,
-        occupancyRate:
-          studentsByYear[year].entrants / studentsByYear[year].vacancies,
+          students[year].subscribers / students[year].vacancies,
+        occupancyRate: students[year].entrants / students[year].vacancies,
       };
     });
 
@@ -251,6 +262,16 @@ export class CourseIndicatorsPresenter {
       registrationLocks,
       teachersWorkload,
       complements,
+      activeStudents,
     };
+  }
+
+  private static formatActiveStudentsByIngress(
+    activeStudentsByIngress: ActiveStudentsByIngress[],
+  ) {
+    return activeStudentsByIngress.map((activeStudents) => ({
+      ingressYear: activeStudents.ingressYear,
+      numberOfStudents: activeStudents.numberOfStudents,
+    }));
   }
 }

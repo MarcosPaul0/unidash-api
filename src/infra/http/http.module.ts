@@ -199,6 +199,12 @@ import { FindAllCourseTeacherWorkloadDataController } from './controllers/find-a
 import { RegisterCourseTeacherWorkloadDataUseCase } from '@/domain/application/use-cases/register-course-teacher-workload-data/register-course-teacher-workload-data';
 import { DeleteCourseTeacherWorkloadDataUseCase } from '@/domain/application/use-cases/delete-course-teacher-workload-data/delete-course-teacher-workload-data';
 import { FindAllCourseTeacherWorkloadDataUseCase } from '@/domain/application/use-cases/find-all-course-teacher-workload-data/find-all-course-teacher-workload-data';
+import { FindAllCourseActiveStudentsDataController } from './controllers/find-all-course-active-students-data/find-all-course-active-students-data.controller';
+import { RegisterCourseActiveStudentsDataController } from './controllers/register-course-active-students-data/register-course-active-students-data.controller';
+import { DeleteCourseActiveStudentsDataController } from './controllers/delete-course-active-students-data/delete-course-active-students-data.controller';
+import { RegisterCourseActiveStudentsDataUseCase } from '@/domain/application/use-cases/register-course-active-students-data/register-course-active-students-data';
+import { FindAllCourseActiveStudentsDataUseCase } from '@/domain/application/use-cases/find-all-course-active-students-data/find-all-course-active-students-data';
+import { DeleteCourseActiveStudentsDataUseCase } from '@/domain/application/use-cases/delete-course-active-students-data/delete-course-active-students-data';
 
 @Module({
   imports: [
@@ -306,6 +312,9 @@ import { FindAllCourseTeacherWorkloadDataUseCase } from '@/domain/application/us
     RegisterCourseTeacherWorkloadDataController,
     DeleteCourseTeacherWorkloadDataController,
     FindAllCourseTeacherWorkloadDataController,
+    RegisterCourseActiveStudentsDataController,
+    FindAllCourseActiveStudentsDataController,
+    DeleteCourseActiveStudentsDataController,
   ],
   providers: [
     RegisterStudentUseCase,
@@ -405,6 +414,9 @@ import { FindAllCourseTeacherWorkloadDataUseCase } from '@/domain/application/us
     RegisterCourseTeacherWorkloadDataUseCase,
     DeleteCourseTeacherWorkloadDataUseCase,
     FindAllCourseTeacherWorkloadDataUseCase,
+    RegisterCourseActiveStudentsDataUseCase,
+    FindAllCourseActiveStudentsDataUseCase,
+    DeleteCourseActiveStudentsDataUseCase,
   ],
 })
 export class HttpModule {}

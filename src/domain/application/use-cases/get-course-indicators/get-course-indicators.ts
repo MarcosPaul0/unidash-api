@@ -10,6 +10,8 @@ import { CourseDepartureData } from '@/domain/entities/course-departure-data';
 import { CourseRegistrationLockData } from '@/domain/entities/course-registration-lock-data';
 import { CourseTeacherWorkloadDataRepository } from '../../repositories/course-teacher-workload-data-repository';
 import { CourseTeacherWorkloadData } from '@/domain/entities/course-teacher-workload-data';
+import { CourseActiveStudentsDataRepository } from '../../repositories/course-active-students-data-repository';
+import { CourseActiveStudentsData } from '@/domain/entities/course-active-students-data';
 
 interface GetCourseIndicatorsUseCaseRequest {
   courseId: string;
@@ -21,6 +23,7 @@ type GetCourseIndicatorsUseCaseResponse = Either<
   {
     courseRegistrationLockData: CourseRegistrationLockData[];
     courseStudentsData: CourseStudentsData[];
+    courseActiveStudentsData: CourseActiveStudentsData[];
     courseDepartureData: CourseDepartureData[];
     courseTeacherWorkloadData: CourseTeacherWorkloadData[];
   }
@@ -31,6 +34,7 @@ export class GetCourseIndicatorsUseCase {
   constructor(
     private courseRegistrationLockDataRepository: CourseRegistrationLockDataRepository,
     private courseStudentsDataRepository: CourseStudentsDataRepository,
+    private courseActiveStudentsDataRepository: CourseActiveStudentsDataRepository,
     private courseDepartureDataRepository: CourseDepartureDataRepository,
     private courseTeacherWorkloadDataRepository: CourseTeacherWorkloadDataRepository,
   ) {}
@@ -51,6 +55,12 @@ export class GetCourseIndicatorsUseCase {
         filters,
       );
 
+    const courseActiveStudentsData =
+      await this.courseActiveStudentsDataRepository.findForIndicators(
+        courseId,
+        filters,
+      );
+
     const courseDepartureData =
       await this.courseDepartureDataRepository.findForIndicators(
         courseId,
@@ -67,6 +77,7 @@ export class GetCourseIndicatorsUseCase {
       courseDepartureData,
       courseRegistrationLockData,
       courseStudentsData,
+      courseActiveStudentsData,
       courseTeacherWorkloadData,
     });
   }
