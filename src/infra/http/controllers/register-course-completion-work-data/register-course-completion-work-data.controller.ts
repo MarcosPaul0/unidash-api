@@ -9,12 +9,12 @@ import {
   HttpCode,
   Post,
 } from '@nestjs/common';
-import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { SEMESTER } from '@/domain/entities/course-data';
 import { RegisterCourseCompletionWorkDataUseCase } from '@/domain/application/use-cases/register-course-completion-work-data/register-course-completion-work-data';
+import { CourseCompletionWorkDataAlreadyExistsError } from '@/domain/application/use-cases/errors/course-completion-work-data-already-exists-error';
 
 const registerCourseCompletionWorkDataBodySchema = z.object({
   courseId: z.uuid(),
@@ -51,7 +51,7 @@ export class RegisterCourseCompletionWorkDataController {
       const error = result.value;
 
       switch (error.constructor) {
-        case UserAlreadyExistsError:
+        case CourseCompletionWorkDataAlreadyExistsError:
           throw new ConflictException(error.message);
         case NotAllowedError:
           throw new ForbiddenException(error.message);
