@@ -11,6 +11,7 @@ export const ASSET = {
   tablet: 'tablet',
   desktopComputer: 'desktopComputer',
   laptop: 'laptop',
+  smartTv: 'smartTv',
   smartphone: 'smartphone',
 } as const;
 

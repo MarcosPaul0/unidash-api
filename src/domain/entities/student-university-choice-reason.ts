@@ -8,6 +8,7 @@ export const UNIVERSITY_CHOICE_REASON = {
   professionalReasons: 'professionalReasons',
   financialReasons: 'financialReasons',
   notFirstChoice: 'notFirstChoice',
+  closeOriginCity: 'closeOriginCity',
   other: 'other',
 } as const;
 

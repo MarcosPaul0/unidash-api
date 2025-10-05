@@ -7,6 +7,12 @@ export const TECHNOLOGY = {
   programmingAndLanguages: 'programmingAndLanguages',
   spreadsheets: 'spreadsheets',
   operatingSystemSetup: 'operatingSystemSetup',
+  textEditor: 'textEditor',
+  electronicsInstallation: 'electronicsInstallation',
+  presentationEditing: 'presentationEditing',
+  videoEditing: 'videoEditing',
+  drawingApps: 'drawingApps',
+  prototypingPlatform: 'prototypingPlatform',
 } as const;
 
 export type Technology = (typeof TECHNOLOGY)[keyof typeof TECHNOLOGY];

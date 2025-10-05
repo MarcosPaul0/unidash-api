@@ -684,6 +684,12 @@ enum Technology {
   programmingAndLanguages // Programas e linguagens
   spreadsheets // Planilhas
   operatingSystemSetup // Instalações de sistemas operacionais
+  textEditor // Editor de texto
+  electronicsInstallation // Instalação de eletrônicos
+  presentationEditing // Editoração de apresentações
+  videoEditing // Edição de vídeo
+  drawingApps // Aplicativos de desenho
+  prototypingPlatform // Plataforma de prototipação
 }
 
 model StudentTechnology {
