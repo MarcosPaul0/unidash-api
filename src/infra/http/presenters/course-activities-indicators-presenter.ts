@@ -69,6 +69,7 @@ export class CourseActivitiesIndicatorsPresenter {
           type,
           firstSemester: 0,
           secondSemester: 0,
+          total: 0,
         }));
 
         extensionActivities[data.year] = {
@@ -80,6 +81,7 @@ export class CourseActivitiesIndicatorsPresenter {
 
       EXTENSION_ACTIVITIES_TYPES.forEach((type) => {
         const extensionActivitiesByYear = extensionActivities[data.year].data;
+
         const target = extensionActivitiesByYear.find(
           (typeIndicator) => typeIndicator.type === type,
         );
@@ -87,9 +89,11 @@ export class CourseActivitiesIndicatorsPresenter {
         if (data.semester === 'first') {
           extensionActivities[data.year].hasDataInFirstSemester = true;
           target.firstSemester += data[type] as number;
+          target.total += data[type] as number;
         } else {
           extensionActivities[data.year].hasDataInSecondSemester = true;
           target.secondSemester += data[type] as number;
+          target.total += data[type] as number;
         }
       });
     });
@@ -105,6 +109,7 @@ export class CourseActivitiesIndicatorsPresenter {
             type,
             firstSemester: 0,
             secondSemester: 0,
+            total: 0,
           }),
         );
 
@@ -126,10 +131,12 @@ export class CourseActivitiesIndicatorsPresenter {
           extensionComplementaryActivities[data.year].hasDataInFirstSemester =
             true;
           target.firstSemester += data[type] as number;
+          target.total += data[type] as number;
         } else {
           extensionComplementaryActivities[data.year].hasDataInSecondSemester =
             true;
           target.secondSemester += data[type] as number;
+          target.total += data[type] as number;
         }
       });
     });
@@ -145,6 +152,7 @@ export class CourseActivitiesIndicatorsPresenter {
             type,
             firstSemester: 0,
             secondSemester: 0,
+            total: 0,
           }),
         );
 
@@ -166,10 +174,12 @@ export class CourseActivitiesIndicatorsPresenter {
           teachingComplementaryActivities[data.year].hasDataInFirstSemester =
             true;
           target.firstSemester += data[type] as number;
+          target.total += data[type] as number;
         } else {
           teachingComplementaryActivities[data.year].hasDataInSecondSemester =
             true;
           target.secondSemester += data[type] as number;
+          target.total += data[type] as number;
         }
       });
     });
@@ -185,6 +195,7 @@ export class CourseActivitiesIndicatorsPresenter {
             type,
             firstSemester: 0,
             secondSemester: 0,
+            total: 0,
           }),
         );
 
@@ -206,10 +217,12 @@ export class CourseActivitiesIndicatorsPresenter {
           searchComplementaryActivities[data.year].hasDataInFirstSemester =
             true;
           target.firstSemester += data[type] as number;
+          target.total += data[type] as number;
         } else {
           searchComplementaryActivities[data.year].hasDataInSecondSemester =
             true;
           target.secondSemester += data[type] as number;
+          target.total += data[type] as number;
         }
       });
     });
