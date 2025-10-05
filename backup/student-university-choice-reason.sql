@@ -6,3 +6,6 @@ INSERT INTO public."studentUniversityChoiceReason" VALUES
 (gen_random_uuid(), 'financialReasons', 'Motivos financeiros'),
 (gen_random_uuid(), 'notFirstChoice', 'Não foi minha 1ª escolha'),
 (gen_random_uuid(), 'other', 'Outra');
+
+INSERT INTO public."studentUniversityChoiceReason" VALUES
+(gen_random_uuid(), 'closeOriginCity', 'Próximo a cidade de origem');

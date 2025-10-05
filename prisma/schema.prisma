@@ -581,6 +581,7 @@ enum Asset {
   motorcycle // Moto
   virtualAssistant // Assistente virtual (ex.: Alexa, Google Home)
   payTv // TV por assinatura
+  smartTv
   printer // Impressora
   internet // Internet
   tablet // Tablet
@@ -651,6 +652,7 @@ enum UniversityChoiceReason {
   professionalReasons // Motivos profissionais
   financialReasons // Motivos financeiros
   notFirstChoice // Não foi minha 1ª escolha
+  closeOriginCity // Pŕoximo a cidade de origem
   other // Outra
 }
 

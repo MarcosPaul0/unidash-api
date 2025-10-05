@@ -9,3 +9,7 @@ INSERT INTO public."studentAsset" VALUES
 (gen_random_uuid(), 'desktopComputer', 'Desktop'),
 (gen_random_uuid(), 'laptop', 'Notebook'),
 (gen_random_uuid(), 'smartphone', 'Smartphone');
+
+
+INSERT INTO public."studentAsset" VALUES
+(gen_random_uuid(), 'smartTv', 'Smart Tv');
