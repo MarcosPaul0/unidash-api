@@ -24,25 +24,29 @@ export class CourseStudentIncomingIndicatorsPresenter {
     studentIncomingData.forEach((data) => {
       const yearCity = studentIncomingByCity[data.year];
 
+      const cityId = data.city?.id.toString();
+
       if (!yearCity) {
         const newYearCity = [
           {
             city: data.city?.name,
-            cityId: data.city?.id.toString(),
+            cityId,
             count: 1,
           },
         ];
 
         studentIncomingByCity[data.year] = newYearCity;
       } else {
-        const cityData = yearCity.find((data) => data.cityId === data.cityId);
+        const cityData = yearCity.find(
+          (currentData) => currentData.cityId === cityId,
+        );
 
         if (cityData) {
           cityData.count += 1;
         } else {
           yearCity.push({
             city: data.city?.name,
-            cityId: data.city?.id.toString(),
+            cityId,
             count: 1,
           });
         }
@@ -61,7 +65,7 @@ export class CourseStudentIncomingIndicatorsPresenter {
         studentIncomingByWorkExpectation[data.year] = newYearWorkExpectation;
       } else {
         const workExpectationData = yearWorkExpectation.find(
-          (data) => data.type === data.workExpectation,
+          (currentData) => currentData.type === data.workExpectation,
         );
 
         if (workExpectationData) {
@@ -87,7 +91,7 @@ export class CourseStudentIncomingIndicatorsPresenter {
         studentIncomingByCurrentEducation[data.year] = newYearCurrentEducation;
       } else {
         const currentEducationData = yearCurrentEducation.find(
-          (data) => data.type === data.currentEducation,
+          (currentData) => currentData.type === data.currentEducation,
         );
 
         if (currentEducationData) {
@@ -115,7 +119,8 @@ export class CourseStudentIncomingIndicatorsPresenter {
           newYearEnglishProficiencyLevel;
       } else {
         const englishProficiencyLevelData = yearEnglishProficiencyLevel.find(
-          (data) => data.englishLevel === data.englishProficiencyLevel,
+          (currentData) =>
+            currentData.englishLevel === data.englishProficiencyLevel,
         );
 
         if (englishProficiencyLevelData) {
@@ -194,8 +199,8 @@ export class CourseStudentIncomingIndicatorsPresenter {
         data.studentAffinityByDisciplineData.forEach(
           (affinityByDisciplineData) => {
             const yearDisciplineData = yearAffinityByDiscipline.find(
-              (yearData) =>
-                yearData.discipline === affinityByDisciplineData.discipline,
+              (currentData) =>
+                currentData.discipline === affinityByDisciplineData.discipline,
             );
 
             if (yearDisciplineData) {
@@ -245,7 +250,7 @@ export class CourseStudentIncomingIndicatorsPresenter {
       } else {
         data.studentAssetData.forEach((assetData) => {
           const yearAssetData = yearAsset.find(
-            (yearData) => yearData.asset === assetData.asset,
+            (currentData) => currentData.asset === assetData.asset,
           );
 
           if (yearAssetData) {
@@ -274,8 +279,8 @@ export class CourseStudentIncomingIndicatorsPresenter {
       } else {
         data.studentCourseChoiceReasonData.forEach((courseChoiceReasonData) => {
           const yearCourseChoiceReasonData = yearCourseChoiceReason.find(
-            (yearData) =>
-              yearData.choiceReason === courseChoiceReasonData.choiceReason,
+            (currentData) =>
+              currentData.choiceReason === courseChoiceReasonData.choiceReason,
           );
 
           if (yearCourseChoiceReasonData) {
@@ -303,8 +308,8 @@ export class CourseStudentIncomingIndicatorsPresenter {
       } else {
         data.studentHobbyOrHabitData.forEach((hobbyOrHabitData) => {
           const yearHobbyOrHabitData = yearHobbyOrHabit.find(
-            (yearData) =>
-              yearData.hobbyOrHabit === hobbyOrHabitData.hobbyOrHabit,
+            (currentData) =>
+              currentData.hobbyOrHabit === hobbyOrHabitData.hobbyOrHabit,
           );
 
           if (yearHobbyOrHabitData) {
@@ -332,7 +337,8 @@ export class CourseStudentIncomingIndicatorsPresenter {
       } else {
         data.studentTechnologyData.forEach((technologyData) => {
           const yearTechnologyData = yearTechnology.find(
-            (yearData) => yearData.Technology === technologyData.technology,
+            (currentData) =>
+              currentData.technology === technologyData.technology,
           );
 
           if (yearTechnologyData) {
@@ -352,8 +358,8 @@ export class CourseStudentIncomingIndicatorsPresenter {
       if (!yearUniversityChoiceReason) {
         const newUniversityChoiceReason =
           data.studentUniversityChoiceReasonData.map(
-            (UniversityChoiceReasonData) => ({
-              choiceReason: UniversityChoiceReasonData.choiceReason,
+            (universityChoiceReasonData) => ({
+              choiceReason: universityChoiceReasonData.choiceReason,
               count: 1,
             }),
           );
@@ -365,8 +371,8 @@ export class CourseStudentIncomingIndicatorsPresenter {
           (UniversityChoiceReasonData) => {
             const yearUniversityChoiceReasonData =
               yearUniversityChoiceReason.find(
-                (yearData) =>
-                  yearData.choiceReason ===
+                (currentData) =>
+                  currentData.choiceReason ===
                   UniversityChoiceReasonData.choiceReason,
               );
 
