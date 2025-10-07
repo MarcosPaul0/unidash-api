@@ -23,6 +23,7 @@ interface RegisterCourseCoordinationDataUseCaseRequest {
     meetingsByCourseCouncil: number;
     academicActionPlans: number;
     administrativeActionPlans: number;
+    actionPlansDescription: string | null;
   };
   sessionUser: SessionUser;
 }
@@ -56,6 +57,7 @@ export class RegisterCourseCoordinationDataUseCase {
       meetingsByCourseCouncil,
       academicActionPlans,
       administrativeActionPlans,
+      actionPlansDescription,
     },
     sessionUser,
   }: RegisterCourseCoordinationDataUseCaseRequest): Promise<RegisterCourseCoordinationDataUseCaseResponse> {
@@ -100,6 +102,7 @@ export class RegisterCourseCoordinationDataUseCase {
       meetingsByCourseCouncil,
       academicActionPlans,
       administrativeActionPlans,
+      actionPlansDescription,
     });
 
     await this.courseCoordinationDataRepository.create(courseCoordinationData);

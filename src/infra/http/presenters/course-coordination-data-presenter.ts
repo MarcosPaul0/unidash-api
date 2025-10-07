@@ -20,6 +20,7 @@ export class CourseCoordinationDataPresenter {
       academicActionPlans: courseCoordinationData.academicActionPlans,
       administrativeActionPlans:
         courseCoordinationData.administrativeActionPlans,
+      actionPlansDescription: courseCoordinationData.actionPlansDescription,
       createdAt: courseCoordinationData.createdAt,
       updatedAt: courseCoordinationData.updatedAt,
     };

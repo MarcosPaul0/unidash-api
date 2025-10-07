@@ -35,6 +35,10 @@ export class CourseCoordinationIndicatorsPresenter {
           administrativeActionPlans:
             yearData.administrativeActionPlans +
             currentData.administrativeActionPlans,
+          actionPlansDescriptions: {
+            ...yearData.actionPlansDescriptions,
+            [currentData.semester]: currentData.actionPlansDescription,
+          },
         });
       } else {
         courseCoordinationMap.set(currentData.year, {
@@ -50,9 +54,14 @@ export class CourseCoordinationIndicatorsPresenter {
           meetingsByCourseCouncil: currentData.meetingsByCourseCouncil,
           academicActionPlans: currentData.academicActionPlans,
           administrativeActionPlans: currentData.administrativeActionPlans,
+          actionPlansDescriptions: {
+            [currentData.semester]: currentData.actionPlansDescription,
+          },
         });
       }
     });
+
+    const actionPlans = {};
 
     const result = Array.from(courseCoordinationMap.values()).reduce(
       (accumulator, data) => {
@@ -75,11 +84,11 @@ export class CourseCoordinationIndicatorsPresenter {
           servicesRequestsByEmail: data.servicesRequestsByEmail,
         });
 
-        accumulator.actionPlans.push({
-          year: data.year,
+        actionPlans[data.year] = {
           academicActionPlans: data.academicActionPlans,
           administrativeActionPlans: data.administrativeActionPlans,
-        });
+          actionPlansDescriptions: data.actionPlansDescriptions,
+        };
 
         return accumulator;
       },
@@ -87,14 +96,17 @@ export class CourseCoordinationIndicatorsPresenter {
         actions: [],
         meetings: [],
         services: [],
-        actionPlans: [],
       },
     );
 
     const period = Array.from(courseCoordinationMap.keys());
 
-    result['period'] = period;
-
-    return result;
+    return {
+      actions: result.actions.reverse(),
+      meetings: result.meetings.reverse(),
+      services: result.services.reverse(),
+      actionPlans,
+      period,
+    };
   }
 }

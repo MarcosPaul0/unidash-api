@@ -8,14 +8,13 @@ import {
   ForbiddenException,
   HttpCode,
   Post,
-  UsePipes,
 } from '@nestjs/common';
-import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { SEMESTER } from '@/domain/entities/course-data';
 import { RegisterCourseCoordinationDataUseCase } from '@/domain/application/use-cases/register-course-coordination-data/register-course-coordination-data';
+import { CourseCoordinationDataAlreadyExistsError } from '@/domain/application/use-cases/errors/course-coordination-data-already-exists-error';
 
 const registerCourseCoordinationDataBodySchema = z.object({
   courseId: z.uuid(),
@@ -30,6 +29,7 @@ const registerCourseCoordinationDataBodySchema = z.object({
   meetingsByCourseCouncil: z.int().min(0).max(1000),
   academicActionPlans: z.int().min(0).max(1000),
   administrativeActionPlans: z.int().min(0).max(1000),
+  actionPlansDescription: z.string().min(10).max(360).optional(),
 });
 
 type RegisterCourseCoordinationDataBodySchema = z.infer<
@@ -50,7 +50,10 @@ export class RegisterCourseCoordinationDataController {
     body: RegisterCourseCoordinationDataBodySchema,
   ) {
     const result = await this.registerCourseCoordinationData.execute({
-      courseCoordinationData: body,
+      courseCoordinationData: {
+        ...body,
+        actionPlansDescription: body.actionPlansDescription ?? null,
+      },
       sessionUser,
     });
 
@@ -58,7 +61,7 @@ export class RegisterCourseCoordinationDataController {
       const error = result.value;
 
       switch (error.constructor) {
-        case UserAlreadyExistsError:
+        case CourseCoordinationDataAlreadyExistsError:
           throw new ConflictException(error.message);
         case NotAllowedError:
           throw new ForbiddenException(error.message);

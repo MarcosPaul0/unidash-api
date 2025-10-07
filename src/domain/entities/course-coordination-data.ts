@@ -12,6 +12,7 @@ export interface CourseCoordinationDataProps extends CourseDataProps {
   meetingsByCourseCouncil: number;
   academicActionPlans: number;
   administrativeActionPlans: number;
+  actionPlansDescription: string | null;
 }
 
 export class CourseCoordinationData extends CourseData<CourseCoordinationDataProps> {
@@ -121,6 +122,18 @@ export class CourseCoordinationData extends CourseData<CourseCoordinationDataPro
     }
 
     this.props.administrativeActionPlans = administrativeActionPlans;
+  }
+
+  get actionPlansDescription(): string | null {
+    return this.props.actionPlansDescription ?? null;
+  }
+
+  set actionPlansDescription(actionPlansDescription: string | null) {
+    if (!actionPlansDescription) {
+      return;
+    }
+
+    this.props.actionPlansDescription = actionPlansDescription;
   }
 
   static create(

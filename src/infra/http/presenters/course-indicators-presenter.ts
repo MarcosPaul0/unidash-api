@@ -189,7 +189,7 @@ export class CourseIndicatorsPresenter {
           subscribers: yearStudents.subscribers + data.subscribers,
         };
       } else {
-        students[data.year] = students[data.year] = {
+        students[data.year] = {
           entrants: data.entrants,
           vacancies: data.vacancies,
           subscribers: data.subscribers,

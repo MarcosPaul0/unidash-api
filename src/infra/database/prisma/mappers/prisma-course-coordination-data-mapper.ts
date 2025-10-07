@@ -21,6 +21,7 @@ export class PrismaCourseCoordinationDataMapper {
         meetingsByCourseCouncil: raw.meetingsByCourseCouncil,
         academicActionPlans: raw.academicActionPlans,
         administrativeActionPlans: raw.administrativeActionPlans,
+        actionPlansDescription: raw.actionPlansDescription,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
       },
@@ -48,6 +49,8 @@ export class PrismaCourseCoordinationDataMapper {
       academicActionPlans: courseCoordinationData.academicActionPlans,
       administrativeActionPlans:
         courseCoordinationData.administrativeActionPlans,
+      actionPlansDescription: courseCoordinationData.actionPlansDescription,
+
       createdAt: courseCoordinationData.createdAt,
       updatedAt: courseCoordinationData.updatedAt,
     };
@@ -73,6 +76,7 @@ export class PrismaCourseCoordinationDataMapper {
       academicActionPlans: courseCoordinationData.academicActionPlans,
       administrativeActionPlans:
         courseCoordinationData.administrativeActionPlans,
+      actionPlansDescription: courseCoordinationData.actionPlansDescription,
       createdAt: courseCoordinationData.createdAt,
       updatedAt: courseCoordinationData.updatedAt,
     };
