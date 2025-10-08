@@ -246,7 +246,8 @@ export class CourseIndicatorsPresenter {
               accumulator + currentActiveStudents.numberOfStudents,
             0,
           )
-        : 0;
+        : 1;
+
       complements[year] = {
         successRate: graduates / students[year].entrants,
         dropoutRate: canceled / actives,
