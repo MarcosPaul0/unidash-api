@@ -8,7 +8,7 @@ import { StudentsRepository } from '../../repositories/students-repository';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 
 interface FindAllCoursesUseCaseRequest {
-  sessionUser: SessionUser;
+  sessionUser?: SessionUser;
 }
 
 type FindAllCoursesUseCaseResponse = Either<
@@ -28,7 +28,7 @@ export class FindAllCoursesUseCase {
   async execute({
     sessionUser,
   }: FindAllCoursesUseCaseRequest): Promise<FindAllCoursesUseCaseResponse> {
-    if (sessionUser.role === 'teacher') {
+    if (sessionUser?.role === 'teacher') {
       const courses = await this.coursesRepository.findAllByTeacher(
         sessionUser.id,
       );
@@ -36,7 +36,7 @@ export class FindAllCoursesUseCase {
       return right({ courses });
     }
 
-    if (sessionUser.role === 'student') {
+    if (sessionUser?.role === 'student') {
       const student = await this.studentsRepository.findById(sessionUser.id);
 
       if (!student) {

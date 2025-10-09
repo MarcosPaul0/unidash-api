@@ -205,6 +205,7 @@ import { DeleteCourseActiveStudentsDataController } from './controllers/delete-c
 import { RegisterCourseActiveStudentsDataUseCase } from '@/domain/application/use-cases/register-course-active-students-data/register-course-active-students-data';
 import { FindAllCourseActiveStudentsDataUseCase } from '@/domain/application/use-cases/find-all-course-active-students-data/find-all-course-active-students-data';
 import { DeleteCourseActiveStudentsDataUseCase } from '@/domain/application/use-cases/delete-course-active-students-data/delete-course-active-students-data';
+import { FindAllCoursesForGuestController } from './controllers/find-all-courses-for-guest/find-all-courses-for-guest.controller';
 
 @Module({
   imports: [
@@ -315,6 +316,7 @@ import { DeleteCourseActiveStudentsDataUseCase } from '@/domain/application/use-
     RegisterCourseActiveStudentsDataController,
     FindAllCourseActiveStudentsDataController,
     DeleteCourseActiveStudentsDataController,
+    FindAllCoursesForGuestController,
   ],
   providers: [
     RegisterStudentUseCase,
