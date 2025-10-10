@@ -262,9 +262,9 @@ model CourseCoordinationData {
   meetingsByBoardOfDirectors     Int      @default(0) @db.SmallInt
   meetingsByUndergraduateChamber Int      @default(0) @db.SmallInt
   meetingsByCourseCouncil        Int      @default(0) @db.SmallInt
-  academicActionPlans            Int      @default(0) @db.SmallInt
-  administrativeActionPlans      Int      @default(0) @db.SmallInt
-  actionPlansDescription         String?  @db.VarChar(360)
+  meetingsByNde                  Int      @default(0) @db.SmallInt
+  academicActionPlans            String?  @db.VarChar(360)
+  administrativeActionPlans      String?  @db.VarChar(360)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
