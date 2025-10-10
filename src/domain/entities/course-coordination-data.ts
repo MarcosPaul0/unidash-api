@@ -10,9 +10,9 @@ export interface CourseCoordinationDataProps extends CourseDataProps {
   meetingsByBoardOfDirectors: number;
   meetingsByUndergraduateChamber: number;
   meetingsByCourseCouncil: number;
-  academicActionPlans: number;
-  administrativeActionPlans: number;
-  actionPlansDescription: string | null;
+  meetingsByNde: number;
+  academicActionPlans: string | null;
+  administrativeActionPlans: string | null;
 }
 
 export class CourseCoordinationData extends CourseData<CourseCoordinationDataProps> {
@@ -100,11 +100,23 @@ export class CourseCoordinationData extends CourseData<CourseCoordinationDataPro
     this.props.meetingsByCourseCouncil = meetingsByCourseCouncil;
   }
 
-  get academicActionPlans() {
+  get meetingsByNde() {
+    return this.props.meetingsByNde;
+  }
+
+  set meetingsByNde(meetingsByNde: number) {
+    if (!meetingsByNde) {
+      return;
+    }
+
+    this.props.meetingsByNde = meetingsByNde;
+  }
+
+  get academicActionPlans(): string | null {
     return this.props.academicActionPlans;
   }
 
-  set academicActionPlans(academicActionPlans: number) {
+  set academicActionPlans(academicActionPlans: string | null) {
     if (!academicActionPlans) {
       return;
     }
@@ -112,28 +124,16 @@ export class CourseCoordinationData extends CourseData<CourseCoordinationDataPro
     this.props.academicActionPlans = academicActionPlans;
   }
 
-  get administrativeActionPlans() {
+  get administrativeActionPlans(): string | null {
     return this.props.administrativeActionPlans;
   }
 
-  set administrativeActionPlans(administrativeActionPlans: number) {
+  set administrativeActionPlans(administrativeActionPlans: string | null) {
     if (!administrativeActionPlans) {
       return;
     }
 
     this.props.administrativeActionPlans = administrativeActionPlans;
-  }
-
-  get actionPlansDescription(): string | null {
-    return this.props.actionPlansDescription ?? null;
-  }
-
-  set actionPlansDescription(actionPlansDescription: string | null) {
-    if (!actionPlansDescription) {
-      return;
-    }
-
-    this.props.actionPlansDescription = actionPlansDescription;
   }
 
   static create(

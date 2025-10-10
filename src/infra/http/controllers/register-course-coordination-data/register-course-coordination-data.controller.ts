@@ -27,9 +27,9 @@ const registerCourseCoordinationDataBodySchema = z.object({
   meetingsByBoardOfDirectors: z.int().min(0).max(1000),
   meetingsByUndergraduateChamber: z.int().min(0).max(1000),
   meetingsByCourseCouncil: z.int().min(0).max(1000),
-  academicActionPlans: z.int().min(0).max(1000),
-  administrativeActionPlans: z.int().min(0).max(1000),
-  actionPlansDescription: z.string().min(10).max(360).optional(),
+  meetingsByNde: z.int().min(0).max(1000),
+  academicActionPlans: z.string().min(10).max(360).optional(),
+  administrativeActionPlans: z.string().min(10).max(360).optional(),
 });
 
 type RegisterCourseCoordinationDataBodySchema = z.infer<
@@ -52,7 +52,8 @@ export class RegisterCourseCoordinationDataController {
     const result = await this.registerCourseCoordinationData.execute({
       courseCoordinationData: {
         ...body,
-        actionPlansDescription: body.actionPlansDescription ?? null,
+        academicActionPlans: body.academicActionPlans ?? null,
+        administrativeActionPlans: body.administrativeActionPlans ?? null,
       },
       sessionUser,
     });

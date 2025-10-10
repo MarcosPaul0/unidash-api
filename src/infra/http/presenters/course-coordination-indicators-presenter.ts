@@ -30,6 +30,7 @@ export class CourseCoordinationIndicatorsPresenter {
           meetingsByCourseCouncil:
             yearData.meetingsByCourseCouncil +
             currentData.meetingsByCourseCouncil,
+          meetingsByNde: yearData.meetingsByNde + currentData.meetingsByNde,
           academicActionPlans:
             yearData.academicActionPlans + currentData.academicActionPlans,
           administrativeActionPlans:
@@ -37,7 +38,10 @@ export class CourseCoordinationIndicatorsPresenter {
             currentData.administrativeActionPlans,
           actionPlansDescriptions: {
             ...yearData.actionPlansDescriptions,
-            [currentData.semester]: currentData.actionPlansDescription,
+            [currentData.semester]: {
+              academicActionPlans: currentData.academicActionPlans,
+              administrativeActionPlans: currentData.administrativeActionPlans,
+            },
           },
         });
       } else {
@@ -52,10 +56,12 @@ export class CourseCoordinationIndicatorsPresenter {
           meetingsByUndergraduateChamber:
             currentData.meetingsByUndergraduateChamber,
           meetingsByCourseCouncil: currentData.meetingsByCourseCouncil,
-          academicActionPlans: currentData.academicActionPlans,
-          administrativeActionPlans: currentData.administrativeActionPlans,
+          meetingsByNde: currentData.meetingsByNde,
           actionPlansDescriptions: {
-            [currentData.semester]: currentData.actionPlansDescription,
+            [currentData.semester]: {
+              academicActionPlans: currentData.academicActionPlans,
+              administrativeActionPlans: currentData.administrativeActionPlans,
+            },
           },
         });
       }
@@ -76,6 +82,7 @@ export class CourseCoordinationIndicatorsPresenter {
           meetingsByBoardOfDirectors: data.meetingsByBoardOfDirectors,
           meetingsByUndergraduateChamber: data.meetingsByUndergraduateChamber,
           meetingsByCourseCouncil: data.meetingsByCourseCouncil,
+          meetingsByNde: data.meetingsByNde,
         });
 
         accumulator.services.push({
@@ -84,11 +91,7 @@ export class CourseCoordinationIndicatorsPresenter {
           servicesRequestsByEmail: data.servicesRequestsByEmail,
         });
 
-        actionPlans[data.year] = {
-          academicActionPlans: data.academicActionPlans,
-          administrativeActionPlans: data.administrativeActionPlans,
-          actionPlansDescriptions: data.actionPlansDescriptions,
-        };
+        actionPlans[data.year] = data.actionPlansDescriptions;
 
         return accumulator;
       },

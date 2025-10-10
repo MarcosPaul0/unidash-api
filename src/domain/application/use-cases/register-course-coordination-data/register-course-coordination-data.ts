@@ -21,9 +21,9 @@ interface RegisterCourseCoordinationDataUseCaseRequest {
     meetingsByBoardOfDirectors: number;
     meetingsByUndergraduateChamber: number;
     meetingsByCourseCouncil: number;
-    academicActionPlans: number;
-    administrativeActionPlans: number;
-    actionPlansDescription: string | null;
+    meetingsByNde: number;
+    academicActionPlans: string | null;
+    administrativeActionPlans: string | null;
   };
   sessionUser: SessionUser;
 }
@@ -55,9 +55,9 @@ export class RegisterCourseCoordinationDataUseCase {
       meetingsByBoardOfDirectors,
       meetingsByUndergraduateChamber,
       meetingsByCourseCouncil,
+      meetingsByNde,
       academicActionPlans,
       administrativeActionPlans,
-      actionPlansDescription,
     },
     sessionUser,
   }: RegisterCourseCoordinationDataUseCaseRequest): Promise<RegisterCourseCoordinationDataUseCaseResponse> {
@@ -100,9 +100,9 @@ export class RegisterCourseCoordinationDataUseCase {
       meetingsByBoardOfDirectors,
       meetingsByUndergraduateChamber,
       meetingsByCourseCouncil,
+      meetingsByNde,
       academicActionPlans,
       administrativeActionPlans,
-      actionPlansDescription,
     });
 
     await this.courseCoordinationDataRepository.create(courseCoordinationData);

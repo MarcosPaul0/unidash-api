@@ -17,10 +17,10 @@ export class CourseCoordinationDataPresenter {
       meetingsByUndergraduateChamber:
         courseCoordinationData.meetingsByUndergraduateChamber,
       meetingsByCourseCouncil: courseCoordinationData.meetingsByCourseCouncil,
+      meetingsByNde: courseCoordinationData.meetingsByNde,
       academicActionPlans: courseCoordinationData.academicActionPlans,
       administrativeActionPlans:
         courseCoordinationData.administrativeActionPlans,
-      actionPlansDescription: courseCoordinationData.actionPlansDescription,
       createdAt: courseCoordinationData.createdAt,
       updatedAt: courseCoordinationData.updatedAt,
     };

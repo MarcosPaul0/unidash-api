@@ -19,9 +19,9 @@ export class PrismaCourseCoordinationDataMapper {
         meetingsByBoardOfDirectors: raw.meetingsByBoardOfDirectors,
         meetingsByUndergraduateChamber: raw.meetingsByUndergraduateChamber,
         meetingsByCourseCouncil: raw.meetingsByCourseCouncil,
+        meetingsByNde: raw.meetingsByNde,
         academicActionPlans: raw.academicActionPlans,
         administrativeActionPlans: raw.administrativeActionPlans,
-        actionPlansDescription: raw.actionPlansDescription,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
       },
@@ -46,11 +46,10 @@ export class PrismaCourseCoordinationDataMapper {
       meetingsByUndergraduateChamber:
         courseCoordinationData.meetingsByUndergraduateChamber,
       meetingsByCourseCouncil: courseCoordinationData.meetingsByCourseCouncil,
+      meetingsByNde: courseCoordinationData.meetingsByNde,
       academicActionPlans: courseCoordinationData.academicActionPlans,
       administrativeActionPlans:
         courseCoordinationData.administrativeActionPlans,
-      actionPlansDescription: courseCoordinationData.actionPlansDescription,
-
       createdAt: courseCoordinationData.createdAt,
       updatedAt: courseCoordinationData.updatedAt,
     };
@@ -73,10 +72,10 @@ export class PrismaCourseCoordinationDataMapper {
       meetingsByUndergraduateChamber:
         courseCoordinationData.meetingsByUndergraduateChamber,
       meetingsByCourseCouncil: courseCoordinationData.meetingsByCourseCouncil,
+      meetingsByNde: courseCoordinationData.meetingsByNde,
       academicActionPlans: courseCoordinationData.academicActionPlans,
       administrativeActionPlans:
         courseCoordinationData.administrativeActionPlans,
-      actionPlansDescription: courseCoordinationData.actionPlansDescription,
       createdAt: courseCoordinationData.createdAt,
       updatedAt: courseCoordinationData.updatedAt,
     };
