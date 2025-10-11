@@ -389,6 +389,26 @@ export class CourseStudentIncomingIndicatorsPresenter {
       }
     });
 
+    const years = Object.keys(studentIncomingByAsset);
+
+    years.forEach((year) => {
+      studentIncomingByCourseChoiceReason[year].sort(
+        (first, second) => second.count - first.count,
+      );
+      studentIncomingByUniversityChoiceReason[year].sort(
+        (first, second) => second.count - first.count,
+      );
+      studentIncomingByTechnology[year].sort(
+        (first, second) => second.count - first.count,
+      );
+      studentIncomingByHobbyOrHabit[year].sort(
+        (first, second) => second.count - first.count,
+      );
+      studentIncomingByAsset[year].sort(
+        (first, second) => second.count - first.count,
+      );
+    });
+
     return {
       studentIncomingByCity,
       studentIncomingByEnglishProficiencyLevel,
