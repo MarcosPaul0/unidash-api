@@ -35,6 +35,26 @@ export class PrismaStudentsRepository implements StudentsRepository {
     });
   }
 
+  async findByStudentId(studentId: string): Promise<Student | null> {
+    const student = await this.prisma.student.findUnique({
+      where: {
+        id: studentId,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    if (!student) {
+      return null;
+    }
+
+    return PrismaStudentMapper.toDomain({
+      ...student.user,
+      student,
+    });
+  }
+
   async findByMatriculation(matriculation: string): Promise<Student | null> {
     const user = await this.prisma.user.findFirst({
       where: {

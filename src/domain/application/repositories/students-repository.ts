@@ -13,6 +13,7 @@ export type FindAllStudentsFilters = {
 
 export abstract class StudentsRepository {
   abstract findById(id: string): Promise<Student | null>;
+  abstract findByStudentId(studentId: string): Promise<Student | null>;
   abstract findByMatriculation(matriculation: string): Promise<Student | null>;
   abstract findAll(
     pagination?: Pagination,

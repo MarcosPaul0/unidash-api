@@ -36,7 +36,7 @@ export class DeleteStudentIncomingDataUseCase {
       return left(new ResourceNotFoundError());
     }
 
-    const student = await this.studentsRepository.findById(
+    const student = await this.studentsRepository.findByStudentId(
       studentIncomingData.studentId,
     );
 
