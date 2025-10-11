@@ -716,12 +716,12 @@ model StudentTechnologyData {
 }
 
 model CourseTeacherWorkloadData {
-  id                String    @id @default(uuid()) @db.Uuid
-  year              Int       @db.SmallInt
-  semester          Semester  @default(first)
-  workloadInMinutes Int       @default(0) @db.SmallInt
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime? @updatedAt
+  id              String    @id @default(uuid()) @db.Uuid
+  year            Int       @db.SmallInt
+  semester        Semester  @default(first)
+  workloadInHours Int       @default(0) @db.SmallInt
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @updatedAt
 
   teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
   teacherId String  @db.Uuid

@@ -15,7 +15,7 @@ interface RegisterCourseTeacherWorkloadDataUseCaseRequest {
     teacherId: string;
     year: number;
     semester: Semester;
-    workloadInMinutes: number;
+    workloadInHours: number;
   };
   sessionUser: SessionUser;
 }
@@ -41,7 +41,7 @@ export class RegisterCourseTeacherWorkloadDataUseCase {
       year,
       semester,
       teacherId,
-      workloadInMinutes,
+      workloadInHours,
     },
     sessionUser,
   }: RegisterCourseTeacherWorkloadDataUseCaseRequest): Promise<RegisterCourseTeacherWorkloadDataUseCaseResponse> {
@@ -79,7 +79,7 @@ export class RegisterCourseTeacherWorkloadDataUseCase {
       year,
       semester,
       teacherId,
-      workloadInMinutes,
+      workloadInHours,
     });
 
     await this.courseTeacherWorkloadDataRepository.create(

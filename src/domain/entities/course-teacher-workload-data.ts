@@ -4,7 +4,7 @@ import { CourseData, CourseDataProps } from './course-data';
 import { Teacher } from './teacher';
 
 export interface CourseTeacherWorkloadDataProps extends CourseDataProps {
-  workloadInMinutes: number;
+  workloadInHours: number;
   teacherId: string;
   teacher?: Teacher | null;
 }
@@ -22,16 +22,16 @@ export class CourseTeacherWorkloadData extends CourseData<CourseTeacherWorkloadD
     this.props.teacherId = teacherId;
   }
 
-  get workloadInMinutes() {
-    return this.props.workloadInMinutes;
+  get workloadInHours() {
+    return this.props.workloadInHours;
   }
 
-  set workloadInMinutes(workloadInMinutes: number) {
-    if (!workloadInMinutes) {
+  set workloadInHours(workloadInHours: number) {
+    if (!workloadInHours) {
       return;
     }
 
-    this.props.workloadInMinutes = workloadInMinutes;
+    this.props.workloadInHours = workloadInHours;
   }
 
   get teacher(): Teacher | null {

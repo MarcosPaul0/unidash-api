@@ -125,10 +125,10 @@ export class CourseIndicatorsPresenter {
         if (teacherYearWorkload) {
           if (data.semester === 'first') {
             yearTeachersWorkload.hasDataInFirstSemester = true;
-            teacherYearWorkload.firstSemester += data.workloadInMinutes;
+            teacherYearWorkload.firstSemester += data.workloadInHours;
           } else {
             yearTeachersWorkload.hasDataInSecondSemester = true;
-            teacherYearWorkload.secondSemester += data.workloadInMinutes;
+            teacherYearWorkload.secondSemester += data.workloadInHours;
           }
         } else {
           teachersWorkload[data.year] = {
@@ -139,8 +139,8 @@ export class CourseIndicatorsPresenter {
               {
                 teacherId: data.teacherId,
                 teacher: data.teacher!.name,
-                firstSemester: isFirstSemester ? data.workloadInMinutes : 0,
-                secondSemester: !isFirstSemester ? data.workloadInMinutes : 0,
+                firstSemester: isFirstSemester ? data.workloadInHours : 0,
+                secondSemester: !isFirstSemester ? data.workloadInHours : 0,
               },
             ],
           };
@@ -153,8 +153,8 @@ export class CourseIndicatorsPresenter {
             {
               teacherId: data.teacherId,
               teacher: data.teacher!.name,
-              firstSemester: isFirstSemester ? data.workloadInMinutes : 0,
-              secondSemester: !isFirstSemester ? data.workloadInMinutes : 0,
+              firstSemester: isFirstSemester ? data.workloadInHours : 0,
+              secondSemester: !isFirstSemester ? data.workloadInHours : 0,
             },
           ],
         };

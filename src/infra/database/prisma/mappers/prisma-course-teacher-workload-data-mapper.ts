@@ -27,7 +27,7 @@ export class PrismaCourseTeacherWorkloadDataMapper {
         courseId: raw.courseId,
         year: raw.year,
         semester: raw.semester,
-        workloadInMinutes: raw.workloadInMinutes,
+        workloadInHours: raw.workloadInHours,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
       },
@@ -44,7 +44,7 @@ export class PrismaCourseTeacherWorkloadDataMapper {
         courseId: raw.courseId,
         year: raw.year,
         semester: raw.semester,
-        workloadInMinutes: raw.workloadInMinutes,
+        workloadInHours: raw.workloadInHours,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
         teacher: Teacher.create(
@@ -73,7 +73,7 @@ export class PrismaCourseTeacherWorkloadDataMapper {
       courseId: teacherWorkloadData.courseId,
       year: teacherWorkloadData.year,
       semester: teacherWorkloadData.semester,
-      workloadInMinutes: teacherWorkloadData.workloadInMinutes,
+      workloadInHours: teacherWorkloadData.workloadInHours,
       createdAt: teacherWorkloadData.createdAt,
       updatedAt: teacherWorkloadData.updatedAt,
     };
@@ -86,7 +86,7 @@ export class PrismaCourseTeacherWorkloadDataMapper {
       id: teacherWorkloadData.id.toString(),
       year: teacherWorkloadData.year,
       semester: teacherWorkloadData.semester,
-      workloadInMinutes: teacherWorkloadData.workloadInMinutes,
+      workloadInHours: teacherWorkloadData.workloadInHours,
       createdAt: teacherWorkloadData.createdAt,
       updatedAt: teacherWorkloadData.updatedAt,
     };

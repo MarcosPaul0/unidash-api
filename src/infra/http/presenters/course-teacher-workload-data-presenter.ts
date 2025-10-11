@@ -9,7 +9,7 @@ export class CourseTeacherWorkloadDataPresenter {
       teacherId: courseTeacherWorkloadData.teacherId,
       year: courseTeacherWorkloadData.year,
       semester: courseTeacherWorkloadData.semester,
-      workloadInMinutes: courseTeacherWorkloadData.workloadInMinutes,
+      workloadInHours: courseTeacherWorkloadData.workloadInHours,
       createdAt: courseTeacherWorkloadData.createdAt,
       updatedAt: courseTeacherWorkloadData.updatedAt,
     };

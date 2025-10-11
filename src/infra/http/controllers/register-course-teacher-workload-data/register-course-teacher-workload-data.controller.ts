@@ -21,7 +21,7 @@ const registerCourseTeacherWorkloadDataBodySchema = z.object({
   teacherId: z.uuid(),
   year: z.int().max(new Date().getFullYear()).min(0),
   semester: z.enum(SEMESTER),
-  workloadInMinutes: z.int().min(0).max(10000),
+  workloadInHours: z.int().min(0).max(10000),
 });
 
 type RegisterCourseTeacherWorkloadDataBodySchema = z.infer<
