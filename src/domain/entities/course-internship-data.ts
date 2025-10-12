@@ -4,15 +4,6 @@ import { CourseData, CourseDataProps } from './course-data';
 import { Teacher } from './teacher';
 import { City } from './city';
 
-export const CONCLUSION_TIME = {
-  bigger: 'bigger',
-  medium: 'medium',
-  smaller: 'smaller',
-} as const;
-
-export type ConclusionTime =
-  (typeof CONCLUSION_TIME)[keyof typeof CONCLUSION_TIME];
-
 export const EMPLOYMENT_TYPE = {
   employmentContract: 'employmentContract',
   independentContractor: 'independentContractor',
@@ -26,7 +17,7 @@ export interface CourseInternshipDataProps extends CourseDataProps {
   studentMatriculation: string;
   enterpriseCnpj: string;
   role: string;
-  conclusionTime: ConclusionTime;
+  conclusionTimeInDays: number;
   employmentType: EmploymentType;
 
   cityId: string;
@@ -85,16 +76,16 @@ export class CourseInternshipData extends CourseData<CourseInternshipDataProps> 
     this.props.role = role;
   }
 
-  get conclusionTime() {
-    return this.props.conclusionTime;
+  get conclusionTimeInDays() {
+    return this.props.conclusionTimeInDays;
   }
 
-  set conclusionTime(conclusionTime: ConclusionTime) {
-    if (!conclusionTime) {
+  set conclusionTimeInDays(conclusionTimeInDays: number) {
+    if (!conclusionTimeInDays) {
       return;
     }
 
-    this.props.conclusionTime = conclusionTime;
+    this.props.conclusionTimeInDays = conclusionTimeInDays;
   }
 
   get cityId() {

@@ -14,10 +14,7 @@ import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { SEMESTER } from '@/domain/entities/course-data';
 import { RegisterCourseInternshipDataUseCase } from '@/domain/application/use-cases/register-course-internship-data/register-course-internship-data';
-import {
-  CONCLUSION_TIME,
-  EMPLOYMENT_TYPE,
-} from '@/domain/entities/course-internship-data';
+import { EMPLOYMENT_TYPE } from '@/domain/entities/course-internship-data';
 import { InvalidStudentForCourseDataError } from '@/domain/application/use-cases/errors/invalid-student-for-course-data-error';
 import { CourseInternshipDataAlreadyExistsError } from '@/domain/application/use-cases/errors/course-internship-data-already-exists-error';
 
@@ -29,7 +26,7 @@ const registerCourseInternshipDataBodySchema = z.object({
   enterpriseCnpj: z.string().min(14).max(14),
   employmentType: z.enum(EMPLOYMENT_TYPE),
   role: z.string().min(1).max(60),
-  conclusionTime: z.enum(CONCLUSION_TIME),
+  conclusionTimeInDays: z.int().min(0).max(1000),
   cityId: z.uuid(),
   advisorId: z.uuid(),
 });

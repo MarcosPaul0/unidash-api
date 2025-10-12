@@ -18,7 +18,7 @@ export class CourseInternshipIndicatorsPresenter {
             enterpriseCnpj: currentData.enterpriseCnpj,
             role: currentData.role,
             employmentType: currentData.employmentType,
-            conclusionTime: currentData.conclusionTime,
+            conclusionTimeInDays: currentData.conclusionTimeInDays,
             city: currentData.city!.name,
             advisorId: currentData.advisorId,
             advisor: currentData.advisor!.name,
@@ -29,7 +29,7 @@ export class CourseInternshipIndicatorsPresenter {
           {
             enterpriseCnpj: currentData.enterpriseCnpj,
             role: currentData.role,
-            conclusionTime: currentData.conclusionTime,
+            conclusionTimeInDays: currentData.conclusionTimeInDays,
             employmentType: currentData.employmentType,
             city: currentData.city!.name,
             advisorId: currentData.advisorId,
@@ -50,20 +50,22 @@ export class CourseInternshipIndicatorsPresenter {
       const dataGroupedByEmploymentType = new Map();
       const dataGroupedByRole = new Map();
       const dataGroupedByAdvisor = new Map();
-      const dataGroupedByConclusionTime = new Map();
 
       const yearInternships = internshipsByYear.get(year);
 
-      yearInternships.forEach((currentData) => {
+      internshipsByConclusionTime[year] = {
+        averageTimeInDays: 0,
+        maxTimeInDays: 0,
+        minTimeInDays: 0,
+      };
+
+      yearInternships.forEach((currentData, index) => {
         const cityCount = dataGroupedByCity.get(currentData.city);
         const employmentTypeCount = dataGroupedByEmploymentType.get(
           currentData.employmentType,
         );
         const roleCount = dataGroupedByRole.get(currentData.role);
         const advisorCount = dataGroupedByAdvisor.get(currentData.advisor);
-        const conclusionTimeCount = dataGroupedByConclusionTime.get(
-          currentData.conclusionTime,
-        );
 
         if (cityCount) {
           dataGroupedByCity.set(currentData.city, cityCount + 1);
@@ -92,15 +94,36 @@ export class CourseInternshipIndicatorsPresenter {
           dataGroupedByAdvisor.set(currentData.advisor, 1);
         }
 
-        if (conclusionTimeCount) {
-          dataGroupedByConclusionTime.set(
-            currentData.conclusionTime,
-            conclusionTimeCount + 1,
-          );
+        internshipsByConclusionTime[year].averageTimeInDays +=
+          currentData.conclusionTimeInDays;
+
+        if (index == 0) {
+          internshipsByConclusionTime[year].maxTimeInDays =
+            currentData.conclusionTimeInDays;
+
+          internshipsByConclusionTime[year].minTimeInDays =
+            currentData.conclusionTimeInDays;
         } else {
-          dataGroupedByConclusionTime.set(currentData.conclusionTime, 1);
+          if (
+            currentData.conclusionTimeInDays >
+            internshipsByConclusionTime[year].maxTimeInDays
+          ) {
+            internshipsByConclusionTime[year].maxTimeInDays =
+              currentData.conclusionTimeInDays;
+          }
+
+          if (
+            currentData.conclusionTimeInDays <
+            internshipsByConclusionTime[year].minTimeInDays
+          ) {
+            internshipsByConclusionTime[year].minTimeInDays =
+              currentData.conclusionTimeInDays;
+          }
         }
       });
+
+      internshipsByConclusionTime[year].averageTimeInDays /=
+        yearInternships.length;
 
       internshipsByCity[year] = Array.from(dataGroupedByCity.keys()).map(
         (city) => ({ city, count: dataGroupedByCity.get(city) }),
@@ -122,10 +145,6 @@ export class CourseInternshipIndicatorsPresenter {
           advisor,
           count: dataGroupedByAdvisor.get(advisor),
         }),
-      );
-
-      internshipsByConclusionTime[year] = Object.fromEntries(
-        dataGroupedByConclusionTime,
       );
     });
 

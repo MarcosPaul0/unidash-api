@@ -6,7 +6,6 @@ import { CoursesRepository } from '../../repositories/courses-repository';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { Semester } from '@/domain/entities/course-data';
 import {
-  ConclusionTime,
   CourseInternshipData,
   EmploymentType,
 } from '@/domain/entities/course-internship-data';
@@ -26,7 +25,7 @@ interface RegisterCourseInternshipDataUseCaseRequest {
     enterpriseCnpj: string;
     employmentType: EmploymentType;
     role: string;
-    conclusionTime: ConclusionTime;
+    conclusionTimeInDays: number;
     cityId: string;
     advisorId: string;
   };
@@ -60,7 +59,7 @@ export class RegisterCourseInternshipDataUseCase {
       semester,
       advisorId,
       cityId,
-      conclusionTime,
+      conclusionTimeInDays,
       enterpriseCnpj,
       employmentType,
       role,
@@ -119,7 +118,7 @@ export class RegisterCourseInternshipDataUseCase {
       semester,
       advisorId,
       cityId,
-      conclusionTime,
+      conclusionTimeInDays,
       enterpriseCnpj,
       employmentType,
       role,

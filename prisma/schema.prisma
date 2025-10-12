@@ -443,7 +443,7 @@ model CourseInternshipData {
   studentMatriculation String         @unique @db.VarChar(10)
   enterpriseCnpj       String         @db.VarChar(14)
   role                 String         @db.VarChar(60)
-  conclusionTime       ConclusionTime
+  conclusionTimeInDays Int            @default(0) @db.SmallInt
   employmentType       EmploymentType @default(internship)
   createdAt            DateTime       @default(now())
   updatedAt            DateTime?      @updatedAt

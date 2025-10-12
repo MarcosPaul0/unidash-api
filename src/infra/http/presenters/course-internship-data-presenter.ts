@@ -10,7 +10,7 @@ export class CourseInternshipDataPresenter {
       studentMatriculation: courseInternshipData.studentMatriculation,
       enterpriseCnpj: courseInternshipData.enterpriseCnpj,
       role: courseInternshipData.role,
-      conclusionTime: courseInternshipData.conclusionTime,
+      conclusionTimeInDays: courseInternshipData.conclusionTimeInDays,
       cityId: courseInternshipData.cityId,
       employmentType: courseInternshipData.employmentType,
       cityName: courseInternshipData.city?.name,
