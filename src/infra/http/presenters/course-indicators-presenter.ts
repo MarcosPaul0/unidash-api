@@ -1,3 +1,5 @@
+// TODO limpar código
+
 import { ActiveStudentsByIngress } from '@/domain/entities/active-students-by-ingress';
 import { CourseActiveStudentsData } from '@/domain/entities/course-active-students-data';
 import { CourseDepartureData } from '@/domain/entities/course-departure-data';

@@ -1,3 +1,5 @@
+// TODO limpar código
+
 import { CourseCoordinationData } from '@/domain/entities/course-coordination-data';
 
 export class CourseCoordinationIndicatorsPresenter {

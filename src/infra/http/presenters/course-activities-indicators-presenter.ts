@@ -1,3 +1,5 @@
+// TODO limpar código
+
 import { CourseExtensionActivitiesData } from '@/domain/entities/course-extension-activities-data';
 import { CourseExtensionComplementaryActivitiesData } from '@/domain/entities/course-extension-complementary-activities-data';
 import { CourseSearchComplementaryActivitiesData } from '@/domain/entities/course-search-complementary-activities-data';

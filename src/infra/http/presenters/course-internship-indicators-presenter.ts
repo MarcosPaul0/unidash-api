@@ -1,3 +1,5 @@
+// TODO limpar código
+
 import { CourseInternshipData } from '@/domain/entities/course-internship-data';
 
 interface CourseInternshipIndicatorsParams {

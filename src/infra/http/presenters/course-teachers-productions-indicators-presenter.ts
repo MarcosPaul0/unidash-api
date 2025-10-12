@@ -37,6 +37,12 @@ export class CourseTeachersProductionsIndicatorsPresenter {
             booksChapter: data.booksChapter,
             programs: data.programs,
             abstracts: data.abstracts,
+            total:
+              data.periodicals +
+              data.congress +
+              data.booksChapter +
+              data.programs +
+              data.abstracts,
           },
         ];
 
@@ -52,6 +58,12 @@ export class CourseTeachersProductionsIndicatorsPresenter {
           teacherData.booksChapter += data.booksChapter;
           teacherData.programs += data.programs;
           teacherData.abstracts += data.abstracts;
+          teacherData.total +=
+            data.periodicals +
+            data.congress +
+            data.booksChapter +
+            data.programs +
+            data.abstracts;
         } else {
           yearDataByTeacher.push({
             teacherId: data.teacherId,
@@ -61,6 +73,12 @@ export class CourseTeachersProductionsIndicatorsPresenter {
             booksChapter: data.booksChapter,
             programs: data.programs,
             abstracts: data.abstracts,
+            total:
+              data.periodicals +
+              data.congress +
+              data.booksChapter +
+              data.programs +
+              data.abstracts,
           });
         }
       }
