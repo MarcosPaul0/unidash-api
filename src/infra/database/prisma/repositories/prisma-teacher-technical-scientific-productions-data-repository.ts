@@ -246,9 +246,14 @@ export class PrismaTeacherTechnicalScientificProductionsDataRepository
             },
           },
         },
-        orderBy: {
-          year: 'desc',
-        },
+        orderBy: [
+          {
+            year: 'desc',
+          },
+          {
+            teacher: { user: { name: 'asc' } },
+          },
+        ],
       });
 
     return teacherTechnicalScientificProductionsData.map((data) =>

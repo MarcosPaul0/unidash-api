@@ -246,9 +246,14 @@ export class PrismaTeacherResearchAndExtensionProjectsDataRepository
             },
           },
         },
-        orderBy: {
-          year: 'desc',
-        },
+        orderBy: [
+          {
+            year: 'desc',
+          },
+          {
+            teacher: { user: { name: 'asc' } },
+          },
+        ],
       });
 
     return teacherResearchAndExtensionProjectsData.map((data) =>

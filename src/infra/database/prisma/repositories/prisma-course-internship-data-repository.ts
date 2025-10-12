@@ -142,9 +142,14 @@ export class PrismaCourseInternshipDataRepository
             },
           },
         },
-        orderBy: {
-          year: 'desc',
-        },
+        orderBy: [
+          {
+            year: 'desc',
+          },
+          {
+            teacher: { user: { name: 'asc' } },
+          },
+        ],
       });
 
     return courseInternshipData.map((InternshipData) =>

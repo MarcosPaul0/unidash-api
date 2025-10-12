@@ -62,7 +62,7 @@ export class PrismaTeacherCoursesRepository
       },
       ...paginationParams,
       orderBy: {
-        createdAt: 'desc',
+        teacher: { user: { name: 'asc' } },
       },
     });
 

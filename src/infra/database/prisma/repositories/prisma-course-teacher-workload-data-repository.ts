@@ -230,9 +230,14 @@ export class PrismaCourseTeacherWorkloadDataRepository
             },
           },
         },
-        orderBy: {
-          year: 'desc',
-        },
+        orderBy: [
+          {
+            year: 'desc',
+          },
+          {
+            teacher: { user: { name: 'asc' } },
+          },
+        ],
       });
 
     return courseTeacherWorkloadData.map((data) =>
