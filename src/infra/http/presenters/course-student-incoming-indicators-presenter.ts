@@ -1,3 +1,5 @@
+// TODO limpar código
+
 import { AFFINITY_LEVEL } from '@/domain/entities/student-affinity-by-discipline-data';
 import { StudentIncomingData } from '@/domain/entities/student-incoming-data';
 
@@ -17,9 +19,10 @@ export class CourseStudentIncomingIndicatorsPresenter {
     const studentIncomingByAffinityByDiscipline = {};
     const studentIncomingByAsset = {};
     const studentIncomingByCourseChoiceReason = {};
+    const studentIncomingByUniversityChoiceReason = {};
     const studentIncomingByHobbyOrHabit = {};
     const studentIncomingByTechnology = {};
-    const studentIncomingByUniversityChoiceReason = {};
+    const studentIncomingCourseAnUniversityChoiceDistribution = {};
 
     studentIncomingData.forEach((data) => {
       const yearCity = studentIncomingByCity[data.year];
@@ -264,36 +267,6 @@ export class CourseStudentIncomingIndicatorsPresenter {
         });
       }
 
-      const yearCourseChoiceReason =
-        studentIncomingByCourseChoiceReason[data.year];
-
-      if (!yearCourseChoiceReason) {
-        const newCourseChoiceReason = data.studentCourseChoiceReasonData.map(
-          (courseChoiceReasonData) => ({
-            choiceReason: courseChoiceReasonData.choiceReason,
-            count: 1,
-          }),
-        );
-
-        studentIncomingByCourseChoiceReason[data.year] = newCourseChoiceReason;
-      } else {
-        data.studentCourseChoiceReasonData.forEach((courseChoiceReasonData) => {
-          const yearCourseChoiceReasonData = yearCourseChoiceReason.find(
-            (currentData) =>
-              currentData.choiceReason === courseChoiceReasonData.choiceReason,
-          );
-
-          if (yearCourseChoiceReasonData) {
-            yearCourseChoiceReasonData.count += 1;
-          } else {
-            yearCourseChoiceReason.push({
-              choiceReason: courseChoiceReasonData.choiceReason,
-              count: 1,
-            });
-          }
-        });
-      }
-
       const yearHobbyOrHabit = studentIncomingByHobbyOrHabit[data.year];
 
       if (!yearHobbyOrHabit) {
@@ -352,40 +325,126 @@ export class CourseStudentIncomingIndicatorsPresenter {
         });
       }
 
+      const yearStudentIncomingChoiceDistribution =
+        studentIncomingCourseAnUniversityChoiceDistribution[data.year];
+
+      if (!yearStudentIncomingChoiceDistribution) {
+        studentIncomingCourseAnUniversityChoiceDistribution[data.year] = {
+          universityAndCourseIsNotFirstChoice: 0,
+          universityIsNotFirstChoice: 0,
+          courseIsNotFirstChoice: 0,
+          universityAndCourseIsFirstChoice: 0,
+        };
+      }
+
+      const yearCourseChoiceReason =
+        studentIncomingByCourseChoiceReason[data.year];
+
+      let courseIsNotFirstChoice = false;
+
+      if (!yearCourseChoiceReason) {
+        const newCourseChoiceReason = data.studentCourseChoiceReasonData.map(
+          (courseChoiceReasonData) => {
+            if (courseChoiceReasonData.choiceReason === 'notFirstChoice') {
+              courseIsNotFirstChoice = true;
+            }
+
+            return {
+              choiceReason: courseChoiceReasonData.choiceReason,
+              count: 1,
+            };
+          },
+        );
+
+        studentIncomingByCourseChoiceReason[data.year] = newCourseChoiceReason;
+      } else {
+        data.studentCourseChoiceReasonData.forEach((courseChoiceReasonData) => {
+          if (courseChoiceReasonData.choiceReason === 'notFirstChoice') {
+            courseIsNotFirstChoice = true;
+          }
+
+          const yearCourseChoiceReasonData = yearCourseChoiceReason.find(
+            (currentData) =>
+              currentData.choiceReason === courseChoiceReasonData.choiceReason,
+          );
+
+          if (yearCourseChoiceReasonData) {
+            yearCourseChoiceReasonData.count += 1;
+          } else {
+            yearCourseChoiceReason.push({
+              choiceReason: courseChoiceReasonData.choiceReason,
+              count: 1,
+            });
+          }
+        });
+      }
+
       const yearUniversityChoiceReason =
         studentIncomingByUniversityChoiceReason[data.year];
+
+      let universityIsNotFirstChoice = false;
 
       if (!yearUniversityChoiceReason) {
         const newUniversityChoiceReason =
           data.studentUniversityChoiceReasonData.map(
-            (universityChoiceReasonData) => ({
-              choiceReason: universityChoiceReasonData.choiceReason,
-              count: 1,
-            }),
+            (universityChoiceReasonData) => {
+              if (
+                universityChoiceReasonData.choiceReason === 'notFirstChoice'
+              ) {
+                universityIsNotFirstChoice = true;
+              }
+
+              return {
+                choiceReason: universityChoiceReasonData.choiceReason,
+                count: 1,
+              };
+            },
           );
 
         studentIncomingByUniversityChoiceReason[data.year] =
           newUniversityChoiceReason;
       } else {
         data.studentUniversityChoiceReasonData.forEach(
-          (UniversityChoiceReasonData) => {
+          (universityChoiceReasonData) => {
+            if (universityChoiceReasonData.choiceReason === 'notFirstChoice') {
+              universityIsNotFirstChoice = true;
+            }
+
             const yearUniversityChoiceReasonData =
               yearUniversityChoiceReason.find(
                 (currentData) =>
                   currentData.choiceReason ===
-                  UniversityChoiceReasonData.choiceReason,
+                  universityChoiceReasonData.choiceReason,
               );
 
             if (yearUniversityChoiceReasonData) {
               yearUniversityChoiceReasonData.count += 1;
             } else {
               yearUniversityChoiceReason.push({
-                choiceReason: UniversityChoiceReasonData.choiceReason,
+                choiceReason: universityChoiceReasonData.choiceReason,
                 count: 1,
               });
             }
           },
         );
+      }
+
+      if (courseIsNotFirstChoice && universityIsNotFirstChoice) {
+        studentIncomingCourseAnUniversityChoiceDistribution[
+          data.year
+        ].universityAndCourseIsNotFirstChoice += 1;
+      } else if (courseIsNotFirstChoice) {
+        studentIncomingCourseAnUniversityChoiceDistribution[
+          data.year
+        ].courseIsNotFirstChoice += 1;
+      } else if (universityIsNotFirstChoice) {
+        studentIncomingCourseAnUniversityChoiceDistribution[
+          data.year
+        ].universityIsNotFirstChoice += 1;
+      } else {
+        studentIncomingCourseAnUniversityChoiceDistribution[
+          data.year
+        ].universityAndCourseIsFirstChoice += 1;
       }
     });
 
@@ -421,6 +480,7 @@ export class CourseStudentIncomingIndicatorsPresenter {
       studentIncomingByHobbyOrHabit,
       studentIncomingByTechnology,
       studentIncomingByUniversityChoiceReason,
+      studentIncomingCourseAnUniversityChoiceDistribution,
     };
   }
 }
