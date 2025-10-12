@@ -22,7 +22,7 @@ export class CourseStudentIncomingIndicatorsPresenter {
     const studentIncomingByUniversityChoiceReason = {};
     const studentIncomingByHobbyOrHabit = {};
     const studentIncomingByTechnology = {};
-    const studentIncomingCourseAnUniversityChoiceDistribution = {};
+    const studentIncomingCourseAndUniversityChoiceDistribution = {};
 
     studentIncomingData.forEach((data) => {
       const yearCity = studentIncomingByCity[data.year];
@@ -326,10 +326,10 @@ export class CourseStudentIncomingIndicatorsPresenter {
       }
 
       const yearStudentIncomingChoiceDistribution =
-        studentIncomingCourseAnUniversityChoiceDistribution[data.year];
+        studentIncomingCourseAndUniversityChoiceDistribution[data.year];
 
       if (!yearStudentIncomingChoiceDistribution) {
-        studentIncomingCourseAnUniversityChoiceDistribution[data.year] = {
+        studentIncomingCourseAndUniversityChoiceDistribution[data.year] = {
           universityAndCourseIsNotFirstChoice: 0,
           universityIsNotFirstChoice: 0,
           courseIsNotFirstChoice: 0,
@@ -430,19 +430,19 @@ export class CourseStudentIncomingIndicatorsPresenter {
       }
 
       if (courseIsNotFirstChoice && universityIsNotFirstChoice) {
-        studentIncomingCourseAnUniversityChoiceDistribution[
+        studentIncomingCourseAndUniversityChoiceDistribution[
           data.year
         ].universityAndCourseIsNotFirstChoice += 1;
       } else if (courseIsNotFirstChoice) {
-        studentIncomingCourseAnUniversityChoiceDistribution[
+        studentIncomingCourseAndUniversityChoiceDistribution[
           data.year
         ].courseIsNotFirstChoice += 1;
       } else if (universityIsNotFirstChoice) {
-        studentIncomingCourseAnUniversityChoiceDistribution[
+        studentIncomingCourseAndUniversityChoiceDistribution[
           data.year
         ].universityIsNotFirstChoice += 1;
       } else {
-        studentIncomingCourseAnUniversityChoiceDistribution[
+        studentIncomingCourseAndUniversityChoiceDistribution[
           data.year
         ].universityAndCourseIsFirstChoice += 1;
       }
@@ -480,7 +480,7 @@ export class CourseStudentIncomingIndicatorsPresenter {
       studentIncomingByHobbyOrHabit,
       studentIncomingByTechnology,
       studentIncomingByUniversityChoiceReason,
-      studentIncomingCourseAnUniversityChoiceDistribution,
+      studentIncomingCourseAndUniversityChoiceDistribution,
     };
   }
 }
