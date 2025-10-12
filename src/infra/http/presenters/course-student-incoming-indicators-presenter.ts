@@ -466,6 +466,14 @@ export class CourseStudentIncomingIndicatorsPresenter {
       studentIncomingByAsset[year].sort(
         (first, second) => second.count - first.count,
       );
+
+      studentIncomingCourseAndUniversityChoiceDistribution[year] =
+        Object.entries(
+          studentIncomingCourseAndUniversityChoiceDistribution[year],
+        ).map(([key, value]) => ({
+          count: value,
+          choiceClassification: key,
+        }));
     });
 
     return {
