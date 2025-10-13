@@ -168,11 +168,7 @@ export class CourseIndicatorsPresenter {
     courseActiveStudentsData.forEach((data) => {
       const yearActiveStudents = activeStudents[data.year];
 
-      if (yearActiveStudents && data.semester === 'second') {
-        activeStudents[data.year] = this.formatActiveStudentsByIngress(
-          data.activeStudentsByIngress,
-        );
-      } else {
+      if (!yearActiveStudents || data.semester === 'second') {
         activeStudents[data.year] = this.formatActiveStudentsByIngress(
           data.activeStudentsByIngress,
         );
@@ -242,13 +238,7 @@ export class CourseIndicatorsPresenter {
 
       const yearActiveStudent = activeStudents[year];
 
-      const actives = yearActiveStudent
-        ? yearActiveStudent.reduce(
-            (accumulator, currentActiveStudents) =>
-              accumulator + currentActiveStudents.numberOfStudents,
-            0,
-          )
-        : 1;
+      const actives = yearActiveStudent ? yearActiveStudent.total : 1;
 
       complements[year] = {
         successRate: graduates / students[year].entrants,
@@ -272,9 +262,24 @@ export class CourseIndicatorsPresenter {
   private static formatActiveStudentsByIngress(
     activeStudentsByIngress: ActiveStudentsByIngress[],
   ) {
-    return activeStudentsByIngress.map((activeStudents) => ({
-      ingressYear: activeStudents.ingressYear,
-      numberOfStudents: activeStudents.numberOfStudents,
-    }));
+    return activeStudentsByIngress.reduce(
+      (accumulator, currentActiveStudents) => {
+        accumulator.data.push({
+          ingressYear: currentActiveStudents.ingressYear,
+          numberOfStudents: currentActiveStudents.numberOfStudents,
+        });
+
+        accumulator.total += currentActiveStudents.numberOfStudents;
+
+        return accumulator;
+      },
+      {
+        data: [],
+        total: 0,
+      } as {
+        data: { ingressYear: number; numberOfStudents: number }[];
+        total: number;
+      },
+    );
   }
 }

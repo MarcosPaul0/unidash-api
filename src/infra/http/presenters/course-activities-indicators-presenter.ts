@@ -116,8 +116,7 @@ export class CourseActivitiesIndicatorsPresenter {
         );
 
         extensionComplementaryActivities[data.year] = {
-          hasDataInFirstSemester: false,
-          hasDataInSecondSemester: false,
+          total: 0,
           data: newYearData,
         };
       }
@@ -130,16 +129,15 @@ export class CourseActivitiesIndicatorsPresenter {
         );
 
         if (data.semester === 'first') {
-          extensionComplementaryActivities[data.year].hasDataInFirstSemester =
-            true;
           target.firstSemester += data[type] as number;
-          target.total += data[type] as number;
         } else {
-          extensionComplementaryActivities[data.year].hasDataInSecondSemester =
-            true;
           target.secondSemester += data[type] as number;
-          target.total += data[type] as number;
         }
+
+        target.total += data[type] as number;
+        extensionComplementaryActivities[data.year].total += data[
+          type
+        ] as number;
       });
     });
 
@@ -159,8 +157,7 @@ export class CourseActivitiesIndicatorsPresenter {
         );
 
         teachingComplementaryActivities[data.year] = {
-          hasDataInFirstSemester: false,
-          hasDataInSecondSemester: false,
+          total: 0,
           data: newYearData,
         };
       }
@@ -173,16 +170,13 @@ export class CourseActivitiesIndicatorsPresenter {
         );
 
         if (data.semester === 'first') {
-          teachingComplementaryActivities[data.year].hasDataInFirstSemester =
-            true;
           target.firstSemester += data[type] as number;
-          target.total += data[type] as number;
         } else {
-          teachingComplementaryActivities[data.year].hasDataInSecondSemester =
-            true;
           target.secondSemester += data[type] as number;
-          target.total += data[type] as number;
         }
+
+        target.total += data[type] as number;
+        teachingComplementaryActivities[data.year].total += data[type];
       });
     });
 
@@ -202,8 +196,7 @@ export class CourseActivitiesIndicatorsPresenter {
         );
 
         searchComplementaryActivities[data.year] = {
-          hasDataInFirstSemester: false,
-          hasDataInSecondSemester: false,
+          total: 0,
           data: newYearData,
         };
       }
@@ -211,21 +204,19 @@ export class CourseActivitiesIndicatorsPresenter {
       SEARCH_COMPLEMENTARY_ACTIVITIES_TYPES.forEach((type) => {
         const searchComplementaryActivitiesByYear =
           searchComplementaryActivities[data.year].data;
+
         const target = searchComplementaryActivitiesByYear.find(
           (typeIndicator) => typeIndicator.type === type,
         );
 
         if (data.semester === 'first') {
-          searchComplementaryActivities[data.year].hasDataInFirstSemester =
-            true;
           target.firstSemester += data[type] as number;
-          target.total += data[type] as number;
         } else {
-          searchComplementaryActivities[data.year].hasDataInSecondSemester =
-            true;
           target.secondSemester += data[type] as number;
-          target.total += data[type] as number;
         }
+
+        target.total += data[type] as number;
+        searchComplementaryActivities[data.year].total += data[type];
       });
     });
 
