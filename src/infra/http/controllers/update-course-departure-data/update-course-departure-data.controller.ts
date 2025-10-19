@@ -8,7 +8,7 @@ import {
   ForbiddenException,
   HttpCode,
   Param,
-  Post,
+  Patch,
   UsePipes,
 } from '@nestjs/common';
 import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
@@ -18,14 +18,14 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { UpdateCourseDepartureDataUseCase } from '@/domain/application/use-cases/update-course-departure-data/update-course-departure-data';
 
 const updateCourseDepartureDataBodySchema = z.object({
-  completed: z.int().min(0).max(200).optional(),
-  maximumDuration: z.int().min(0).max(200).optional(),
-  dropouts: z.int().min(0).max(200).optional(),
-  transfers: z.int().min(0).max(200).optional(),
-  withdrawals: z.int().min(0).max(200).optional(),
-  removals: z.int().min(0).max(200).optional(),
-  newExams: z.int().min(0).max(200).optional(),
-  deaths: z.int().min(0).max(200).optional(),
+  completed: z.int().min(0).max(1000).optional(),
+  maximumDuration: z.int().min(0).max(1000).optional(),
+  dropouts: z.int().min(0).max(1000).optional(),
+  transfers: z.int().min(0).max(1000).optional(),
+  withdrawals: z.int().min(0).max(1000).optional(),
+  removals: z.int().min(0).max(1000).optional(),
+  newExams: z.int().min(0).max(1000).optional(),
+  deaths: z.int().min(0).max(1000).optional(),
 });
 
 type UpdateCourseDepartureDataBodySchema = z.infer<
@@ -38,12 +38,12 @@ export class UpdateCourseDepartureDataController {
     private updateCourseDepartureDataUseCase: UpdateCourseDepartureDataUseCase,
   ) {}
 
-  @Post()
+  @Patch()
   @HttpCode(200)
-  @UsePipes(new ZodValidationPipe(updateCourseDepartureDataBodySchema))
   async handle(
     @CurrentUser() sessionUser: SessionUser,
-    @Body() body: UpdateCourseDepartureDataBodySchema,
+    @Body(new ZodValidationPipe(updateCourseDepartureDataBodySchema))
+    body: UpdateCourseDepartureDataBodySchema,
     @Param('courseDepartureDataId') courseDepartureDataId: string,
   ) {
     const result = await this.updateCourseDepartureDataUseCase.execute({

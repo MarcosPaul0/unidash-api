@@ -15,35 +15,35 @@ import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/us
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
-import { UpdateCourseStudentsDataUseCase } from '@/domain/application/use-cases/update-course-students-data/update-course-students-data';
+import { UpdateCourseTeacherWorkloadDataUseCase } from '@/domain/application/use-cases/update-course-teacher-workload-data/update-course-teacher-workload-data';
+import { SEMESTER } from '@/domain/entities/course-data';
 
-const updateCourseStudentsDataBodySchema = z.object({
-  entrants: z.int().min(0).max(1000).optional(),
-  actives: z.int().min(0).max(1000).optional(),
-  locks: z.int().min(0).max(1000).optional(),
-  canceled: z.int().min(0).max(1000).optional(),
+const updateCourseTeacherWorkloadDataBodySchema = z.object({
+  year: z.int().max(new Date().getFullYear()).min(0).optional(),
+  semester: z.enum(SEMESTER).optional(),
+  workloadInHours: z.int().min(0).max(10000).optional(),
 });
 
-type UpdateCourseStudentsDataBodySchema = z.infer<
-  typeof updateCourseStudentsDataBodySchema
+type UpdateCourseTeacherWorkloadDataBodySchema = z.infer<
+  typeof updateCourseTeacherWorkloadDataBodySchema
 >;
 
-@Controller('/course-students-data/:courseStudentsDataId')
-export class UpdateCourseStudentsDataController {
+@Controller('/course-teacher-workload-data/:courseTeacherWorkloadDataId')
+export class UpdateCourseTeacherWorkloadDataController {
   constructor(
-    private updateCourseStudentsDataUseCase: UpdateCourseStudentsDataUseCase,
+    private updateCourseTeacherWorkloadDataUseCase: UpdateCourseTeacherWorkloadDataUseCase,
   ) {}
 
   @Patch()
   @HttpCode(200)
   async handle(
     @CurrentUser() sessionUser: SessionUser,
-    @Body(new ZodValidationPipe(updateCourseStudentsDataBodySchema))
-    body: UpdateCourseStudentsDataBodySchema,
-    @Param('courseStudentsDataId') courseStudentsDataId: string,
+    @Body(new ZodValidationPipe(updateCourseTeacherWorkloadDataBodySchema))
+    body: UpdateCourseTeacherWorkloadDataBodySchema,
+    @Param('courseTeacherWorkloadDataId') courseTeacherWorkloadDataId: string,
   ) {
-    const result = await this.updateCourseStudentsDataUseCase.execute({
-      courseStudentsDataId,
+    const result = await this.updateCourseTeacherWorkloadDataUseCase.execute({
+      courseTeacherWorkloadDataId,
       data: body,
       sessionUser,
     });

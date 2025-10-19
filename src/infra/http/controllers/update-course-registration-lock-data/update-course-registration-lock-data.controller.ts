@@ -8,7 +8,7 @@ import {
   ForbiddenException,
   HttpCode,
   Param,
-  Post,
+  Patch,
   UsePipes,
 } from '@nestjs/common';
 import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
@@ -36,12 +36,12 @@ export class UpdateCourseRegistrationLockDataController {
     private updateCourseRegistrationLockDataUseCase: UpdateCourseRegistrationLockDataUseCase,
   ) {}
 
-  @Post()
+  @Patch()
   @HttpCode(200)
-  @UsePipes(new ZodValidationPipe(updateCourseRegistrationLockDataBodySchema))
   async handle(
     @CurrentUser() sessionUser: SessionUser,
-    @Body() body: UpdateCourseRegistrationLockDataBodySchema,
+    @Body(new ZodValidationPipe(updateCourseRegistrationLockDataBodySchema))
+    body: UpdateCourseRegistrationLockDataBodySchema,
     @Param('courseRegistrationLockDataId') courseRegistrationLockDataId: string,
   ) {
     const result = await this.updateCourseRegistrationLockDataUseCase.execute({

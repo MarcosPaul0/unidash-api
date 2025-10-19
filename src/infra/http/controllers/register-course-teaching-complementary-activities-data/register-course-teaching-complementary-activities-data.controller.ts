@@ -8,9 +8,7 @@ import {
   ForbiddenException,
   HttpCode,
   Post,
-  UsePipes,
 } from '@nestjs/common';
-import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';

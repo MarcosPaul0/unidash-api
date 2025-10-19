@@ -10,7 +10,7 @@ import { CourseActiveStudentsData } from '@/domain/entities/course-active-studen
 import { CourseActiveStudentsDataRepository } from '../../repositories/course-active-students-data-repository';
 import { ActiveStudentsByIngress } from '@/domain/entities/active-students-by-ingress';
 
-interface ActiveStudentsByIngressUseCaseRequest {
+export interface ActiveStudentsByIngressUseCaseRequest {
   ingressYear: number;
   numberOfStudents: number;
 }

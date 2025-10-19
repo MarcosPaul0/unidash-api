@@ -8,7 +8,7 @@ import {
   ForbiddenException,
   HttpCode,
   Param,
-  Post,
+  Patch,
   UsePipes,
 } from '@nestjs/common';
 import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
@@ -18,13 +18,13 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { UpdateCourseCoordinationDataUseCase } from '@/domain/application/use-cases/update-course-coordination-data/update-course-coordination-data';
 
 const updateCourseCoordinationDataBodySchema = z.object({
-  servicesRequestsBySystem: z.int().min(0).max(200).optional(),
-  servicesRequestsByEmail: z.int().min(0).max(200).optional(),
-  resolutionActions: z.int().min(0).max(200).optional(),
-  administrativeDecisionActions: z.int().min(0).max(200).optional(),
-  meetingsByBoardOfDirectors: z.int().min(0).max(200).optional(),
-  meetingsByUndergraduateChamber: z.int().min(0).max(200).optional(),
-  meetingsByCourseCouncil: z.int().min(0).max(200).optional(),
+  servicesRequestsBySystem: z.int().min(0).max(1000).optional(),
+  servicesRequestsByEmail: z.int().min(0).max(1000).optional(),
+  resolutionActions: z.int().min(0).max(1000).optional(),
+  administrativeDecisionActions: z.int().min(0).max(1000).optional(),
+  meetingsByBoardOfDirectors: z.int().min(0).max(1000).optional(),
+  meetingsByUndergraduateChamber: z.int().min(0).max(1000).optional(),
+  meetingsByCourseCouncil: z.int().min(0).max(1000).optional(),
 });
 
 type UpdateCourseCoordinationDataBodySchema = z.infer<
@@ -37,12 +37,12 @@ export class UpdateCourseCoordinationDataController {
     private updateCourseCoordinationDataUseCase: UpdateCourseCoordinationDataUseCase,
   ) {}
 
-  @Post()
+  @Patch()
   @HttpCode(200)
-  @UsePipes(new ZodValidationPipe(updateCourseCoordinationDataBodySchema))
   async handle(
     @CurrentUser() sessionUser: SessionUser,
-    @Body() body: UpdateCourseCoordinationDataBodySchema,
+    @Body(new ZodValidationPipe(updateCourseCoordinationDataBodySchema))
+    body: UpdateCourseCoordinationDataBodySchema,
     @Param('courseCoordinationDataId') courseCoordinationDataId: string,
   ) {
     const result = await this.updateCourseCoordinationDataUseCase.execute({
