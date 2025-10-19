@@ -62,7 +62,7 @@ export class FindAllCourseActiveStudentsDataController {
 
     return {
       courseActiveStudentsData: result.value.courseActiveStudentsData.map(
-        CourseActiveStudentsDataPresenter.toHTTP,
+        CourseActiveStudentsDataPresenter.toListHTTP,
       ),
       totalItems: result.value.totalItems,
       totalPages: result.value.totalPages,

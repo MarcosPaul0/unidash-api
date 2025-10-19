@@ -206,6 +206,46 @@ import { RegisterCourseActiveStudentsDataUseCase } from '@/domain/application/us
 import { FindAllCourseActiveStudentsDataUseCase } from '@/domain/application/use-cases/find-all-course-active-students-data/find-all-course-active-students-data';
 import { DeleteCourseActiveStudentsDataUseCase } from '@/domain/application/use-cases/delete-course-active-students-data/delete-course-active-students-data';
 import { FindAllCoursesForGuestController } from './controllers/find-all-courses-for-guest/find-all-courses-for-guest.controller';
+import { FindCourseActiveStudentsDataByIdUseCase } from '@/domain/application/use-cases/find-course-active-students-data-by-id/find-course-active-students-data-by-id';
+import { FindCourseCompletionWorkDataByIdUseCase } from '@/domain/application/use-cases/find-course-completion-work-data-by-id/find-course-completion-work-data-by-id';
+import { FindCourseCoordinationDataByIdUseCase } from '@/domain/application/use-cases/find-course-coordination-data-by-id/find-course-coordination-data-by-id';
+import { FindCourseDepartureDataByIdUseCase } from '@/domain/application/use-cases/find-course-departure-data-by-id/find-course-departure-data-by-id';
+import { FindCourseExtensionActivitiesDataByIdUseCase } from '@/domain/application/use-cases/find-course-extension-activities-data-by-id/find-course-extension-activities-data-by-id';
+import { FindCourseExtensionComplementaryActivitiesDataByIdUseCase } from '@/domain/application/use-cases/find-course-extension-complementary-activities-data-by-id/find-course-extension-complementary-activities-data-by-id';
+import { FindCourseInternshipDataByIdUseCase } from '@/domain/application/use-cases/find-course-internship-data-by-id/find-course-internship-data-by-id';
+import { FindCourseRegistrationLockDataByIdUseCase } from '@/domain/application/use-cases/find-course-registration-lock-data-by-id/find-course-registration-lock-data-by-id';
+import { FindCourseSearchComplementaryActivitiesDataByIdUseCase } from '@/domain/application/use-cases/find-course-search-complementary-activities-data-by-id/find-course-search-complementary-activities-data-by-id';
+import { FindCourseStudentsDataByIdUseCase } from '@/domain/application/use-cases/find-course-students-data-by-id/find-course-students-data-by-id';
+import { FindCourseTeacherWorkloadDataByIdUseCase } from '@/domain/application/use-cases/find-course-teacher-workload-data-by-id/find-course-teacher-workload-data-by-id';
+import { FindCourseTeachingComplementaryActivitiesDataByIdUseCase } from '@/domain/application/use-cases/find-course-teaching-complementary-activities-data-by-id/find-course-teaching-complementary-activities-data-by-id';
+import { FindCourseActiveStudentsDataByIdController } from './controllers/find-course-active-students-data-by-id/find-course-active-students-data-by-id.controller';
+import { FindCourseCompletionWorkDataByIdController } from './controllers/find-course-completion-work-data-by-id/find-course-completion-work-data-by-id.controller';
+import { FindCourseCoordinationDataByIdController } from './controllers/find-course-coordination-data-by-id/find-course-coordination-data-by-id.controller';
+import { FindCourseDepartureDataByIdController } from './controllers/find-course-departure-data-by-id/find-course-departure-data-by-id.controller';
+import { FindCourseExtensionActivitiesDataByIdController } from './controllers/find-course-extension-activities-data-by-id/find-course-extension-activities-data-by-id.controller';
+import { FindCourseExtensionComplementaryActivitiesDataByIdController } from './controllers/find-course-extension-complementary-activities-data-by-id/find-course-extension-complementary-activities-data-by-id.controller';
+import { FindCourseInternshipDataByIdController } from './controllers/find-course-internship-data-by-id/find-course-internship-data-by-id.controller';
+import { FindCourseRegistrationLockDataByIdController } from './controllers/find-course-registration-lock-data-by-id/find-course-registration-lock-data-by-id.controller';
+import { FindCourseSearchComplementaryActivitiesDataByIdController } from './controllers/find-course-search-complementary-activities-data-by-id/find-course-search-complementary-activities-data-by-id.controller';
+import { FindCourseStudentsDataByIdController } from './controllers/find-course-students-data-by-id/find-course-students-data-by-id.controller';
+import { FindCourseTeacherWorkloadDataByIdController } from './controllers/find-course-teacher-workload-data-by-id/find-course-teacher-workload-data-by-id.controller';
+import { FindCourseTeachingComplementaryActivitiesDataByIdController } from './controllers/find-course-teaching-complementary-activities-data-by-id/find-course-teaching-complementary-activities-data-by-id.controller';
+import { UpdateCourseSearchComplementaryActivitiesDataController } from './controllers/update-course-search-complementary-activities-data/update-course-search-complementary-activities-data.controller';
+import { UpdateCourseTeacherWorkloadDataController } from './controllers/update-course-teacher-workload-data/update-course-teacher-workload-data.controller';
+import { UpdateCourseTeachingComplementaryActivitiesDataController } from './controllers/update-course-teaching-complementary-activities-data/update-course-teaching-complementary-activities-data.controller';
+import { UpdateCourseInternshipDataController } from './controllers/update-course-internship-data/update-course-internship-data.controller';
+import { UpdateCourseExtensionComplementaryActivitiesDataController } from './controllers/update-course-extension-complementary-activities-data/update-course-extension-complementary-activities-data.controller';
+import { UpdateCourseExtensionActivitiesDataController } from './controllers/update-course-extension-activities-data/update-course-extension-activities-data.controller';
+import { UpdateCourseCompletionWorkDataController } from './controllers/update-course-completion-work-data/update-course-completion-work-data.controller';
+import { UpdateCourseActiveStudentsDataController } from './controllers/update-course-active-students-data/update-course-active-students-data.controller';
+import { UpdateCourseSearchComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/update-course-search-complementary-activities-data/update-course-search-complementary-activities-data';
+import { UpdateCourseTeacherWorkloadDataUseCase } from '@/domain/application/use-cases/update-course-teacher-workload-data/update-course-teacher-workload-data';
+import { UpdateCourseTeachingComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/update-course-teaching-complementary-activities-data/update-course-teaching-complementary-activities-data';
+import { UpdateCourseInternshipDataUseCase } from '@/domain/application/use-cases/update-course-internship-data/update-course-internship-data';
+import { UpdateCourseExtensionComplementaryActivitiesDataUseCase } from '@/domain/application/use-cases/update-course-extension-complementary-activities-data/update-course-extension-complementary-activities-data';
+import { UpdateCourseExtensionActivitiesDataUseCase } from '@/domain/application/use-cases/update-course-extension-activities-data/update-course-extension-activities-data';
+import { UpdateCourseCompletionWorkDataUseCase } from '@/domain/application/use-cases/update-course-completion-work-data/update-course-completion-work-data';
+import { UpdateCourseActiveStudentsDataUseCase } from '@/domain/application/use-cases/update-course-active-students-data/update-course-active-students-data';
 
 @Module({
   imports: [
@@ -317,6 +357,26 @@ import { FindAllCoursesForGuestController } from './controllers/find-all-courses
     FindAllCourseActiveStudentsDataController,
     DeleteCourseActiveStudentsDataController,
     FindAllCoursesForGuestController,
+    FindCourseActiveStudentsDataByIdController,
+    FindCourseCompletionWorkDataByIdController,
+    FindCourseCoordinationDataByIdController,
+    FindCourseDepartureDataByIdController,
+    FindCourseExtensionActivitiesDataByIdController,
+    FindCourseExtensionComplementaryActivitiesDataByIdController,
+    FindCourseInternshipDataByIdController,
+    FindCourseRegistrationLockDataByIdController,
+    FindCourseSearchComplementaryActivitiesDataByIdController,
+    FindCourseStudentsDataByIdController,
+    FindCourseTeacherWorkloadDataByIdController,
+    FindCourseTeachingComplementaryActivitiesDataByIdController,
+    UpdateCourseSearchComplementaryActivitiesDataController,
+    UpdateCourseTeacherWorkloadDataController,
+    UpdateCourseTeachingComplementaryActivitiesDataController,
+    UpdateCourseInternshipDataController,
+    UpdateCourseExtensionComplementaryActivitiesDataController,
+    UpdateCourseExtensionActivitiesDataController,
+    UpdateCourseCompletionWorkDataController,
+    UpdateCourseActiveStudentsDataController,
   ],
   providers: [
     RegisterStudentUseCase,
@@ -419,6 +479,26 @@ import { FindAllCoursesForGuestController } from './controllers/find-all-courses
     RegisterCourseActiveStudentsDataUseCase,
     FindAllCourseActiveStudentsDataUseCase,
     DeleteCourseActiveStudentsDataUseCase,
+    FindCourseActiveStudentsDataByIdUseCase,
+    FindCourseCompletionWorkDataByIdUseCase,
+    FindCourseCoordinationDataByIdUseCase,
+    FindCourseDepartureDataByIdUseCase,
+    FindCourseExtensionActivitiesDataByIdUseCase,
+    FindCourseExtensionComplementaryActivitiesDataByIdUseCase,
+    FindCourseInternshipDataByIdUseCase,
+    FindCourseRegistrationLockDataByIdUseCase,
+    FindCourseSearchComplementaryActivitiesDataByIdUseCase,
+    FindCourseStudentsDataByIdUseCase,
+    FindCourseTeacherWorkloadDataByIdUseCase,
+    FindCourseTeachingComplementaryActivitiesDataByIdUseCase,
+    UpdateCourseSearchComplementaryActivitiesDataUseCase,
+    UpdateCourseTeacherWorkloadDataUseCase,
+    UpdateCourseTeachingComplementaryActivitiesDataUseCase,
+    UpdateCourseInternshipDataUseCase,
+    UpdateCourseExtensionComplementaryActivitiesDataUseCase,
+    UpdateCourseExtensionActivitiesDataUseCase,
+    UpdateCourseCompletionWorkDataUseCase,
+    UpdateCourseActiveStudentsDataUseCase,
   ],
 })
 export class HttpModule {}
