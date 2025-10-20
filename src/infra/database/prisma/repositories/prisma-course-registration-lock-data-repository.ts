@@ -157,7 +157,7 @@ export class PrismaCourseRegistrationLockDataRepository
       courseRegistrationLockData,
     );
 
-    await this.prisma.user.update({
+    await this.prisma.courseRegistrationLockData.update({
       where: {
         id: courseRegistrationLockData.id.toString(),
       },

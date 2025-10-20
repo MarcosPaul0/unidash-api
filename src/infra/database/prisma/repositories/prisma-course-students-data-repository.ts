@@ -145,7 +145,7 @@ export class PrismaCourseStudentsDataRepository
     const data =
       PrismaCourseStudentsDataMapper.toPrismaUpdate(courseStudentsData);
 
-    await this.prisma.user.update({
+    await this.prisma.courseStudentsData.update({
       where: {
         id: courseStudentsData.id.toString(),
       },
