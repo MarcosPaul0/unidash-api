@@ -150,6 +150,20 @@ export class CourseInternshipIndicatorsPresenter {
       );
     });
 
+    const years = Object.keys(internshipsByCity);
+
+    years.forEach((year) => {
+      internshipsByCity[year].sort(
+        (first, second) => second.count - first.count,
+      );
+      internshipsByRole[year].sort(
+        (first, second) => second.count - first.count,
+      );
+      internshipsByEmploymentType[year].sort(
+        (first, second) => second.count - first.count,
+      );
+    });
+
     return {
       internshipsByCity,
       internshipsByRole,
