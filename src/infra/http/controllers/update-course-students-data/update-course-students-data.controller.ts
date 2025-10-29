@@ -9,19 +9,20 @@ import {
   HttpCode,
   Param,
   Patch,
-  UsePipes,
 } from '@nestjs/common';
 import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { UpdateCourseStudentsDataUseCase } from '@/domain/application/use-cases/update-course-students-data/update-course-students-data';
+import { SEMESTER } from '@/domain/entities/course-data';
 
 const updateCourseStudentsDataBodySchema = z.object({
+  year: z.int().max(new Date().getFullYear()).min(0).optional(),
+  semester: z.enum(SEMESTER).optional(),
   entrants: z.int().min(0).max(1000).optional(),
-  actives: z.int().min(0).max(1000).optional(),
-  locks: z.int().min(0).max(1000).optional(),
-  canceled: z.int().min(0).max(1000).optional(),
+  vacancies: z.int().min(0).max(1000).optional(),
+  subscribers: z.int().min(0).max(1000).optional(),
 });
 
 type UpdateCourseStudentsDataBodySchema = z.infer<

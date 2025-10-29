@@ -6,12 +6,14 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { CourseStudentsData } from '@/domain/entities/course-students-data';
 import { CourseStudentsDataRepository } from '../../repositories/course-students-data-repository';
+import { Semester } from '@/domain/entities/course-data';
 
 interface UpdateCourseStudentsData {
+  year?: number;
+  semester?: Semester;
   entrants?: number;
-  actives?: number;
-  locks?: number;
-  canceled?: number;
+  vacancies?: number;
+  subscribers?: number;
 }
 
 interface UpdateCourseStudentsDataUseCaseRequest {
