@@ -16,8 +16,11 @@ import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { UpdateCourseDepartureDataUseCase } from '@/domain/application/use-cases/update-course-departure-data/update-course-departure-data';
+import { SEMESTER } from '@/domain/entities/course-data';
 
 const updateCourseDepartureDataBodySchema = z.object({
+  year: z.int().max(new Date().getFullYear()).min(0).optional(),
+  semester: z.enum(SEMESTER).optional(),
   completed: z.int().min(0).max(1000).optional(),
   maximumDuration: z.int().min(0).max(1000).optional(),
   dropouts: z.int().min(0).max(1000).optional(),

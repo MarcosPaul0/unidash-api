@@ -9,15 +9,17 @@ import {
   HttpCode,
   Param,
   Patch,
-  UsePipes,
 } from '@nestjs/common';
 import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { UpdateCourseRegistrationLockDataUseCase } from '@/domain/application/use-cases/update-course-registration-lock-data/update-course-registration-lock-data';
+import { SEMESTER } from '@/domain/entities/course-data';
 
 const updateCourseRegistrationLockDataBodySchema = z.object({
+  year: z.int().max(new Date().getFullYear()).min(0).optional(),
+  semester: z.enum(SEMESTER).optional(),
   difficultyInDiscipline: z.int().min(0).max(1000).optional(),
   workload: z.int().min(0).max(1000).optional(),
   teacherMethodology: z.int().min(0).max(1000).optional(),

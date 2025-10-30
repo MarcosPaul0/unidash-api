@@ -16,8 +16,11 @@ import { CurrentUser } from '@/infra/auth/current-user-decorator';
 import { SessionUser } from '@/domain/entities/user';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { UpdateCourseCoordinationDataUseCase } from '@/domain/application/use-cases/update-course-coordination-data/update-course-coordination-data';
+import { SEMESTER } from '@/domain/entities/course-data';
 
 const updateCourseCoordinationDataBodySchema = z.object({
+  year: z.int().max(new Date().getFullYear()).min(0).optional(),
+  semester: z.enum(SEMESTER).optional(),
   servicesRequestsBySystem: z.int().min(0).max(1000).optional(),
   servicesRequestsByEmail: z.int().min(0).max(1000).optional(),
   resolutionActions: z.int().min(0).max(1000).optional(),

@@ -9,7 +9,6 @@ import {
   HttpCode,
   Param,
   Patch,
-  UsePipes,
 } from '@nestjs/common';
 import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { CurrentUser } from '@/infra/auth/current-user-decorator';
