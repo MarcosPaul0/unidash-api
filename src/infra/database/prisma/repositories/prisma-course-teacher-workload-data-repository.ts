@@ -91,13 +91,7 @@ export class PrismaCourseTeacherWorkloadDataRepository
     const courseTeacherWorkloadData =
       await this.prisma.courseTeacherWorkloadData.findMany({
         where: {
-          teacher: {
-            teacherCourse: {
-              some: {
-                courseId,
-              },
-            },
-          },
+          courseId,
           semester: filters?.semester,
           year: filters?.year,
         },
